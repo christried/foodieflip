@@ -1,0 +1,47 @@
+<mat-card appearance="filled" class="recipe-card">
+  <mat-card-header class="recipe-header">
+    <mat-card-title>Current Recipe Name</mat-card-title>
+    <mat-card-subtitle>20-30 minutes</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="recipe-content">
+    <div class="recipe-row">
+      <div class="recipe-col">
+        <img
+          [src]="imagePath"
+          alt="To Do: Dynamically input alt-text from database"
+          class="recipe-image"
+        />
+      </div>
+      <div class="recipe-col">
+        <mat-card appearance="outlined">
+          <mat-card-header> Ingredients: </mat-card-header>
+          <mat-card-content> stuff that's put in </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="recipe-row">
+      <div class="recipe-col">
+        <mat-card appearance="outlined">
+          <mat-card-header> Instructions: </mat-card-header>
+          <mat-card-content> stuff about how to put in </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="recipe-col">
+        <mat-card appearance="outlined">
+          <mat-card-header> placeholder upvote/downvote </mat-card-header>
+          <mat-card-content> maybe more stuff </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-footer class="recipe-tags">
+    <mat-chip-set aria-label="recipe tags">
+      <mat-chip>soy</mat-chip>
+      <mat-chip>greens</mat-chip>
+      <mat-chip>gluten-free</mat-chip>
+      <mat-chip>placeholder</mat-chip>
+    </mat-chip-set>
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,15 @@
+.selection-card {
+  max-width: 25vw;
+  padding: 16px;
+  margin: 5vh 5vw 5vh 0vw;
+
+  display: flex;
+  align-items: center;
+}
+
+.selection-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0px;
+}

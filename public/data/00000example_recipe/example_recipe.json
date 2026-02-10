@@ -1,0 +1,12 @@
+{
+  "title": "example_recipe",
+  "prep-time": 20,
+  "ingredients": "example ingredient string but probably will not really be stores as a string will it",
+  "instructions": "example instructions string but probably will need proper formatting in some way so maybe also not be storing this as a string. maybe markdown?",
+  "tags": ["soy, greens, gluten-free, placeholder, fetched"],
+  "image-alt": "example_recipe",
+  "submitted-by": "Foodie Flip",
+  "upvotes": 2,
+  "downvotes": 15,
+  "views": 0
+}
