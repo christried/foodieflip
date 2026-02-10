@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
 import { catchError, throwError } from 'rxjs';
-import { TimeType } from './timeType.model';
+import { Complexity } from './complexity.model';
 import { Recipe } from './recipe.model';
 
 @Injectable({
@@ -15,9 +15,9 @@ export class RecipesService {
   private recipe = signal<Recipe | undefined>(undefined);
   public currentRecipe = this.recipe.asReadonly();
 
-  setRandomRecipe(timeType: TimeType) {
+  setRandomRecipe(complexity: Complexity) {
     const GETRECIPE = this.httpClient
-      .get<Recipe>(`http://localhost:3000/api/recipes/random/${timeType}`)
+      .get<Recipe>(`http://localhost:3000/api/recipes/random/${complexity}`)
       .pipe(
         catchError((error) => {
           console.log(error);

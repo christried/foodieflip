@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { MatButtonModule } from '@angular/material/button';
-import { TimeType } from '../timeType.model';
+import { Complexity } from '../complexity.model';
 import { RecipesService } from '../recipes.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { RecipesService } from '../recipes.service';
 export class Selection {
   public recipeService = inject(RecipesService);
 
-  onClickButton(timeType: TimeType) {
-    this.recipeService.setRandomRecipe(timeType);
+  onClickButton(complexity: Complexity) {
+    this.recipeService.setRandomRecipe(complexity);
   }
 }
