@@ -4,17 +4,17 @@
   </mat-card-header>
 
   <mat-card-content class="selection-buttons">
-    <button matFab extended>
+    <button matFab extended (click)="onClickButton('quick')">
       <mat-icon>bolt</mat-icon>
       Quick
     </button>
 
-    <button matFab extended>
+    <button matFab extended (click)="onClickButton('ordinary')">
       <mat-icon>restaurant</mat-icon>
       Ordinary
     </button>
 
-    <button matFab extended>
+    <button matFab extended (click)="onClickButton('complex')">
       <mat-icon>menu_book</mat-icon>
       Complex
     </button>
