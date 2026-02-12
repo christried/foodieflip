@@ -3,7 +3,9 @@
   <mat-card-content class="instructions-list">
     <mat-list>
       @for (instruction of instructions(); track $index) {
-        <mat-list-item lines="3" class="instruction">{{ instruction }}</mat-list-item>
+        <mat-list-item matListItemLine lines="3" class="instruction">{{
+          instruction
+        }}</mat-list-item>
       }
     </mat-list>
   </mat-card-content>
