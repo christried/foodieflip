@@ -4,7 +4,21 @@
   flex: auto;
 }
 
-.header-subtitle {
-  justify-content: center;
-  align-items: center;
+.header-first-row {
+  height: auto;
 }
+
+.header-title {
+  display: flex;
+  justify-content: center;
+}
+
+.header-title img {
+  width: 30%;
+  height: auto;
+}
+
+// .header-subtitle {
+//   justify-content: center;
+//   align-items: center;
+// }

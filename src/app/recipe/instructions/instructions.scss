@@ -1,0 +1,8 @@
+.instructions-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.instructions-list .instruction {
+  height: auto; // Removes default Material height
+}

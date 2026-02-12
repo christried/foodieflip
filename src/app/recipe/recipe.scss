@@ -1,6 +1,6 @@
 .recipe-card {
   padding: 16px;
-  margin: 16px;
+  flex: 0 0 75%;
 }
 
 .recipe-header {
@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  position: relative; // Enable absolute positioning to fixate actions-card to bottom right
 }
 
 .recipe-row {
@@ -24,16 +25,26 @@
 }
 
 .recipe-col {
-  flex: 1; // Grow to fill available space equally
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
+.recipe-col-left {
+  flex: 0 0 30%;
+  gap: 16px;
+}
+
 .recipe-image {
   width: 100%;
-  height: auto; // Maintain aspect ratio
-  max-height: 300px;
-  outline: 2px solid black;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.recipe-actions {
+  position: absolute;
+  bottom: 0px;
+  right: 16px;
 }
 
 .recipe-tags {

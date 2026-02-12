@@ -7,29 +7,28 @@
 
     <mat-card-content class="recipe-content">
       <div class="recipe-row">
-        <div class="recipe-col">
-          <img [src]="imagePath" [alt]="this.currentRecipe()!.imageAlt" class="recipe-image" />
+        <div class="recipe-col recipe-col-left">
+          <mat-card appearance="outlined">
+            <mat-card-content>
+              <img [src]="imagePath" [alt]="this.currentRecipe()!.imageAlt" class="recipe-image" />
+            </mat-card-content>
+          </mat-card>
+          <app-ingredients [ingredients]="this.currentRecipe()!.ingredients" />
         </div>
         <div class="recipe-col">
-          <app-ingredients />
+          <app-instructions [instructions]="this.currentRecipe()!.instructions" />
         </div>
       </div>
 
-      <div class="recipe-row">
-        <div class="recipe-col">
-          <app-instructions />
-        </div>
-        <div class="recipe-col">
-          <app-actions />
-        </div>
+      <div class="recipe-actions">
+        <app-actions />
       </div>
     </mat-card-content>
     <mat-card-footer class="recipe-tags">
       <mat-chip-set aria-label="recipe tags">
-        <mat-chip>soy</mat-chip>
-        <mat-chip>greens</mat-chip>
-        <mat-chip>gluten-free</mat-chip>
-        <mat-chip>placeholder</mat-chip>
+        @for (tag of this.currentRecipe()!.tags; track $index) {
+          <mat-chip>{{ tag }}</mat-chip>
+        }
       </mat-chip-set>
     </mat-card-footer>
   </mat-card>

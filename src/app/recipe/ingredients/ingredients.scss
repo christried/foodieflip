@@ -1,0 +1,8 @@
+.ingredient-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ingredient-list .ingredient {
+  height: auto; // Removes default Material height
+}
