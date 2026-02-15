@@ -1,15 +1,19 @@
 .selection-card {
   max-width: 100%;
-  padding: 16px;
+  padding: 1rem;
   flex: 0 0 25%; // Takes 25% of the parent
 
   display: flex;
   align-items: center;
 }
 
+.selection-card-title {
+  text-align: center;
+}
+
 .selection-buttons {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 16px 0px;
+  gap: 1rem;
+  padding: 1rem 0px;
 }

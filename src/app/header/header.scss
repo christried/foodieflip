@@ -1,5 +1,9 @@
 // mat-toolbar-row is a flexbox container by default
 
+.header-toolbar {
+  margin: 1rem 0;
+}
+
 .spacer {
   flex: auto;
 }
@@ -17,8 +21,3 @@
   width: 30%;
   height: auto;
 }
-
-// .header-subtitle {
-//   justify-content: center;
-//   align-items: center;
-// }

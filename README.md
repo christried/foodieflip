@@ -1,59 +1,52 @@
-# Foodieflip
+# Foodieflip 🍳
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
+> **Work in Progress** - A random recipe generator built with Angular 21 and Angular Material
 
-## Development server
+## About
 
-To start a local development server, run:
+Foodieflip is a recipe discovery app that serves up random recipes based on complexity levels. Users can select from quick, ordinary, or complex recipes and view detailed ingredient lists and instructions.
 
-```bash
-ng serve
+## Tech Stack
+
+- **Angular 21.1** with standalone components
+- **Angular Material** for UI components
+- **TypeScript 5.9**
+- **Server-Side Rendering** for practice reasons (Angular SSR)
+- **Vitest** for testing for practice reasons
+- **Express** backend (in development)
+
+## Features (In Development)
+
+- ...
+
+## Project Structure
+
+```
+...
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Development
 
 ```bash
-ng generate component component-name
+# Install dependencies
+npm install
+
+# Start dev server
+npm start
+
+# Run tests
+npm test
+
+# Build for production
+npm run build
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The dev server runs at `http://localhost:4200/`
 
-```bash
-ng generate --help
-```
+## API
 
-## Building
+The app expects a backend API at `http://localhost:3000/api/recipes/random/:complexity`
 
-To build the project run:
+---
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+_Built with Angular CLI 21.1.3_
