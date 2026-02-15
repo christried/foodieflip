@@ -9,8 +9,12 @@
       <div class="recipe-row">
         <div class="recipe-col recipe-col-left">
           <mat-card appearance="outlined">
-            <mat-card-content>
-              <img [src]="imagePath" [alt]="this.currentRecipe()!.imageAlt" class="recipe-image" />
+            <mat-card-content class="recipe-image-card">
+              <img
+                [src]="this.currentRecipe()!.imageUrl"
+                [alt]="this.currentRecipe()!.imageAlt"
+                class="recipe-image"
+              />
             </mat-card-content>
           </mat-card>
           <app-ingredients [ingredients]="this.currentRecipe()!.ingredients" />

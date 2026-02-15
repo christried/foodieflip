@@ -1,5 +1,5 @@
 .recipe-card {
-  padding: 16px;
+  padding: 1rem;
   flex: 0 0 75%;
 }
 
@@ -8,20 +8,19 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .recipe-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   position: relative; // Enable absolute positioning to fixate actions-card to bottom right
 }
 
 .recipe-row {
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .recipe-col {
@@ -32,23 +31,33 @@
 
 .recipe-col-left {
   flex: 0 0 30%;
-  gap: 16px;
+  gap: 1rem;
+}
+
+.recipe-image-card {
+  padding: 0;
+  margin: 0;
+
+  // border: 2px solid green;
 }
 
 .recipe-image {
+  height: 100%;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+
+  border-radius: 1rem;
+
+  // border: 2px solid red;
 }
 
 .recipe-actions {
   position: absolute;
   bottom: 0px;
-  right: 16px;
+  right: 1rem;
 }
 
 .recipe-tags {
-  margin-top: 16px;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
 }

@@ -13,8 +13,6 @@ import { RecipesService } from '../recipes.service';
   styleUrl: './recipe.scss',
 })
 export class Recipe {
-  imagePath = '/data/00000example_recipe/example_recipe.jpg';
-
   public recipesService = inject(RecipesService);
   public currentRecipe = this.recipesService.currentRecipe;
 }
