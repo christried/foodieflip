@@ -1,12 +1,9 @@
-<mat-card appearance="outlined">
-  <!-- <mat-card-header> Instructions: </mat-card-header> -->
-  <mat-card-content class="instructions-list">
-    <mat-list>
+<mat-card appearance="outlined" class="instructions-card">
+  <mat-card-content>
+    <ul class="instructions-list">
       @for (instruction of instructions(); track $index) {
-        <mat-list-item matListItemLine lines="3" class="instruction">{{
-          instruction
-        }}</mat-list-item>
+        <li class="instruction">{{ instruction }}</li>
       }
-    </mat-list>
+    </ul>
   </mat-card-content>
 </mat-card>

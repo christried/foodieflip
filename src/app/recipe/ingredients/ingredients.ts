@@ -1,10 +1,9 @@
 import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-ingredients',
-  imports: [MatCardModule, MatListModule],
+  imports: [MatCardModule],
   templateUrl: './ingredients.html',
   styleUrl: './ingredients.scss',
 })

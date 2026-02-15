@@ -1,8 +1,16 @@
 .ingredient-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: column wrap;
+  padding: 0;
+  margin: 0;
+
+  // border: 2px solid green;
 }
 
 .ingredient-list .ingredient {
-  height: auto; // Removes default Material height
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+
+  // border: 2px solid red;
 }
