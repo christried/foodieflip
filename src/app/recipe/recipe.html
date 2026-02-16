@@ -22,6 +22,7 @@
               [src]="this.currentRecipe()!.imageUrl"
               [alt]="this.currentRecipe()!.imageAlt"
               class="recipe-image"
+              (click)="openFullsize()"
             />
           </mat-card>
           <app-ingredients [ingredients]="this.currentRecipe()!.ingredients" />

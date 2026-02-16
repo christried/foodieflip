@@ -78,6 +78,10 @@
   // border: 2px solid red;
 }
 
+.recipe-image:hover {
+  cursor: pointer;
+}
+
 .recipe-actions {
   margin-top: auto; // to push the actions card to the bottom
   align-self: flex-end;

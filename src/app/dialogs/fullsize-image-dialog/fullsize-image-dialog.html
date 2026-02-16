@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{ this.currentRecipe()?.title }}</h2>
+<mat-dialog-content class="fullsize-content"
+  ><img
+    [src]="this.currentRecipe()!.fullsizeUrl"
+    [alt]="this.currentRecipe()!.imageAlt"
+    class="fullsize-image"
+/></mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton mat-dialog-close>Close</button>
+</mat-dialog-actions>
