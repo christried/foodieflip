@@ -9,4 +9,6 @@ export interface Recipe {
   instructions: string[];
   tags_public: string[];
   tags_internal: string[];
+  upvotes: number;
+  downvotes: number;
 }

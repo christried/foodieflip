@@ -28,11 +28,10 @@
         </div>
         <div class="recipe-col">
           <app-instructions [instructions]="this.currentRecipe()!.instructions" />
+          <div class="recipe-actions">
+            <app-actions />
+          </div>
         </div>
-      </div>
-
-      <div class="recipe-actions">
-        <app-actions />
       </div>
     </mat-card-content>
     <mat-card-footer> </mat-card-footer>

@@ -1,0 +1,58 @@
+.actions-card {
+  padding: 1rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.cta-rating {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+
+  //   border: 2px solid green;
+}
+
+.cta-rating h3,
+p {
+  margin: 0;
+}
+
+.sentiment-icon-button {
+  transform: scale(1.5);
+
+  //   border: 2px solid green;
+}
+
+.sentiment-good-icon-button {
+  color: green;
+}
+
+.sentiment-bad-icon-button {
+  color: red;
+}
+
+.sentiment-icon-button:disabled {
+  opacity: 0.1;
+  transition:
+    opacity 150ms ease,
+    filter 150ms ease;
+}
+
+.voted-for-this:disabled {
+  opacity: 0.5;
+}
+
+.ai-image-warning {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+
+  border: 2px solid grey;
+  border-radius: 1rem;
+}

@@ -33,4 +33,27 @@ export class RecipesService {
     });
     // skipping unsubscribe onDestroy since it's not necessary for http observables
   }
+
+  voteForRecipe(voteType: 'downvote' | 'upvote') {
+    const PATCHVOTE = this.httpClient
+      .patch<string>(`http://localhost:3000/api/recipes/vote`, {
+        id: this.currentRecipe()?.id,
+        voteType,
+      })
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          return throwError(() => new Error('Could not patch vote'));
+        }),
+      );
+
+    PATCHVOTE.subscribe({
+      next: (statusAnswer) => {
+        console.log(statusAnswer);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }

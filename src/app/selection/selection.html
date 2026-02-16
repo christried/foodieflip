@@ -4,19 +4,42 @@
   </mat-card-header>
 
   <mat-card-content class="selection-buttons">
-    <button matFab extended (click)="onClickButton('quick')">
+    <button
+      matFab
+      extended
+      (click)="onClickButton('quick')"
+      matTooltip="20 minutes or less!"
+      matTooltipPosition="left"
+    >
       <mat-icon>bolt</mat-icon>
       Quick
     </button>
 
-    <button matFab extended (click)="onClickButton('ordinary')">
+    <button
+      matFab
+      extended
+      (click)="onClickButton('ordinary')"
+      matTooltip="Done in less than 40 minutes"
+      matTooltipPosition="left"
+    >
       <mat-icon>restaurant</mat-icon>
       Ordinary
     </button>
 
-    <button matFab extended (click)="onClickButton('complex')">
+    <button
+      matFab
+      extended
+      (click)="onClickButton('complex')"
+      matTooltip="This is gonna take some time"
+      matTooltipPosition="left"
+    >
       <mat-icon>menu_book</mat-icon>
       Complex
     </button>
   </mat-card-content>
+  <mat-card-footer>
+    <p>Step 1: Roll a Recipe until you're in love with it</p>
+    <p>Step 2: Enjoy!</p>
+    <p>Step 3: Repeat</p>
+  </mat-card-footer>
 </mat-card>
