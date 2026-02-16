@@ -7,7 +7,7 @@
       </div>
       <div class="header-col recipe-tags">
         <mat-chip-set aria-label="recipe tags">
-          @for (tag of this.currentRecipe()!.tags; track $index) {
+          @for (tag of this.currentRecipe()!.tags_public; track $index) {
             <mat-chip>{{ tag }}</mat-chip>
           }
         </mat-chip-set>
@@ -17,14 +17,12 @@
     <mat-card-content class="recipe-content">
       <div class="recipe-row">
         <div class="recipe-col recipe-col-left">
-          <mat-card appearance="outlined">
-            <mat-card-content class="recipe-image-card-content">
-              <img
-                [src]="this.currentRecipe()!.imageUrl"
-                [alt]="this.currentRecipe()!.imageAlt"
-                class="recipe-image"
-              />
-            </mat-card-content>
+          <mat-card appearance="outlined" class="recipe-image-card">
+            <img
+              [src]="this.currentRecipe()!.imageUrl"
+              [alt]="this.currentRecipe()!.imageAlt"
+              class="recipe-image"
+            />
           </mat-card>
           <app-ingredients [ingredients]="this.currentRecipe()!.ingredients" />
         </div>

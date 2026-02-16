@@ -62,9 +62,8 @@
   gap: 1rem;
 }
 
-.recipe-image-card-content {
+.recipe-image-card {
   padding: 0;
-  margin: 0;
 
   // border: 2px solid green;
 }
@@ -73,7 +72,7 @@
   height: 100%;
   width: 100%;
 
-  border-radius: 1rem;
+  border-radius: 0.75rem;
 
   // border: 2px solid red;
 }

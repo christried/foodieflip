@@ -7,5 +7,6 @@ export interface Recipe {
   imageAlt: string;
   ingredients: string[];
   instructions: string[];
-  tags: string[];
+  tags_public: string[];
+  tags_internal: string[];
 }
