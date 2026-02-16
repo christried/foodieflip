@@ -17,3 +17,14 @@
   gap: 1rem;
   padding: 1rem 0px;
 }
+
+.selection-footer {
+  display: flex;
+  flex-flow: column wrap;
+  text-align: center;
+  padding: 1rem;
+}
+
+.selection-footer p {
+  margin: 0.25rem 0;
+}

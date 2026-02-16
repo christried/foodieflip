@@ -1,4 +1,9 @@
 .actions-card {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.actions-row {
   padding: 1rem;
   display: flex;
   flex-flow: row wrap;
@@ -14,6 +19,7 @@
   align-items: center;
   text-align: center;
   gap: 0.25rem;
+  flex: 1 0 30%;
 
   //   border: 2px solid green;
 }
@@ -23,10 +29,12 @@ p {
   margin: 0;
 }
 
-.sentiment-icon-button {
+.sentiment-icon-buttons {
   transform: scale(1.5);
+  display: flex;
+  gap: 0;
 
-  //   border: 2px solid green;
+  // border: 2px solid green;
 }
 
 .sentiment-good-icon-button {
@@ -37,7 +45,8 @@ p {
   color: red;
 }
 
-.sentiment-icon-button:disabled {
+.sentiment-good-icon-button:disabled,
+.sentiment-bad-icon-button:disabled {
   opacity: 0.1;
   transition:
     opacity 150ms ease,
@@ -45,7 +54,7 @@ p {
 }
 
 .voted-for-this:disabled {
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .ai-image-warning {
@@ -55,4 +64,16 @@ p {
 
   border: 2px solid grey;
   border-radius: 1rem;
+}
+
+.submitted-by-row {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  padding: 0 0.5rem 0.25rem 0;
+
+  // border: 2px solid green;
+}
+.submitter {
+  font-style: italic;
+  font-size: 1rem;
 }

@@ -11,4 +11,5 @@ export interface Recipe {
   tags_internal: string[];
   upvotes: number;
   downvotes: number;
+  submittedBy: string;
 }

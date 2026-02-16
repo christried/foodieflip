@@ -1,49 +1,59 @@
 <mat-card appearance="outlined" class="actions-card">
-  <div class="cta-rating">
-    @if (!voteStatus()) {
-      <h3>Cooked this one?</h3>
-      <p>Tell us how you liked it!</p>
-    } @else {
-      <h3>Thank you for your feedback!</h3>
+  <div class="actions-row">
+    <div class="cta-rating">
+      @if (!voteStatus()) {
+        <h3>Cooked this one?</h3>
+        <p>Tell us how you liked it!</p>
+      } @else {
+        <h3>Thank you for your feedback!</h3>
+      }
+    </div>
+    <div class="sentiment-icon-buttons">
+      <button
+        matIconButton
+        class="sentiment-good-icon-button"
+        (click)="onClickVote('upvote')"
+        [disabled]="voteStatus()"
+        [class.voted-for-this]="voteStatus() === 'upvote'"
+      >
+        <mat-icon
+          class="sentiment-icon sentiment-good-icon"
+          matTooltip="I liked this one!"
+          matTooltipPosition="above"
+          >thumb_up</mat-icon
+        >
+      </button>
+      <button
+        matIconButton
+        class="sentiment-bad-icon-button"
+        (click)="onClickVote('downvote')"
+        [disabled]="voteStatus()"
+        [class.voted-for-this]="voteStatus() === 'downvote'"
+      >
+        <mat-icon
+          matTooltip="Wasn't for me"
+          matTooltipPosition="above"
+          class="sentiment-icon sentiment-bad-icon"
+          >thumb_down</mat-icon
+        >
+      </button>
+    </div>
+
+    @if (isAiImage()) {
+      <p
+        class="ai-image-warning"
+        matTooltip="The current recipe image is AI generated and is supposed to be a placeholder. If you're about
+      to cook this, consider submitting an image that we can replace this with."
+        matTooltipPosition="above"
+      >
+        <mat-icon>warning_amber</mat-icon>AI Image
+      </p>
     }
   </div>
-  <button
-    matIconButton
-    class="sentiment-icon-button sentiment-good-icon-button"
-    (click)="onClickVote('upvote')"
-    [disabled]="voteStatus()"
-    [class.voted-for-this]="voteStatus() === 'upvote'"
-  >
-    <mat-icon
-      class="sentiment-icon sentiment-good-icon"
-      matTooltip="I liked this one!"
-      matTooltipPosition="above"
-      >thumb_up</mat-icon
-    >
-  </button>
-  <button
-    matIconButton
-    class="sentiment-icon-button sentiment-bad-icon-button"
-    (click)="onClickVote('downvote')"
-    [disabled]="voteStatus()"
-    [class.voted-for-this]="voteStatus() === 'downvote'"
-  >
-    <mat-icon
-      matTooltip="Wasn't for me"
-      matTooltipPosition="above"
-      class="sentiment-icon sentiment-bad-icon"
-      >thumb_down</mat-icon
-    >
-  </button>
 
-  @if (isAiImage()) {
-    <p
-      class="ai-image-warning"
-      matTooltip="The current recipe image is AI generated and is supposed to be a placeholder. If you're about
-      to cook this, consider submitting an image that we can replace this with."
-      matTooltipPosition="above"
-    >
-      <mat-icon>warning_amber</mat-icon>AI Image
+  <div class="submitted-by-row">
+    <p>
+      recipe submitted by <span class="submitter">{{ currentRecipe()?.submittedBy }}</span>
     </p>
-  }
+  </div>
 </mat-card>
