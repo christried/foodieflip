@@ -1,4 +1,4 @@
-# Foodieflip 🍳
+# Foodieflip
 
 > **Work in Progress** - A random recipe generator built with Angular 21 and Angular Material
 
