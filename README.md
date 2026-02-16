@@ -2,6 +2,10 @@
 
 > **Work in Progress** - A random recipe generator built with Angular 21 and Angular Material
 
+# Current Look (early development)
+
+![early mvp screenshot](/screenshots/early_mvp.png)
+
 ## About
 
 Foodieflip is a recipe discovery app that serves up random recipes based on complexity levels. Users can select from quick, ordinary, or complex recipes and view detailed ingredient lists and instructions.
