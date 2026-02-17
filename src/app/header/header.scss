@@ -2,29 +2,22 @@
 
 .header-toolbar {
   margin: 1rem 0;
-}
-
-.spacer {
-  flex: auto;
-}
-
-.header-first-row {
-  height: auto;
-}
-
-.header-title {
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .header-title img {
-  width: 30%;
+  width: 25%;
   height: auto;
 }
 
 .development-notice {
   font-size: 0.75rem;
   padding-right: 0.5rem;
+
+  display: flex;
+  align-items: center;
+
+  // border: 2px solid green;
 }
 .development-icon {
   transform: scale(1.5);

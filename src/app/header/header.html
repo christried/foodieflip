@@ -1,24 +1,15 @@
 <mat-toolbar class="header-toolbar">
-  <mat-toolbar-row class="header-first-row">
-    <button matIconButton class="menu-icon" aria-label="menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
+  <div class="header-title"><img src="hero_logo.png" /></div>
 
-    <span class="spacer"></span>
-
-    <span class="header-title"><img src="hero_logo.png" /></span>
-
-    <span class="spacer"></span>
-
-    <p class="development-notice">in early development</p>
+  <div class="development-notice">
+    <p>in early development</p>
     <button
       matIconButton
-      class="build-circle-icon"
       aria-label="icon-button with build-circle icon"
       matTooltip="Click here if you want to contribute and provide constructive feedback to the developer"
       matTooltipPosition="left"
     >
       <mat-icon class="development-icon">build_circle</mat-icon>
     </button>
-  </mat-toolbar-row>
+  </div>
 </mat-toolbar>

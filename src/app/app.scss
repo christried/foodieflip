@@ -1,3 +1,9 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .body-cards {
   display: flex;
   justify-content: center;
@@ -7,6 +13,7 @@
   padding: 1rem;
   max-width: 70%;
   margin: 0 auto;
+  flex: 1; // grows body to push footer down
 }
 
 .selection-component {
@@ -17,7 +24,6 @@
   flex: 0 0 1;
 }
 
-// No wrap on desktop/PC monitors
 @media (min-width: 1024px) {
   .body-cards {
     flex-wrap: nowrap;

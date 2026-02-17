@@ -1,8 +1,13 @@
-<app-header />
-<div class="body-cards">
-  <app-selection class="selection-component" />
+<div class="app-container">
+  <app-header />
 
-  <app-recipe class="recipe-component" />
+  <div class="body-cards">
+    <app-selection class="selection-component" />
+
+    <app-recipe class="recipe-component" />
+  </div>
+
+  <app-footer [title]="title()" [version]="version()" />
 </div>
 
 <router-outlet />
