@@ -1,7 +1,7 @@
 <div class="app-container">
   <app-header />
 
-  <div class="body-cards">
+  <div class="body-cards" [class.no-recipe]="!recipesService.currentRecipe()">
     <app-selection class="selection-component" />
 
     <app-recipe class="recipe-component" />
