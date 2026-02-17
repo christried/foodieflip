@@ -3,13 +3,18 @@
   flex: 0 0 75%;
 }
 
+.recipe-card.spinner-only {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .recipe-header {
   display: flex;
   flex-flow: row nowrap;
   padding: 0 1rem;
   margin: 0 0 1rem;
-
-  // border: 2px solid green;
 }
 
 .header-col {
@@ -35,8 +40,6 @@
   justify-content: center;
   align-items: center;
   margin: 0;
-
-  // border: 2px solid red;
 }
 
 .recipe-content {
@@ -65,8 +68,6 @@
 
 .recipe-image-card {
   padding: 0;
-
-  // border: 2px solid green;
 }
 
 .recipe-image {
@@ -74,8 +75,6 @@
   width: 100%;
 
   border-radius: 0.75rem;
-
-  // border: 2px solid red;
 }
 
 .recipe-image:hover {
@@ -85,4 +84,7 @@
 .recipe-actions {
   margin-top: auto; // to push the actions card to the bottom
   align-self: flex-end;
+}
+
+.recipe-spinner {
 }

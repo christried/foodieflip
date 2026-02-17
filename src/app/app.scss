@@ -28,6 +28,13 @@
   flex: 1;
 }
 
+.body-cards.spinner-active .recipe-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
 @media (min-width: 1024px) {
   .body-cards {
     flex-wrap: nowrap;

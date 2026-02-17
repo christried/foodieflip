@@ -1,22 +1,22 @@
 import { HttpClient } from '@angular/common/http';
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 
 import { catchError, throwError } from 'rxjs';
 import { Complexity } from './complexity.model';
 import { Recipe } from './recipe.model';
+import { sign } from 'crypto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipesService {
   private httpClient = inject(HttpClient);
-  private destroyRef = inject(DestroyRef);
 
   private recipe = signal<Recipe | undefined>(undefined);
   public currentRecipe = this.recipe.asReadonly();
+  public spinnerStatus = signal<'on' | 'off'>('off');
 
   setRandomRecipe(complexity: Complexity) {
-    // pass only the id string (or 'norecipe') to the backend
     const currentId = this.currentRecipe()?.id ?? 'norecipe';
 
     const GETRECIPE = this.httpClient
@@ -32,8 +32,11 @@ export class RecipesService {
 
     GETRECIPE.subscribe({
       next: (recipe: Recipe) => {
-        this.recipe.set(recipe);
-        console.log(this.recipe());
+        this.spinnerStatus.set('on');
+        setTimeout(() => {
+          this.recipe.set(recipe);
+          this.spinnerStatus.set('off');
+        }, 2222);
       },
     });
     // skipping unsubscribe onDestroy since it's not necessary for http observables
