@@ -1,7 +1,11 @@
 <div class="app-container">
   <app-header />
 
-  <div class="body-cards" [class.no-recipe]="!recipesService.currentRecipe()">
+  <div
+    class="body-cards"
+    [class.no-recipe]="!recipesService.currentRecipe()"
+    [class.spinner-active]="recipesService.spinnerStatus() === 'on'"
+  >
     <app-selection class="selection-component" />
 
     <app-recipe class="recipe-component" />

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { Ingredients } from './ingredients/ingredients';
 import { Instructions } from './instructions/instructions';
@@ -12,7 +13,14 @@ import { FullsizeImageDialog } from '../dialogs/fullsize-image-dialog/fullsize-i
 
 @Component({
   selector: 'app-recipe',
-  imports: [MatCardModule, MatChipsModule, Ingredients, Instructions, Actions],
+  imports: [
+    MatCardModule,
+    MatChipsModule,
+    MatProgressSpinnerModule,
+    Ingredients,
+    Instructions,
+    Actions,
+  ],
   templateUrl: './recipe.html',
   styleUrl: './recipe.scss',
 })

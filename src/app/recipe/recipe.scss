@@ -3,13 +3,18 @@
   flex: 0 0 75%;
 }
 
+.recipe-card.spinner-only {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .recipe-header {
   display: flex;
   flex-flow: row nowrap;
   padding: 0 1rem;
   margin: 0 0 1rem;
-
-  // border: 2px solid green;
 }
 
 .header-col {
@@ -85,4 +90,7 @@
 .recipe-actions {
   margin-top: auto; // to push the actions card to the bottom
   align-self: flex-end;
+}
+
+.recipe-spinner {
 }

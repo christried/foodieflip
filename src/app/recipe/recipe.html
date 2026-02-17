@@ -1,40 +1,48 @@
-@if (this.recipesService.currentRecipe()) {
-  <mat-card appearance="filled" class="recipe-card">
-    <mat-card-header class="recipe-header">
-      <div class="header-col header-col-left">
-        <mat-card-title>{{ this.currentRecipe()!.title }}</mat-card-title>
-        <mat-card-subtitle>{{ this.currentRecipe()!.time }} minutes</mat-card-subtitle>
-      </div>
-      <div class="header-col recipe-tags">
-        <mat-chip-set aria-label="recipe tags">
-          @for (tag of this.currentRecipe()!.tags_public; track $index) {
-            <mat-chip>{{ tag }}</mat-chip>
-          }
-        </mat-chip-set>
-      </div>
-    </mat-card-header>
-
-    <mat-card-content class="recipe-content">
-      <div class="recipe-row">
-        <div class="recipe-col recipe-col-left">
-          <mat-card appearance="outlined" class="recipe-image-card">
-            <img
-              [src]="this.currentRecipe()!.imageUrl"
-              [alt]="this.currentRecipe()!.imageAlt"
-              class="recipe-image"
-              (click)="openFullsize()"
-            />
-          </mat-card>
-          <app-ingredients [ingredients]="this.currentRecipe()!.ingredients" />
+@if (this.recipesService.currentRecipe() || this.recipesService.spinnerStatus() === 'on') {
+  <mat-card
+    appearance="filled"
+    class="recipe-card"
+    [class.spinner-only]="this.recipesService.spinnerStatus() === 'on'"
+  >
+    @if (this.recipesService.spinnerStatus() === 'on') {
+      <mat-progress-spinner mode="indeterminate" class="recipe-spinner"></mat-progress-spinner>
+    } @else if (this.recipesService.currentRecipe()) {
+      <mat-card-header class="recipe-header">
+        <div class="header-col header-col-left">
+          <mat-card-title>{{ this.currentRecipe()!.title }}</mat-card-title>
+          <mat-card-subtitle>{{ this.currentRecipe()!.time }} minutes</mat-card-subtitle>
         </div>
-        <div class="recipe-col">
-          <app-instructions [instructions]="this.currentRecipe()!.instructions" />
-          <div class="recipe-actions">
-            <app-actions />
+        <div class="header-col recipe-tags">
+          <mat-chip-set aria-label="recipe tags">
+            @for (tag of this.currentRecipe()!.tags_public; track $index) {
+              <mat-chip>{{ tag }}</mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content class="recipe-content">
+        <div class="recipe-row">
+          <div class="recipe-col recipe-col-left">
+            <mat-card appearance="outlined" class="recipe-image-card">
+              <img
+                [src]="this.currentRecipe()!.imageUrl"
+                [alt]="this.currentRecipe()!.imageAlt"
+                class="recipe-image"
+                (click)="openFullsize()"
+              />
+            </mat-card>
+            <app-ingredients [ingredients]="this.currentRecipe()!.ingredients" />
+          </div>
+          <div class="recipe-col">
+            <app-instructions [instructions]="this.currentRecipe()!.instructions" />
+            <div class="recipe-actions">
+              <app-actions />
+            </div>
           </div>
         </div>
-      </div>
-    </mat-card-content>
-    <mat-card-footer> </mat-card-footer>
+      </mat-card-content>
+      <mat-card-footer> </mat-card-footer>
+    }
   </mat-card>
 }
