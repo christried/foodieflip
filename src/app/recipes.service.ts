@@ -16,8 +16,13 @@ export class RecipesService {
   public currentRecipe = this.recipe.asReadonly();
 
   setRandomRecipe(complexity: Complexity) {
+    // pass only the id string (or 'norecipe') to the backend
+    const currentId = this.currentRecipe()?.id ?? 'norecipe';
+
     const GETRECIPE = this.httpClient
-      .get<Recipe>(`http://localhost:3000/api/recipes/random/${complexity}`)
+      .get<Recipe>(`http://localhost:3000/api/recipes/random/${complexity}`, {
+        params: { id: currentId },
+      })
       .pipe(
         catchError((error) => {
           console.log(error);
