@@ -36,7 +36,7 @@ export class RecipesService {
         setTimeout(() => {
           this.recipe.set(recipe);
           this.spinnerStatus.set('off');
-        }, 2222);
+        }, 1000);
       },
     });
     // skipping unsubscribe onDestroy since it's not necessary for http observables
