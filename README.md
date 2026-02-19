@@ -6,6 +6,10 @@
 
 ![early mvp screenshot](/screenshots/early_mvp.png)
 
+# Backend
+
+not a monorepo - find REST Backend and temporary file storage here: [FoodieFlip API](https://github.com/christried/foodieflip_api)
+
 ## About
 
 Foodieflip is a recipe discovery app that serves up random recipes based on complexity levels. Users can select from quick, ordinary, or complex recipes and view detailed ingredient lists and instructions.
