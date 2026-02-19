@@ -16,6 +16,9 @@ export class Header {
   readonly dialog = inject(MatDialog);
 
   openDevFeedbackDialog() {
-    this.dialog.open(DevFeedbackDialog, {});
+    this.dialog.open(DevFeedbackDialog, {
+      height: '46rem',
+      width: '34.5rem',
+    });
   }
 }

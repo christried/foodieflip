@@ -1,10 +1,33 @@
 <h2 mat-dialog-title>Developer Feedback</h2>
-<mat-dialog-content>
-  <fieldset>
-    <form></form>
-  </fieldset>
+<mat-dialog-content class="feedback-dialog-content">
+  <mat-form-field class="feedback-dialog-input">
+    <mat-label>(Nick-)Name</mat-label>
+    <input matInput [formControl]="name" placeholder="e.g. Christried" />
+    <mat-hint>optional</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field class="feedback-dialog-texarea">
+    <mat-label>Issue or Feedback</mat-label>
+    <textarea
+      matInput
+      [formControl]="feedback"
+      placeholder="e.g. 'the image submission form is not loading when I click on the AI-Image indicator'"
+      required
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="6"
+      cdkAutosizeMaxRows="6"
+    ></textarea>
+    <mat-hint
+      >Try to be precise! I take constructive feedback to heart. If you want to provide pictures or
+      error-messages, please upload them elsewhere and provide a link.</mat-hint
+    >
+
+    @if (feedback.invalid) {
+      <mat-error>{{ errorMessage() }}</mat-error>
+    }
+  </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button matButton mat-dialog-close>Send</button>
-  <button matButton mat-dialog-close>Close</button>
+<mat-dialog-actions class="feedback-dialog-actions">
+  <button mat-button (click)="onClickSend()">Send</button>
+  <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

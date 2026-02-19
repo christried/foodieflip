@@ -1,1 +1,24 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
+.feedback-dialog-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.feedback-dialog-texarea {
+  flex-grow: 1;
+  padding-bottom: 3rem;
+
+  textarea {
+    height: 100% !important;
+  }
+}
+
+.feedback-dialog-input {
+  padding-bottom: 1rem;
+}
