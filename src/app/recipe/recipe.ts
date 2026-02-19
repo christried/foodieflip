@@ -32,7 +32,6 @@ export class Recipe {
 
   openFullsize() {
     this.dialog.open(FullsizeImageDialog, {
-      panelClass: 'fullsize-image-panel',
       maxWidth: '75vw',
       maxHeight: '75vh',
     });
