@@ -1,4 +1,5 @@
 <h2 mat-dialog-title>Developer Feedback</h2>
+
 <mat-dialog-content class="feedback-dialog-content">
   <mat-form-field class="feedback-dialog-input">
     <mat-label>(Nick-)Name</mat-label>
@@ -16,12 +17,13 @@
       cdkTextareaAutosize
       cdkAutosizeMinRows="6"
       cdkAutosizeMaxRows="6"
+      (blur)="updateErrorMessage()"
+      maxlength="1000"
     ></textarea>
     <mat-hint
       >Try to be precise! I take constructive feedback to heart. If you want to provide pictures or
       error-messages, please upload them elsewhere and provide a link.</mat-hint
     >
-
     @if (feedback.invalid) {
       <mat-error>{{ errorMessage() }}</mat-error>
     }

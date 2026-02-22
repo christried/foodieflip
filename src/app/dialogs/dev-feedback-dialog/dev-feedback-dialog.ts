@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,7 @@ import {
   MatSnackBarLabel,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
-import { merge } from 'rxjs';
+import { combineLatest, merge } from 'rxjs';
 import { FeedbackService } from '../../feedback.service';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -54,6 +54,10 @@ export class DevFeedbackDialog {
     merge(this.feedback.statusChanges, this.feedback.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
+    // effect(() => {
+    //   const changes = [this.feedback.statusChanges, this.feedback.valueChanges];
+    //   this.updateErrorMessage();
+    // });
   }
 
   updateErrorMessage() {
