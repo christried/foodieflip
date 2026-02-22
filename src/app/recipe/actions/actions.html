@@ -40,14 +40,16 @@
     </div>
 
     @if (isAiImage()) {
-      <p
+      <button
+        matButton="outlined"
         class="ai-image-warning"
         matTooltip="The current recipe image is AI generated and is supposed to be a placeholder. If you're about
       to cook this, consider submitting an image that we can replace this with."
         matTooltipPosition="above"
+        (click)="onClickAiImage()"
       >
         <mat-icon>warning_amber</mat-icon>AI Image
-      </p>
+      </button>
     }
   </div>
 

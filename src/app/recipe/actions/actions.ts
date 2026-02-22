@@ -4,6 +4,8 @@ import { RecipesService } from '../../recipes.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { AiImageDialog } from '../../dialogs/ai-image-dialog/ai-image-dialog';
 
 @Component({
   selector: 'app-actions',
@@ -13,8 +15,9 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class Actions {
   public recipesService = inject(RecipesService);
-  public currentRecipe = this.recipesService.currentRecipe;
+  readonly dialog = inject(MatDialog);
 
+  public currentRecipe = this.recipesService.currentRecipe;
   public voteStatus = signal<'upvote' | 'downvote' | null>(null);
 
   constructor() {
@@ -29,6 +32,13 @@ export class Actions {
 
   isAiImage() {
     return this.currentRecipe()?.tags_internal.includes('ai-image');
+  }
+
+  onClickAiImage() {
+    this.dialog.open(AiImageDialog, {
+      width: '34.5rem',
+      data: { recipeId: this.currentRecipe()!.id },
+    });
   }
 
   onClickVote(voteType: 'downvote' | 'upvote') {
