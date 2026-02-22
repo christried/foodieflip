@@ -48,7 +48,7 @@ export class Actions {
     localStorage.setItem(`vote_${recipe.id}`, voteType);
     this.voteStatus.set(voteType);
 
-    // count vote in backend, no user affiliation
+    // count vote in backend, no user affiliation = fire and forget
     this.recipesService.voteForRecipe(voteType);
   }
 }
