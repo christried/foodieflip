@@ -1,5 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import {
   MatSnackBar,
@@ -19,9 +20,8 @@ import {
   MatSnackBarLabel,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
-import { combineLatest, merge } from 'rxjs';
+import { merge } from 'rxjs';
 import { FeedbackService } from '../../feedback.service';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'dev-feedback.dialog',
@@ -46,21 +46,23 @@ export class DevFeedbackDialog {
   private readonly feedbackService = inject(FeedbackService);
   private devFeedbackSnackBar = inject(MatSnackBar);
 
-  readonly feedback = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
+  readonly feedbackControl = new FormControl('', [Validators.required, Validators.maxLength(1000)]);
   readonly name = new FormControl('', []);
   errorMessage = signal<string>('');
 
   constructor() {
-    merge(this.feedback.statusChanges, this.feedback.valueChanges)
+    merge(this.feedbackControl.statusChanges, this.feedbackControl.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
   }
 
   updateErrorMessage() {
-    if (this.feedback.hasError('required')) {
+    if (this.feedbackControl.hasError('required')) {
       this.errorMessage.set('You must enter feedback to submit');
-    } else if (this.feedback.hasError('maxlength')) {
+    } else if (this.feedbackControl.hasError('maxlength')) {
       this.errorMessage.set('Please keep your feedback below 1000 characters before sending');
+    } else if (this.feedbackControl.hasError('apiError')) {
+      this.errorMessage.set('Error when forwarding your feedback. Please try again later.');
     } else {
       this.errorMessage.set('');
     }
@@ -74,26 +76,29 @@ export class DevFeedbackDialog {
   }
 
   onClickSend() {
-    if (this.feedback.invalid) {
-      this.feedback.markAsTouched();
+    if (this.feedbackControl.invalid) {
+      this.feedbackControl.markAsTouched();
       return;
     }
 
     const nameValue = this.name.value ?? 'anonymous';
-    const feedbackValue = this.feedback.value ?? '';
+    const feedbackValue = this.feedbackControl.value ?? '';
 
-    // shoot and forget for now, no backend response needed
-    this.feedbackService.sendFeedback(nameValue, feedbackValue).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.dialogRef.close();
-        this.openSnackBar();
-      },
-      error: (err) => {
-        this.errorMessage.set('Error when forwarding your feedback. Please try again later.');
-        console.log('Forwarding Feedback through API failed:', err);
-      },
-    });
+    this.feedbackService
+      .sendFeedback(nameValue, feedbackValue)
+      .pipe(takeUntilDestroyed())
+      .subscribe({
+        next: (res) => {
+          this.dialogRef.close();
+          this.openSnackBar();
+        },
+        error: (err) => {
+          //message is set via UpdateErrorMessage function above
+          this.feedbackControl.setErrors({ apiError: true });
+
+          console.log('Forwarding Feedback through API failed:', err);
+        },
+      });
   }
 }
 

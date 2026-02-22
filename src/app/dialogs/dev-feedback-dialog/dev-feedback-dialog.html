@@ -11,7 +11,7 @@
     <mat-label>Issue or Feedback</mat-label>
     <textarea
       matInput
-      [formControl]="feedback"
+      [formControl]="feedbackControl"
       placeholder="e.g. 'the image submission form is not loading when I click on the AI-Image indicator'"
       required
       cdkTextareaAutosize
@@ -24,7 +24,7 @@
       >Try to be precise! I take constructive feedback to heart. If you want to provide pictures or
       error-messages, please upload them elsewhere and provide a link.</mat-hint
     >
-    @if (feedback.invalid) {
+    @if (feedbackControl.invalid || errorMessage()) {
       <mat-error>{{ errorMessage() }}</mat-error>
     }
   </mat-form-field>
