@@ -54,10 +54,6 @@ export class DevFeedbackDialog {
     merge(this.feedback.statusChanges, this.feedback.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
-    // effect(() => {
-    //   const changes = [this.feedback.statusChanges, this.feedback.valueChanges];
-    //   this.updateErrorMessage();
-    // });
   }
 
   updateErrorMessage() {
@@ -86,10 +82,18 @@ export class DevFeedbackDialog {
     const nameValue = this.name.value ?? 'anonymous';
     const feedbackValue = this.feedback.value ?? '';
 
-    this.dialogRef.close();
-    this.openSnackBar();
     // shoot and forget for now, no backend response needed
-    this.feedbackService.sendFeedback(nameValue, feedbackValue).subscribe();
+    this.feedbackService.sendFeedback(nameValue, feedbackValue).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.dialogRef.close();
+        this.openSnackBar();
+      },
+      error: (err) => {
+        this.errorMessage.set('Error when forwarding your feedback. Please try again later.');
+        console.log('Forwarding Feedback through API failed:', err);
+      },
+    });
   }
 }
 
