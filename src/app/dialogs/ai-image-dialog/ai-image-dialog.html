@@ -1,0 +1,48 @@
+<h2 mat-dialog-title class="dialog-title">Submit a Recipe Image</h2>
+
+<mat-dialog-content>
+  <p class="dialog-description">
+    Help us replace the AI-generated placeholder for this recipe by uploading your own photo.
+    Supported File Types: JPEG / PNG / WEBP | Maximum File Size: 2MB
+  </p>
+  <!-- <p>
+    By uploading and submitting this image, you're confirming you are the copyright owner(or have
+    the necessary rights) for this image and grant FoodieFlip a perpetual, worldwide, royalty free,
+    transferable, sublicensable license to use, reproduce, modify, publish, display, and distribute
+    the image in any media for the purposes of FoodieFlips service. You waive any related economic
+    claims. I also consent to processing this image and related metadata in accordance with the
+    Privacy Policy of FoodieFlip.
+  </p> -->
+
+  <input
+    type="file"
+    accept="image/*"
+    #fileInput
+    (change)="onFileSelected($event)"
+    class="hidden-file-input"
+  />
+
+  <button matButton="tonal" (click)="fileInput.click()" [disabled]="isUploading()">
+    Choose Image
+  </button>
+
+  @if (selectedFile()) {
+    <p class="selected-file-name">{{ selectedFile()!.name }}</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    matButton="filled"
+    color="primary"
+    (click)="onClickSubmit()"
+    [disabled]="!selectedFile() || isUploading()"
+  >
+    {{ isUploading() ? 'Uploading...' : 'Submit' }}
+  </button>
+  <button matButton mat-dialog-close [disabled]="isUploading()">Close</button>
+</mat-dialog-actions>

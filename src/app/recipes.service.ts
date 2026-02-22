@@ -4,7 +4,6 @@ import { inject, Injectable, signal } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { Complexity } from './complexity.model';
 import { Recipe } from './recipe.model';
-import { sign } from 'crypto';
 
 @Injectable({
   providedIn: 'root',
@@ -63,5 +62,20 @@ export class RecipesService {
         console.log(err);
       },
     });
+  }
+
+  uploadRecipeImage(recipeId: string, image: File) {
+    const formData = new FormData();
+    formData.append('recipeId', recipeId);
+    formData.append('image', image, image.name);
+
+    return this.httpClient
+      .put<{ message: string }>('http://localhost:3000/api/submit/image', formData)
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          return throwError(() => new Error('Could not upload image'));
+        }),
+      );
   }
 }
