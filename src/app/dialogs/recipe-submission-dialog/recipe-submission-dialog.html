@@ -1,0 +1,133 @@
+<h2 mat-dialog-title class="dialog-title">Submit a New Recipe</h2>
+
+<mat-dialog-content>
+  <p class="dialog-description">
+    Help our community by providing a great quality image of your recipe. If you can't provide a
+    picture that you have taken yourself, we'll provide a AI generated picture as a placeholder.
+    Supported File Types: JPEG / PNG / WEBP | Maximum File Size: 2MB
+  </p>
+  <!-- REALLY SHOULD ADD SOME KIND OF DIALOG TO HAVE THIS CONFIRMED <p> 
+    By uploading and submitting this image, you're confirming you are the copyright owner(or have
+    the necessary rights) for this image and grant FoodieFlip a perpetual, worldwide, royalty free,
+    transferable, sublicensable license to use, reproduce, modify, publish, display, and distribute
+    the image in any media for the purposes of FoodieFlips service. You waive any related economic
+    claims. I also consent to processing this image and related metadata in accordance with the
+    Privacy Policy of FoodieFlip.
+  </p> -->
+
+  <!-- Stepper for Recipe Information -->
+
+  <mat-vertical-stepper [linear]="true" #stepper animationDuration="1000" orientation="horizontal">
+    <!-- 1st Step: Title and Ingredients -->
+    <mat-step [stepControl]="titleIngredientsFormGroup">
+      <form [formGroup]="titleIngredientsFormGroup">
+        <ng-template matStepLabel>Title & Ingredients</ng-template>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="e.g. Super Duper Curry"
+            formControlName="titleCtrl"
+            maxlength="24"
+          />
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="e.g. 2kg brussels sprouts (please don't) "
+            formControlName="ingredientsCtrl"
+            maxlength="50"
+          />
+        </mat-form-field>
+        <button
+          matIconButton
+          aria-label="icon button with a plus sign"
+          (click)="onClickAddItem('ingredient')"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+        <div>
+          <button matButton matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- 2nd Step: Instructions & Time -->
+    <mat-step [stepControl]="instructionsTimeFormGroup">
+      <form [formGroup]="instructionsTimeFormGroup">
+        <ng-template matStepLabel>Preparation Instructions</ng-template>
+
+        <mat-form-field>
+          <textarea
+            matInput
+            formControlName="instructionsCtrl"
+            placeholder="e.g. bring oven to 200°C "
+            maxlength="1000"
+          ></textarea>
+        </mat-form-field>
+        <button
+          matIconButton
+          aria-label="icon button with a plus sign"
+          (click)="onClickAddItem('instruction')"
+        >
+          <mat-icon>add</mat-icon></button
+        ><mat-form-field>
+          <input matInput placeholder="e.g. 25" formControlName="timeCtrl" maxlength="3" />
+        </mat-form-field>
+        <div>
+          <button matButton matStepperPrevious>Back</button>
+          <button matButton matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <!-- 3rd Step: Image Upload -->
+    <mat-step [stepControl]="userNameImageFormGroup">
+      <form [formGroup]="userNameImageFormGroup">
+        <ng-template matStepLabel>Upload Image</ng-template>
+
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="e.g. Christried"
+            formControlName="userNameCtrl"
+            maxlength="24"
+          />
+        </mat-form-field>
+
+        <input
+          type="file"
+          accept="image/*"
+          #fileInput
+          (change)="onFileSelected($event)"
+          class="hidden-file-input"
+        />
+
+        <button matButton="tonal" (click)="fileInput.click()" [disabled]="isUploading()">
+          Choose Image
+        </button>
+
+        @if (selectedFile()) {
+          <p class="selected-file-name">{{ selectedFile()!.name }}</p>
+        }
+
+        @if (errorMessageFile()) {
+          <p class="error-message">{{ errorMessageFile() }}</p>
+        }
+
+        <div>
+          <button matButton="tonal" matStepperPrevious>Back</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    matButton="filled"
+    color="primary"
+    (click)="onClickSubmit()"
+    [disabled]="!selectedFile() || isUploading()"
+  >
+    {{ isUploading() ? 'Uploading...' : 'Submit' }}
+  </button>
+  <button matButton mat-dialog-close [disabled]="isUploading()">Close</button>
+</mat-dialog-actions>
