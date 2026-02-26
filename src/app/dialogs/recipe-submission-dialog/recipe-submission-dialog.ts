@@ -22,6 +22,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'recipe-submission-dialog',
@@ -39,6 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatListModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -59,27 +61,44 @@ export class RecipeSubmissionDialog {
   private _formBuilder = inject(FormBuilder);
   titleIngredientsFormGroup: FormGroup = this._formBuilder.group({
     titleCtrl: ['', Validators.required],
-    ingredientsCtrl: ['', Validators.required],
+    ingredientsCtrl: [''],
   });
   instructionsTimeFormGroup: FormGroup = this._formBuilder.group({
-    instructionsCtrl: ['', Validators.required],
-    timeCtrl: ['', Validators.required],
+    instructionsCtrl: [''],
+    timeCtrl: ['', [Validators.required, Validators.min(5), Validators.max(999)]],
   });
   userNameImageFormGroup: FormGroup = this._formBuilder.group({
     userNameCtrl: [''],
   });
 
+  ingredientsCtrl = this.titleIngredientsFormGroup.get('ingredientsCtrl');
+  instructionsCtrl = this.instructionsTimeFormGroup.get('instructionsCtrl');
+
   onClickAddItem(itemType: 'ingredient' | 'instruction') {
     const inputValue =
-      itemType === 'ingredient'
-        ? this.titleIngredientsFormGroup.get('ingredientsCtrl')?.value
-        : this.instructionsTimeFormGroup.get('instructionsCtrl')?.value;
+      itemType === 'ingredient' ? this.ingredientsCtrl?.value : this.instructionsCtrl?.value;
+
+    if (!inputValue) {
+      return;
+    }
 
     if (itemType === 'ingredient') {
       this.ingredients.update((i) => [...i, inputValue]);
+      this.ingredientsCtrl?.setValue('');
     } else this.instructions.update((i) => [...i, inputValue]);
+    this.instructionsCtrl?.setValue('');
 
     console.log(inputValue);
+    console.log(`current ingredients: ${this.ingredients()}`);
+    console.log(`current instructions: ${this.instructions()}`);
+  }
+
+  onClickRemoveItem(itemIndex: number, itemType: 'ingredient' | 'instruction') {
+    if (itemType === 'ingredient') {
+      this.ingredients.update((ingredients) => ingredients.toSpliced(itemIndex, 1));
+    } else {
+      this.instructions.update((instructions) => instructions.toSpliced(itemIndex, 1));
+    }
   }
 
   // File Stuff
