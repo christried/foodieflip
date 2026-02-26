@@ -1,22 +1,40 @@
 :host {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   height: 100%;
   width: 100%;
 }
 
-mat-dialog-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  flex-grow: 1;
-
-  scrollbar-width: none;
+.submit-form-step {
+  padding: 1rem 0;
 }
 
-.dialog-description {
+.form-inputs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+// have to target mat designs specifically :(
+.item-list .mat-mdc-list-item {
+  text-align: center;
+}
+
+.item-list-items {
+  button:not(:only-child) {
+    border-bottom: 2px solid var(--mat-sys-outline-variant);
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.removal-notice {
+  text-align: center;
+  font-size: 0.75rem;
   margin: 0;
-  color: var(--mat-sys-on-surface-variant);
+  padding-bottom: 2rem;
 }
 
 .hidden-file-input {
@@ -31,6 +49,10 @@ mat-dialog-content {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+}
+
+.nav-buttons {
+  text-align: center;
 }
 
 .error-message {

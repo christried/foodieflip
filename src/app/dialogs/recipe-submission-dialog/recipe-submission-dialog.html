@@ -22,31 +22,52 @@
     <mat-step [stepControl]="titleIngredientsFormGroup">
       <form [formGroup]="titleIngredientsFormGroup">
         <ng-template matStepLabel>Title & Ingredients</ng-template>
-        <mat-form-field>
-          <input
-            matInput
-            placeholder="e.g. Super Duper Curry"
-            formControlName="titleCtrl"
-            maxlength="24"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            matInput
-            placeholder="e.g. 2kg brussels sprouts (please don't) "
-            formControlName="ingredientsCtrl"
-            maxlength="50"
-          />
-        </mat-form-field>
-        <button
-          matIconButton
-          aria-label="icon button with a plus sign"
-          (click)="onClickAddItem('ingredient')"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-        <div>
-          <button matButton matStepperNext>Next</button>
+        <div class="submit-form-step">
+          <div class="item-list">
+            <mat-action-list class="item-list-items">
+              @for (ingredient of ingredients(); track $index) {
+                <button mat-list-item (click)="onClickRemoveItem($index, 'ingredient')">
+                  {{ ingredient }}
+                </button>
+              }
+            </mat-action-list>
+            @if (ingredients().length > 0) {
+              <p class="removal-notice">click on any item to remove it</p>
+            }
+          </div>
+          <div class="form-inputs">
+            <mat-form-field>
+              <mat-label>Recipe Title</mat-label>
+              <input
+                matInput
+                placeholder="e.g. Chickpea Masala"
+                formControlName="titleCtrl"
+                maxlength="24"
+              />
+            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-label>Add Ingredient</mat-label>
+                <input
+                  matInput
+                  placeholder="e.g. 2kg brussels sprouts (please don't) "
+                  formControlName="ingredientsCtrl"
+                  maxlength="50"
+                />
+              </mat-form-field>
+              <button
+                type="button"
+                matIconButton
+                aria-label="icon button with a plus sign"
+                (click)="onClickAddItem('ingredient')"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="nav-buttons">
+          <button matButton="tonal" matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
@@ -54,27 +75,54 @@
     <mat-step [stepControl]="instructionsTimeFormGroup">
       <form [formGroup]="instructionsTimeFormGroup">
         <ng-template matStepLabel>Preparation Instructions</ng-template>
-
-        <mat-form-field>
-          <textarea
-            matInput
-            formControlName="instructionsCtrl"
-            placeholder="e.g. bring oven to 200°C "
-            maxlength="1000"
-          ></textarea>
-        </mat-form-field>
-        <button
-          matIconButton
-          aria-label="icon button with a plus sign"
-          (click)="onClickAddItem('instruction')"
-        >
-          <mat-icon>add</mat-icon></button
-        ><mat-form-field>
-          <input matInput placeholder="e.g. 25" formControlName="timeCtrl" maxlength="3" />
-        </mat-form-field>
-        <div>
-          <button matButton matStepperPrevious>Back</button>
-          <button matButton matStepperNext>Next</button>
+        <div class="submit-form-step">
+          <div class="item-list">
+            <mat-action-list class="item-list-items">
+              @for (instruction of instructions(); track $index) {
+                <button mat-list-item (click)="onClickRemoveItem($index, 'instruction')">
+                  {{ instruction }}
+                </button>
+              }
+            </mat-action-list>
+            @if (instructions().length > 0) {
+              <p class="removal-notice">click on any item to remove it</p>
+            }
+          </div>
+          <div class="form-inputs">
+            <mat-form-field>
+              <mat-label>Preparation Time</mat-label>
+              <input
+                matInput
+                placeholder="e.g. 25"
+                formControlName="timeCtrl"
+                type="number"
+                maxlength="3"
+              />
+            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-label>Add Instruction</mat-label>
+                <input
+                  matInput
+                  formControlName="instructionsCtrl"
+                  placeholder="e.g. bring oven to 200°C "
+                  maxlength="1000"
+                />
+              </mat-form-field>
+              <button
+                type="button"
+                matIconButton
+                aria-label="icon button with a plus sign"
+                (click)="onClickAddItem('instruction')"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="nav-buttons">
+          <button matButton="tonal" matStepperPrevious>Back</button>
+          <button matButton="tonal" matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
@@ -82,8 +130,8 @@
     <mat-step [stepControl]="userNameImageFormGroup">
       <form [formGroup]="userNameImageFormGroup">
         <ng-template matStepLabel>Upload Image</ng-template>
-
         <mat-form-field>
+          <mat-label>Your Name</mat-label>
           <input
             matInput
             placeholder="e.g. Christried"
