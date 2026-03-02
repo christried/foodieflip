@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 
 import { catchError, throwError } from 'rxjs';
 import { Complexity } from './complexity.model';
-import { Recipe } from './recipe.model';
+import { Recipe, RecipeSubmission } from './recipe.model';
 
 @Injectable({
   providedIn: 'root',
@@ -75,6 +75,28 @@ export class RecipesService {
         catchError((error) => {
           console.log(error);
           return throwError(() => new Error('Could not upload image'));
+        }),
+      );
+  }
+
+  submitRecipe(submission: RecipeSubmission) {
+    const formData = new FormData();
+    formData.append('title', submission.title);
+    formData.append('ingredients', JSON.stringify(submission.ingredients));
+    formData.append('instructions', JSON.stringify(submission.instructions));
+    formData.append('time', String(submission.time));
+    formData.append('submittedBy', submission.submittedBy);
+
+    if (submission.image) {
+      formData.append('image', submission.image, submission.image.name);
+    }
+
+    return this.httpClient
+      .post<{ message: string }>('http://localhost:3000/api/submit/recipe', formData)
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          return throwError(() => new Error('Could not submit recipe'));
         }),
       );
   }
