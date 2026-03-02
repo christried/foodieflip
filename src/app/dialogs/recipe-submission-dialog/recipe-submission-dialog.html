@@ -1,0 +1,199 @@
+<h2 mat-dialog-title class="dialog-title">Submit a New Recipe</h2>
+
+<mat-dialog-content>
+  <p class="dialog-description">
+    Help our community by providing detailed guides to your own recipes. Keep in mind Foodie Flip is
+    community-driven and relies on people uploading their own recipes and ideas. Please adhere to
+    our <a href="/terms" target="_blank">Terms of Service</a> and make sure everything you submit
+    and upload to our page is your own intellectual property.
+  </p>
+
+  <mat-vertical-stepper
+    [linear]="true"
+    #stepper
+    animationDuration="1000"
+    orientation="horizontal"
+    (selectionChange)="onStepChange($event.selectedIndex)"
+  >
+    <!-- 1st Step: Title and Ingredients -->
+    <mat-step [stepControl]="titleIngredientsFormGroup">
+      <form [formGroup]="titleIngredientsFormGroup">
+        <ng-template matStepLabel>Title & Ingredients</ng-template>
+        <div class="submit-form-step">
+          <div class="item-list">
+            <mat-action-list class="item-list-items">
+              @for (ingredient of ingredients(); track $index) {
+                <button mat-list-item (click)="onClickRemoveItem($index, 'ingredient')">
+                  {{ ingredient }}
+                </button>
+              }
+            </mat-action-list>
+            @if (ingredients().length > 0) {
+              <p class="removal-notice">click on any item to remove it</p>
+            }
+          </div>
+          <div class="form-inputs">
+            <mat-form-field>
+              <mat-label>Recipe Title</mat-label>
+              <input
+                matInput
+                placeholder="e.g. Chickpea Masala"
+                formControlName="titleCtrl"
+                maxlength="24"
+              />
+              <mat-error>Title is required</mat-error>
+            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-label>Add Ingredient</mat-label>
+                <input
+                  matInput
+                  placeholder="e.g. 2kg brussels sprouts (please don't) "
+                  formControlName="ingredientsCtrl"
+                  maxlength="50"
+                />
+                <mat-hint>Add at least 2</mat-hint>
+              </mat-form-field>
+              <button
+                type="button"
+                matIconButton
+                aria-label="icon button with a plus sign"
+                (click)="onClickAddItem('ingredient')"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="nav-buttons">
+          <button matButton="tonal" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- 2nd Step: Instructions & Time -->
+    <mat-step [stepControl]="instructionsTimeFormGroup">
+      <form [formGroup]="instructionsTimeFormGroup">
+        <ng-template matStepLabel>Preparation Instructions</ng-template>
+        <div class="submit-form-step">
+          <div class="item-list">
+            <mat-action-list class="item-list-items">
+              @for (instruction of instructions(); track $index) {
+                <button mat-list-item (click)="onClickRemoveItem($index, 'instruction')">
+                  {{ instruction }}
+                </button>
+              }
+            </mat-action-list>
+            @if (instructions().length > 0) {
+              <p class="removal-notice">click on any item to remove it</p>
+            }
+          </div>
+          <div class="form-inputs">
+            <mat-form-field>
+              <mat-label>Preparation Time</mat-label>
+              <input
+                matInput
+                placeholder="e.g. 25"
+                formControlName="timeCtrl"
+                type="number"
+                maxlength="3"
+              />
+              <mat-error>Prep time is required (5 to 999 min)</mat-error>
+            </mat-form-field>
+            <div>
+              <mat-form-field>
+                <mat-label>Add Instruction</mat-label>
+                <input
+                  matInput
+                  formControlName="instructionsCtrl"
+                  placeholder="e.g. bring oven to 200°C "
+                  maxlength="1000"
+                />
+                <mat-hint>Add at least 2</mat-hint>
+              </mat-form-field>
+              <button
+                type="button"
+                matIconButton
+                aria-label="icon button with a plus sign"
+                (click)="onClickAddItem('instruction')"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="nav-buttons">
+          <button matButton="tonal" matStepperPrevious>Back</button>
+          <button matButton="tonal" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- 3rd Step: Image Upload -->
+    <mat-step [stepControl]="userNameImageFormGroup">
+      <form [formGroup]="userNameImageFormGroup">
+        <ng-template matStepLabel>Upload Image</ng-template>
+        <p class="removal-notice">
+          Providing your name and a recipe image are optional. When submitting without providing
+          these information, you acknowledge that Foodie Flip will publish your recipe as 'submitted
+          by Anonymous' with an AI-generated image as a placeholder. Supported File Types: JPEG /
+          PNG / WEBP | Maximum File Size: 2MB
+        </p>
+        <div class="form-inputs">
+          <mat-form-field>
+            <mat-label>Your Name</mat-label>
+            <input
+              matInput
+              placeholder="e.g. Christried"
+              formControlName="userNameCtrl"
+              maxlength="24"
+            />
+          </mat-form-field>
+
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            #fileInput
+            (change)="onFileSelected($event)"
+            class="hidden-file-input"
+          />
+
+          <button matButton="tonal" (click)="fileInput.click()" [disabled]="isUploading()">
+            Choose Image
+          </button>
+        </div>
+
+        <div class="terms-row">
+          <mat-checkbox formControlName="termsAcceptedCtrl">
+            I have read and agree to the
+            <a href="/terms" target="_blank">Terms of Service</a>
+            regarding recipe and image submission.
+          </mat-checkbox>
+        </div>
+
+        @if (selectedFile()) {
+          <p class="selected-file-name">{{ selectedFile()!.name }}</p>
+        }
+
+        @if (errorMessageFile()) {
+          <p class="error-message">{{ errorMessageFile() }}</p>
+        }
+
+        <div class="nav-buttons">
+          <button matButton="tonal" matStepperPrevious>Back</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+</mat-dialog-content>
+
+@if (formErrorMessage()) {
+  <p class="error-message form-error-summary">{{ formErrorMessage() }}</p>
+}
+
+<mat-dialog-actions>
+  <button matButton="filled" color="primary" (click)="onClickSubmit()" [disabled]="!canSubmit()">
+    {{ isUploading() ? 'Uploading...' : 'Submit' }}
+  </button>
+  <button matButton mat-dialog-close [disabled]="isUploading()">Close</button>
+</mat-dialog-actions>

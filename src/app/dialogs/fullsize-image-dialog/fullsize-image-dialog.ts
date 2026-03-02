@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle,
-} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { RecipesService } from '../../recipes.service';
 
@@ -12,7 +7,7 @@ import { RecipesService } from '../../recipes.service';
   selector: 'fullsize-image.dialog',
   templateUrl: 'fullsize-image-dialog.html',
   styleUrl: 'fullsize-image-dialog.scss',
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+  imports: [MatDialogModule, MatButtonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FullsizeImageDialog {

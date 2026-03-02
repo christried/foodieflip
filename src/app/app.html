@@ -14,4 +14,10 @@
   <app-footer [title]="title()" [version]="version()" />
 </div>
 
-<router-outlet />
+<div class="submit-button">
+  <button matFab color="primary" aria-label="Submit new recipe" (click)="onClickSubmitNewRecipe()">
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <router-outlet />
+</div>

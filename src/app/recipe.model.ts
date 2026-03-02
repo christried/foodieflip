@@ -14,3 +14,12 @@ export interface Recipe {
   downvotes: number;
   submittedBy: string;
 }
+
+export interface RecipeSubmission {
+  title: string;
+  ingredients: string[];
+  instructions: string[];
+  time: number;
+  submittedBy: string;
+  image?: File;
+}
