@@ -2,22 +2,19 @@
 
 <mat-dialog-content>
   <p class="dialog-description">
-    Help our community by providing a great quality image of your recipe. If you can't provide a
-    picture that you have taken yourself, we'll provide a AI generated picture as a placeholder.
-    Supported File Types: JPEG / PNG / WEBP | Maximum File Size: 2MB
+    Help our community by providing detailed guides to your own recipes. Keep in mind Foodie Flip is
+    community-driven and relies on people uploading their own recipes and ideas. Please adhere to
+    our <a href="/terms" target="_blank">Terms of Service</a> and make sure everything you submit
+    and upload to our page is your own intellectual property.
   </p>
-  <!-- REALLY SHOULD ADD SOME KIND OF DIALOG TO HAVE THIS CONFIRMED <p> 
-    By uploading and submitting this image, you're confirming you are the copyright owner(or have
-    the necessary rights) for this image and grant FoodieFlip a perpetual, worldwide, royalty free,
-    transferable, sublicensable license to use, reproduce, modify, publish, display, and distribute
-    the image in any media for the purposes of FoodieFlips service. You waive any related economic
-    claims. I also consent to processing this image and related metadata in accordance with the
-    Privacy Policy of FoodieFlip.
-  </p> -->
 
-  <!-- Stepper for Recipe Information -->
-
-  <mat-vertical-stepper [linear]="true" #stepper animationDuration="1000" orientation="horizontal">
+  <mat-vertical-stepper
+    [linear]="true"
+    #stepper
+    animationDuration="1000"
+    orientation="horizontal"
+    (selectionChange)="onStepChange($event.selectedIndex)"
+  >
     <!-- 1st Step: Title and Ingredients -->
     <mat-step [stepControl]="titleIngredientsFormGroup">
       <form [formGroup]="titleIngredientsFormGroup">
@@ -44,6 +41,7 @@
                 formControlName="titleCtrl"
                 maxlength="24"
               />
+              <mat-error>Title is required</mat-error>
             </mat-form-field>
             <div>
               <mat-form-field>
@@ -54,6 +52,7 @@
                   formControlName="ingredientsCtrl"
                   maxlength="50"
                 />
+                <mat-hint>Add at least 2</mat-hint>
               </mat-form-field>
               <button
                 type="button"
@@ -71,6 +70,7 @@
         </div>
       </form>
     </mat-step>
+
     <!-- 2nd Step: Instructions & Time -->
     <mat-step [stepControl]="instructionsTimeFormGroup">
       <form [formGroup]="instructionsTimeFormGroup">
@@ -98,6 +98,7 @@
                 type="number"
                 maxlength="3"
               />
+              <mat-error>Prep time is required (5 to 999 min)</mat-error>
             </mat-form-field>
             <div>
               <mat-form-field>
@@ -108,6 +109,7 @@
                   placeholder="e.g. bring oven to 200°C "
                   maxlength="1000"
                 />
+                <mat-hint>Add at least 2</mat-hint>
               </mat-form-field>
               <button
                 type="button"
@@ -126,31 +128,48 @@
         </div>
       </form>
     </mat-step>
+
     <!-- 3rd Step: Image Upload -->
     <mat-step [stepControl]="userNameImageFormGroup">
       <form [formGroup]="userNameImageFormGroup">
         <ng-template matStepLabel>Upload Image</ng-template>
-        <mat-form-field>
-          <mat-label>Your Name</mat-label>
+        <p class="removal-notice">
+          Providing your name and a recipe image are optional. When submitting without providing
+          these information, you acknowledge that Foodie Flip will publish your recipe as 'submitted
+          by Anonymous' with an AI-generated image as a placeholder. Supported File Types: JPEG /
+          PNG / WEBP | Maximum File Size: 2MB
+        </p>
+        <div class="form-inputs">
+          <mat-form-field>
+            <mat-label>Your Name</mat-label>
+            <input
+              matInput
+              placeholder="e.g. Christried"
+              formControlName="userNameCtrl"
+              maxlength="24"
+            />
+          </mat-form-field>
+
           <input
-            matInput
-            placeholder="e.g. Christried"
-            formControlName="userNameCtrl"
-            maxlength="24"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            #fileInput
+            (change)="onFileSelected($event)"
+            class="hidden-file-input"
           />
-        </mat-form-field>
 
-        <input
-          type="file"
-          accept="image/*"
-          #fileInput
-          (change)="onFileSelected($event)"
-          class="hidden-file-input"
-        />
+          <button matButton="tonal" (click)="fileInput.click()" [disabled]="isUploading()">
+            Choose Image
+          </button>
+        </div>
 
-        <button matButton="tonal" (click)="fileInput.click()" [disabled]="isUploading()">
-          Choose Image
-        </button>
+        <div class="terms-row">
+          <mat-checkbox formControlName="termsAcceptedCtrl">
+            I have read and agree to the
+            <a href="/terms" target="_blank">Terms of Service</a>
+            regarding recipe and image submission.
+          </mat-checkbox>
+        </div>
 
         @if (selectedFile()) {
           <p class="selected-file-name">{{ selectedFile()!.name }}</p>
@@ -160,7 +179,7 @@
           <p class="error-message">{{ errorMessageFile() }}</p>
         }
 
-        <div>
+        <div class="nav-buttons">
           <button matButton="tonal" matStepperPrevious>Back</button>
         </div>
       </form>
@@ -168,13 +187,12 @@
   </mat-vertical-stepper>
 </mat-dialog-content>
 
+@if (formErrorMessage()) {
+  <p class="error-message form-error-summary">{{ formErrorMessage() }}</p>
+}
+
 <mat-dialog-actions>
-  <button
-    matButton="filled"
-    color="primary"
-    (click)="onClickSubmit()"
-    [disabled]="!selectedFile() || isUploading()"
-  >
+  <button matButton="filled" color="primary" (click)="onClickSubmit()" [disabled]="!canSubmit()">
     {{ isUploading() ? 'Uploading...' : 'Submit' }}
   </button>
   <button matButton mat-dialog-close [disabled]="isUploading()">Close</button>
