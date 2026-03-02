@@ -4,7 +4,7 @@
   justify-content: space-between;
   padding: var(--space-16) var(--space-24);
   background: transparent;
-  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  border-bottom: 1px solid light-dark(rgba(0, 0, 0, 0.08), rgba(69, 196, 176, 0.15));
 }
 
 .header-left {
@@ -35,9 +35,10 @@
 
 .dev-badge {
   font: var(--text-label-sm);
-  color: var(--mat-sys-on-surface-variant);
+  color: var(--brand-turquoise);
   padding: var(--space-4) var(--space-12);
-  border: 1px solid var(--mat-sys-outline-variant);
+  border: 1px solid var(--brand-turquoise);
   border-radius: var(--radius-full);
   white-space: nowrap;
+  background: light-dark(rgba(69, 196, 176, 0.08), rgba(69, 196, 176, 0.1));
 }

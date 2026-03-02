@@ -4,11 +4,19 @@
   display: flex;
   align-items: center;
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: var(--card-border);
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+
+  &:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
 }
 
 .selection-card-title {
   text-align: center;
   font-family: var(--font-brand);
+  color: var(--brand-turquoise);
 }
 
 .selection-buttons {

@@ -27,6 +27,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+// Subtle warm background tint in light mode
+@media (prefers-color-scheme: light) {
+  body {
+    background: linear-gradient(
+      180deg,
+      var(--mat-sys-surface) 0%,
+      rgba(218, 253, 186, 0.05) 50%,
+      var(--mat-sys-surface) 100%
+    );
+  }
+}
+
+body.light-mode {
+  background: linear-gradient(
+    180deg,
+    var(--mat-sys-surface) 0%,
+    rgba(218, 253, 186, 0.05) 50%,
+    var(--mat-sys-surface) 100%
+  );
+}
+
 // --- Global typographic defaults ---
 h1,
 h2,
@@ -51,12 +72,12 @@ h4 {
 }
 
 a {
-  color: var(--mat-sys-primary);
+  color: var(--brand-turquoise);
   text-decoration: none;
   transition: color var(--transition-fast);
 
   &:hover {
-    color: var(--mat-sys-on-primary-container);
+    color: var(--brand-turquoise-light);
     text-decoration: underline;
   }
 }
@@ -71,7 +92,7 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--mat-sys-outline-variant);
+  background: var(--brand-turquoise);
   border-radius: var(--radius-full);
 }
 

@@ -1,13 +1,15 @@
 .ingredients-section {
   padding: var(--space-16);
   border: 1px solid var(--mat-sys-outline-variant);
+  border-left: 3px solid var(--brand-mint);
   border-radius: var(--radius-md);
+  background: light-dark(rgba(218, 253, 186, 0.06), rgba(154, 235, 163, 0.04));
 }
 
 .section-heading {
   margin: 0 0 var(--space-12);
   font-family: var(--font-brand);
-  color: var(--mat-sys-on-surface);
+  color: var(--brand-mint-dark);
 }
 
 .ingredient-list {
@@ -17,6 +19,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
+
+  ::marker {
+    color: var(--brand-mint);
+  }
 }
 
 .ingredient {

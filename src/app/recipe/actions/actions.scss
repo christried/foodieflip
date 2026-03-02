@@ -2,10 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-8);
-  padding: var(--space-16);
+  gap: var(--space-12);
+  padding: var(--space-24);
   border: 1px solid var(--mat-sys-outline-variant);
   border-radius: var(--radius-md);
+  background: light-dark(rgba(218, 253, 186, 0.08), rgba(69, 196, 176, 0.03));
 }
 
 .cta-rating {
@@ -14,18 +15,19 @@
   h4 {
     margin: 0;
     font-family: var(--font-brand);
+    color: var(--mat-sys-on-surface);
   }
 
   .cta-subtitle {
     margin: var(--space-4) 0 0;
     font: var(--text-body-sm);
-    color: var(--mat-sys-on-surface-variant);
+    color: var(--brand-turquoise);
   }
 }
 
 .vote-buttons {
   display: flex;
-  gap: var(--space-16);
+  gap: var(--space-24);
 }
 
 .vote-button {
@@ -34,12 +36,12 @@
     transform var(--transition-fast);
 
   &:hover:not(:disabled) {
-    transform: scale(1.15);
+    transform: scale(1.4);
   }
 }
 
 .vote-up {
-  color: var(--mat-sys-primary);
+  color: var(--brand-turquoise);
 }
 
 .vote-down {

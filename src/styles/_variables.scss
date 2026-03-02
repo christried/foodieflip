@@ -1,6 +1,16 @@
 // Unsure if px stick or to go with rem later on but this seems conventional
 
 :root {
+  // color palette
+  --brand-turquoise: #45c4b0;
+  --brand-turquoise-light: #5fdac5;
+  --brand-turquoise-dark: #2a9e8d;
+  --brand-mint: #9aeba3;
+  --brand-mint-dark: #6ebc79;
+  --brand-lime: #dafdba;
+  --brand-deep-blue: #13678a;
+  --brand-navy: #012030;
+
   // Spacing
   --space-4: 4px;
   --space-8: 8px;
@@ -26,11 +36,35 @@
   --transition-normal: 250ms ease;
   --transition-slow: 400ms ease;
 
-  // Shadows
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
-  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.12);
+  // Shadows — light mode
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.1), 0 12px 40px rgba(0, 0, 0, 0.12);
+
+  // Card border — light mode
+  --card-border: 1px solid rgba(0, 0, 0, 0.08);
 
   // Layout
   --content-max-width: 1200px;
   --content-width: 85%;
+}
+
+// Shadows — dark mode overrides (turquoise glow)
+@media (prefers-color-scheme: dark) {
+  :root {
+    --shadow-card: 0 0 16px rgba(69, 196, 176, 0.1), 0 4px 24px rgba(0, 0, 0, 0.4);
+    --shadow-card-hover: 0 0 24px rgba(69, 196, 176, 0.18), 0 8px 32px rgba(0, 0, 0, 0.5);
+    --card-border: 1px solid rgba(69, 196, 176, 0.2);
+  }
+}
+
+body.dark-mode {
+  --shadow-card: 0 0 16px rgba(69, 196, 176, 0.1), 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-card-hover: 0 0 24px rgba(69, 196, 176, 0.18), 0 8px 32px rgba(0, 0, 0, 0.5);
+  --card-border: 1px solid rgba(69, 196, 176, 0.2);
+}
+
+body.light-mode {
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.1), 0 12px 40px rgba(0, 0, 0, 0.12);
+  --card-border: 1px solid rgba(0, 0, 0, 0.08);
 }
