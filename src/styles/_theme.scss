@@ -1,0 +1,95 @@
+//   Primary:   #13678A (Deep Blue)
+//   Secondary: #45C4B0 (Turquoise)
+//   Tertiary:  #9AEBA3 (Light Green)
+//   Neutral:   #012030 (Dark Navy)
+//   Surface:   #DAFDBA (Pale Lime)
+
+@use '@angular/material' as mat;
+@use './theme-colors' as theme;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: theme.$primary-palette,
+        tertiary: theme.$tertiary-palette,
+        theme-type: color-scheme,
+      ),
+      typography: (
+        brand-family: 'Quicksand',
+        plain-family: 'Inter',
+        bold-weight: 700,
+        medium-weight: 500,
+        regular-weight: 400,
+      ),
+      density: 0,
+    )
+  );
+}
+
+//automatically adjusting to user's default
+html {
+  color-scheme: light dark;
+}
+
+body.dark-mode {
+  color-scheme: dark;
+}
+
+body.light-mode {
+  color-scheme: light;
+}
+
+// --- Component token overrides ---
+html {
+  // Card — high elevation with large border-radius
+  @include mat.card-overrides(
+    (
+      elevated-container-shape: 24px,
+    )
+  );
+
+  // Chips
+  @include mat.chips-overrides(
+    (
+      label-text-size: 0.75rem,
+      label-text-font: 'Inter',
+    )
+  );
+
+  // FAB — secondary (turquoise) styling
+  @include mat.fab-overrides(
+    (
+      container-shape: 20px,
+    )
+  );
+
+  // Dialog — rounded
+  @include mat.dialog-overrides(
+    (
+      container-shape: 24px,
+    )
+  );
+
+  // Toolbar
+  @include mat.toolbar-overrides(
+    (
+      title-text-font: 'Quicksand',
+      title-text-weight: 600,
+    )
+  );
+}
+
+// --- Dark mode image treatment ---
+// Prevent food images from looking washed out against dark backgrounds
+@media (prefers-color-scheme: dark) {
+  .recipe-image-container img {
+    filter: brightness(0.95);
+  }
+}
+
+body.dark-mode {
+  .recipe-image-container img {
+    filter: brightness(0.95);
+  }
+}

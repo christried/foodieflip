@@ -1,0 +1,26 @@
+// Font imports via Google Fonts are loaded in index.html for performance.
+
+:root {
+  // Font families
+  --font-brand: 'Quicksand', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  // Heading scale
+  --text-display-lg: 600 2.25rem / 1.2 var(--font-brand);
+  --text-display-md: 600 1.75rem / 1.25 var(--font-brand);
+  --text-display-sm: 600 1.5rem / 1.3 var(--font-brand);
+
+  --text-headline-lg: 600 1.375rem / 1.3 var(--font-brand);
+  --text-headline-md: 600 1.125rem / 1.35 var(--font-brand);
+  --text-headline-sm: 600 1rem / 1.4 var(--font-brand);
+
+  // Body scale
+  --text-body-lg: 400 1rem / 1.6 var(--font-body);
+  --text-body-md: 400 0.875rem / 1.6 var(--font-body);
+  --text-body-sm: 400 0.75rem / 1.5 var(--font-body);
+
+  // Label scale
+  --text-label-lg: 500 0.875rem / 1.4 var(--font-body);
+  --text-label-md: 500 0.75rem / 1.4 var(--font-body);
+  --text-label-sm: 500 0.6875rem / 1.4 var(--font-body);
+}
