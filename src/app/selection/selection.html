@@ -1,45 +1,31 @@
-<mat-card class="selection-card" appearance="filled">
+<mat-card class="selection-card" appearance="raised">
   <mat-card-header>
     <mat-card-title class="selection-card-title">Preferred Preparation Time</mat-card-title>
   </mat-card-header>
 
   <mat-card-content class="selection-buttons">
-    <button
-      matFab
-      extended
-      (click)="onClickButton('quick')"
-      matTooltip="20 minutes or less!"
-      matTooltipPosition="left"
-    >
-      <mat-icon>bolt</mat-icon>
-      Quick
-    </button>
+    <div class="selection-option">
+      <button matFab extended (click)="onClickButton('quick')">
+        <mat-icon>bolt</mat-icon>
+        Quick
+      </button>
+      <span class="option-subtitle">20 minutes or less!</span>
+    </div>
 
-    <button
-      matFab
-      extended
-      (click)="onClickButton('ordinary')"
-      matTooltip="Done in less than 40 minutes"
-      matTooltipPosition="left"
-    >
-      <mat-icon>restaurant</mat-icon>
-      Ordinary
-    </button>
+    <div class="selection-option">
+      <button matFab extended (click)="onClickButton('ordinary')">
+        <mat-icon>restaurant</mat-icon>
+        Ordinary
+      </button>
+      <span class="option-subtitle">Done in less than 40 minutes</span>
+    </div>
 
-    <button
-      matFab
-      extended
-      (click)="onClickButton('complex')"
-      matTooltip="This is gonna take some time"
-      matTooltipPosition="left"
-    >
-      <mat-icon>menu_book</mat-icon>
-      Complex
-    </button>
+    <div class="selection-option">
+      <button matFab extended (click)="onClickButton('complex')">
+        <mat-icon>menu_book</mat-icon>
+        Complex
+      </button>
+      <span class="option-subtitle">This is gonna take some time</span>
+    </div>
   </mat-card-content>
-  <mat-card-footer class="selection-footer">
-    <p>Step 1: Roll a Recipe until you're in love with it</p>
-    <p>Step 2: Enjoy!</p>
-    <p>Step 3: Repeat</p>
-  </mat-card-footer>
 </mat-card>

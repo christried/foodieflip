@@ -1,7 +1,7 @@
 <div class="app-container">
   <app-header />
 
-  <div
+  <main
     class="body-cards"
     [class.no-recipe]="!recipesService.currentRecipe()"
     [class.spinner-active]="recipesService.spinnerStatus() === 'on'"
@@ -9,15 +9,19 @@
     <app-selection class="selection-component" />
 
     <app-recipe class="recipe-component" />
-  </div>
+  </main>
 
   <app-footer [title]="title()" [version]="version()" />
 </div>
 
-<div class="submit-button">
-  <button matFab color="primary" aria-label="Submit new recipe" (click)="onClickSubmitNewRecipe()">
-    <mat-icon>add</mat-icon>
-  </button>
+<button
+  class="submit-fab"
+  matFab
+  color="primary"
+  aria-label="Submit new recipe"
+  (click)="onClickSubmitNewRecipe()"
+>
+  <mat-icon>add</mat-icon>
+</button>
 
-  <router-outlet />
-</div>
+<router-outlet />

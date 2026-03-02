@@ -172,7 +172,10 @@ export class RecipeSubmissionDialog {
     });
   }
 
-  onClickAddItem(itemType: 'ingredient' | 'instruction') {
+  onClickAddItem(itemType: 'ingredient' | 'instruction', event?: Event) {
+    if (event) {
+      event.preventDefault();
+    }
     const inputValue =
       itemType === 'ingredient' ? this.ingredientsCtrl?.value : this.instructionsCtrl?.value;
 

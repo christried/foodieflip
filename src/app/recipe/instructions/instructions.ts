@@ -1,9 +1,8 @@
 import { Component, input } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-instructions',
-  imports: [MatCardModule],
+  imports: [],
   templateUrl: './instructions.html',
   styleUrl: './instructions.scss',
 })

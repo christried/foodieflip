@@ -18,7 +18,7 @@ import { RecipeSubmissionDialog } from './dialogs/recipe-submission-dialog/recip
 })
 export class App {
   protected readonly title = signal('foodieflip');
-  protected readonly version = signal('0.1');
+  protected readonly version = signal('0.2');
   public readonly recipesService = inject(RecipesService);
   readonly dialog = inject(MatDialog);
 

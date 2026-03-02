@@ -1,79 +1,56 @@
-.actions-card {
+.actions-section {
   display: flex;
-  flex-flow: column wrap;
-}
-
-.actions-row {
-  padding: 1rem;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-8);
+  padding: var(--space-16);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--radius-md);
 }
 
 .cta-rating {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  gap: 0.25rem;
-  flex: 1 0 30%;
 
-  //   border: 2px solid green;
+  h4 {
+    margin: 0;
+    font-family: var(--font-brand);
+  }
+
+  .cta-subtitle {
+    margin: var(--space-4) 0 0;
+    font: var(--text-body-sm);
+    color: var(--mat-sys-on-surface-variant);
+  }
 }
 
-.cta-rating h3,
-p {
-  margin: 0;
-}
-
-.sentiment-icon-buttons {
-  transform: scale(1.5);
+.vote-buttons {
   display: flex;
-  gap: 0;
-
-  // border: 2px solid green;
+  gap: var(--space-16);
 }
 
-.sentiment-good-icon-button {
-  color: green;
-}
-
-.sentiment-bad-icon-button {
-  color: red;
-}
-
-.sentiment-good-icon-button:disabled,
-.sentiment-bad-icon-button:disabled {
-  opacity: 0.1;
+.vote-button {
   transition:
-    opacity 150ms ease,
-    filter 150ms ease;
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover:not(:disabled) {
+    transform: scale(1.15);
+  }
 }
 
-.voted-for-this:disabled {
+.vote-up {
+  color: var(--mat-sys-primary);
+}
+
+.vote-down {
+  color: var(--mat-sys-error);
+}
+
+.vote-button:disabled {
+  opacity: 0.15;
+  transition: opacity var(--transition-normal);
+}
+
+.vote-button.voted:disabled {
   opacity: 0.8;
-}
-
-.ai-image-warning {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-
-  border: 2px solid grey;
-  border-radius: 1rem;
-}
-
-.submitted-by-row {
-  align-self: flex-end;
-  font-size: 0.75rem;
-  padding: 0 0.5rem 0.25rem 0;
-
-  // border: 2px solid green;
-}
-.submitter {
-  font-style: italic;
-  font-size: 1rem;
 }

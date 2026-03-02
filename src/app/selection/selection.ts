@@ -5,11 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Complexity } from '../complexity.model';
 import { RecipesService } from '../recipes.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-selection',
-  imports: [MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule],
+  imports: [MatCardModule, MatIconModule, MatButtonModule],
   templateUrl: './selection.html',
   styleUrl: './selection.scss',
 })

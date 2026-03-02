@@ -7,14 +7,14 @@
 mat-dialog-content {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-16);
   flex-grow: 1;
-
   scrollbar-width: none;
 }
 
 .dialog-description {
   margin: 0;
+  font: var(--text-body-md);
   color: var(--mat-sys-on-surface-variant);
 }
 
@@ -24,7 +24,7 @@ mat-dialog-content {
 
 .selected-file-name {
   margin: 0;
-  font-size: 0.875rem;
+  font: var(--text-body-sm);
   color: var(--mat-sys-on-surface-variant);
   white-space: nowrap;
   overflow: hidden;
@@ -34,6 +34,6 @@ mat-dialog-content {
 
 .error-message {
   margin: 0;
-  font-size: 0.875rem;
+  font: var(--text-body-sm);
   color: var(--mat-sys-error);
 }
