@@ -12,7 +12,7 @@
 
 .feedback-dialog-texarea {
   flex-grow: 1;
-  padding-bottom: 3rem;
+  padding-bottom: var(--space-32);
 
   textarea {
     height: 100% !important;
@@ -20,5 +20,5 @@
 }
 
 .feedback-dialog-input {
-  padding-bottom: 1rem;
+  padding-bottom: var(--space-16);
 }

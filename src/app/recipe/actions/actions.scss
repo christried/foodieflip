@@ -1,79 +1,58 @@
-.actions-card {
+.actions-section {
   display: flex;
-  flex-flow: column wrap;
-}
-
-.actions-row {
-  padding: 1rem;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-12);
+  padding: var(--space-24);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--radius-md);
+  background: light-dark(rgba(218, 253, 186, 0.08), rgba(69, 196, 176, 0.06));
 }
 
 .cta-rating {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  gap: 0.25rem;
-  flex: 1 0 30%;
 
-  //   border: 2px solid green;
+  h4 {
+    margin: 0;
+    font-family: var(--font-brand);
+    color: var(--mat-sys-on-surface);
+  }
+
+  .cta-subtitle {
+    margin: var(--space-4) 0 0;
+    font: var(--text-body-sm);
+    color: var(--brand-turquoise);
+  }
 }
 
-.cta-rating h3,
-p {
-  margin: 0;
-}
-
-.sentiment-icon-buttons {
-  transform: scale(1.5);
+.vote-buttons {
   display: flex;
-  gap: 0;
-
-  // border: 2px solid green;
+  gap: var(--space-24);
 }
 
-.sentiment-good-icon-button {
-  color: green;
-}
-
-.sentiment-bad-icon-button {
-  color: red;
-}
-
-.sentiment-good-icon-button:disabled,
-.sentiment-bad-icon-button:disabled {
-  opacity: 0.1;
+.vote-button {
   transition:
-    opacity 150ms ease,
-    filter 150ms ease;
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover:not(:disabled) {
+    transform: scale(1.4);
+  }
 }
 
-.voted-for-this:disabled {
+.vote-up {
+  color: var(--brand-turquoise);
+}
+
+.vote-down {
+  color: var(--mat-sys-error);
+}
+
+.vote-button:disabled {
+  opacity: 0.15;
+  transition: opacity var(--transition-normal);
+}
+
+.vote-button.voted:disabled {
   opacity: 0.8;
-}
-
-.ai-image-warning {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-
-  border: 2px solid grey;
-  border-radius: 1rem;
-}
-
-.submitted-by-row {
-  align-self: flex-end;
-  font-size: 0.75rem;
-  padding: 0 0.5rem 0.25rem 0;
-
-  // border: 2px solid green;
-}
-.submitter {
-  font-style: italic;
-  font-size: 1rem;
 }

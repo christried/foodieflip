@@ -1,29 +1,43 @@
 .selection-card {
   max-width: 100%;
-  padding: 1rem;
-
+  padding: var(--space-24);
   display: flex;
   align-items: center;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: var(--card-border);
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
+
+  &:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
 }
 
 .selection-card-title {
   text-align: center;
+  font-family: var(--font-brand);
+  color: var(--brand-turquoise);
 }
 
 .selection-buttons {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 1rem 0px;
+  gap: var(--space-16);
+  padding: var(--space-16) 0;
 }
 
-.selection-footer {
+.selection-option {
   display: flex;
-  flex-flow: column wrap;
-  text-align: center;
-  padding: 1rem;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
 }
 
-.selection-footer p {
-  margin: 0.25rem 0;
+.option-subtitle {
+  font: var(--text-body-md);
+  font-style: italic;
+  color: var(--mat-sys-on-surface-variant);
+  text-align: center;
 }

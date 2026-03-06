@@ -1,9 +1,8 @@
-<mat-card appearance="outlined">
-  <mat-card-content>
-    <ul class="ingredient-list">
-      @for (ingredient of ingredients(); track $index) {
-        <li class="ingredient">• {{ ingredient }}</li>
-      }
-    </ul>
-  </mat-card-content>
-</mat-card>
+<section class="ingredients-section">
+  <h4 class="section-heading">Ingredients</h4>
+  <ul class="ingredient-list">
+    @for (ingredient of ingredients(); track $index) {
+      <li class="ingredient">{{ ingredient }}</li>
+    }
+  </ul>
+</section>

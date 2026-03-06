@@ -1,0 +1,161 @@
+//   Primary:   #13678A (Deep Blue)
+//   Secondary: #45C4B0 (Turquoise)
+//   Tertiary:  #9AEBA3 (Light Green)
+//   Neutral:   #012030 (Dark Navy)
+//   Surface:   #DAFDBA (Pale Lime)
+
+@use '@angular/material' as mat;
+@use './theme-colors' as theme;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: theme.$primary-palette,
+        tertiary: theme.$tertiary-palette,
+        theme-type: color-scheme,
+      ),
+      typography: (
+        brand-family: 'Quicksand',
+        plain-family: 'Inter',
+        bold-weight: 700,
+        medium-weight: 500,
+        regular-weight: 400,
+      ),
+      density: 0,
+    )
+  );
+}
+
+// Default to dark mode
+html {
+  color-scheme: dark;
+}
+
+body.dark-mode {
+  color-scheme: dark;
+}
+
+body.light-mode {
+  color-scheme: light;
+}
+
+// --- Component token overrides ---
+html {
+  // Card — high elevation with large border-radius
+  @include mat.card-overrides(
+    (
+      elevated-container-shape: 24px,
+    )
+  );
+
+  // Chips — mint
+  @include mat.chips-overrides(
+    (
+      label-text-size: 0.75rem,
+      label-text-font: 'Inter',
+      elevated-container-color: var(--brand-mint),
+      outline-color: var(--brand-mint),
+      label-text-color: var(--brand-navy),
+    )
+  );
+
+  // FAB — turquoise
+  @include mat.fab-overrides(
+    (
+      container-shape: 20px,
+      container-color: var(--brand-turquoise),
+      foreground-color: var(--brand-navy),
+      state-layer-color: var(--brand-navy),
+      ripple-color: rgba(1, 32, 48, 0.15),
+    )
+  );
+
+  // Filled button — turquoise
+  @include mat.button-overrides(
+    (
+      filled-container-color: var(--brand-turquoise),
+      filled-label-text-color: var(--brand-navy),
+      filled-state-layer-color: var(--brand-navy),
+      filled-ripple-color: rgba(1, 32, 48, 0.15),
+      tonal-container-color: light-dark(#d4f4ed, #0d4039),
+      tonal-label-text-color: light-dark(#005046, var(--brand-turquoise-light)),
+      tonal-state-layer-color: light-dark(#005046, var(--brand-turquoise-light)),
+      tonal-ripple-color: light-dark(rgba(0, 80, 70, 0.12), rgba(95, 218, 197, 0.12)),
+      outlined-label-text-color: var(--brand-turquoise),
+      text-label-text-color: var(--brand-turquoise),
+    )
+  );
+
+  // Dialog — rounded
+  @include mat.dialog-overrides(
+    (
+      container-shape: 24px,
+    )
+  );
+
+  // Toolbar
+  @include mat.toolbar-overrides(
+    (
+      title-text-font: 'Quicksand',
+      title-text-weight: 600,
+    )
+  );
+
+  // Stepper — turquoise
+  @include mat.stepper-overrides(
+    (
+      header-selected-state-icon-background-color: var(--brand-turquoise),
+      header-selected-state-icon-foreground-color: var(--brand-navy),
+      header-done-state-icon-background-color: var(--brand-mint),
+      header-done-state-icon-foreground-color: var(--brand-navy),
+      header-edit-state-icon-background-color: var(--brand-turquoise),
+      header-edit-state-icon-foreground-color: var(--brand-navy),
+      line-color: var(--brand-turquoise),
+    )
+  );
+
+  // Form field — turquoise
+  @include mat.form-field-overrides(
+    (
+      filled-focus-active-indicator-color: var(--brand-turquoise),
+      filled-caret-color: var(--brand-turquoise),
+      filled-focus-label-text-color: var(--brand-turquoise),
+      outlined-focus-outline-color: var(--brand-turquoise),
+      outlined-caret-color: var(--brand-turquoise),
+      outlined-focus-label-text-color: var(--brand-turquoise),
+    )
+  );
+
+  // Progress spinner — turquoise
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: var(--brand-turquoise),
+    )
+  );
+
+  // Checkbox — turquoise
+  @include mat.checkbox-overrides(
+    (
+      selected-checkmark-color: var(--brand-navy),
+      selected-icon-color: var(--brand-turquoise),
+      selected-focus-icon-color: var(--brand-turquoise-dark),
+      selected-hover-icon-color: var(--brand-turquoise-dark),
+      selected-pressed-icon-color: var(--brand-turquoise-dark),
+    )
+  );
+}
+
+// --- Dark mode image treatment ---
+// Prevent food images from looking washed out against dark backgrounds
+@media (prefers-color-scheme: dark) {
+  .recipe-image-container img {
+    filter: brightness(0.95);
+  }
+}
+
+body.dark-mode {
+  .recipe-image-container img {
+    filter: brightness(0.95);
+  }
+}

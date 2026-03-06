@@ -1,22 +1,48 @@
-// mat-toolbar-row is a flexbox container by default
-
 .header-toolbar {
-  margin: 1rem 0;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
+  padding: var(--space-16) var(--space-24);
+  background: transparent;
+  border-bottom: 1px solid light-dark(rgba(0, 0, 0, 0.08), rgba(69, 196, 176, 0.15));
 }
 
-.header-title img {
-  width: 25%;
-  height: auto;
-}
-
-.development-notice {
-  font-size: 0.75rem;
-  padding-right: 0.5rem;
-
+.header-left {
+  flex: 1;
   display: flex;
   align-items: center;
 }
-.development-icon {
-  transform: scale(1.5);
+
+.header-center {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.header-logo {
+  max-width: 225px;
+  height: auto;
+  display: block;
+
+  @media (max-width: 480px) {
+    max-width: 140px;
+  }
+}
+
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4);
+}
+
+.dev-badge {
+  font: var(--text-label-sm);
+  color: var(--brand-turquoise);
+  padding: var(--space-4) var(--space-12);
+  border: 1px solid var(--brand-turquoise);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  background: light-dark(rgba(69, 196, 176, 0.08), rgba(69, 196, 176, 0.1));
 }

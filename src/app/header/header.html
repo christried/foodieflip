@@ -1,16 +1,24 @@
 <mat-toolbar class="header-toolbar">
-  <div class="header-title"><img src="hero_logo.png" /></div>
-
-  <div class="development-notice">
-    <p>in early development</p>
+  <div class="header-left">
     <button
-      matIconButton
-      aria-label="icon-button with build-circle icon"
-      matTooltip="Click here if you want to contribute and provide constructive feedback to the developer"
-      matTooltipPosition="left"
+      mat-icon-button
+      aria-label="Provide feedback to the developer"
+      matTooltip="Send feedback to the developer"
+      matTooltipPosition="below"
       (click)="openDevFeedbackDialog()"
     >
-      <mat-icon class="development-icon">build_circle</mat-icon>
+      <mat-icon>build_circle</mat-icon>
+    </button>
+    <span class="dev-badge">in early development</span>
+  </div>
+
+  <div class="header-center">
+    <img [src]="logoSrc()" alt="Foodieflip logo" class="header-logo" />
+  </div>
+
+  <div class="header-right">
+    <button mat-icon-button aria-label="Toggle dark mode" (click)="toggleTheme()">
+      <mat-icon>{{ themeIcon() }}</mat-icon>
     </button>
   </div>
 </mat-toolbar>

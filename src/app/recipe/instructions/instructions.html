@@ -1,9 +1,8 @@
-<mat-card appearance="outlined" class="instructions-card">
-  <mat-card-content>
-    <ul class="instructions-list">
-      @for (instruction of instructions(); track $index) {
-        <li class="instruction">{{ instruction }}</li>
-      }
-    </ul>
-  </mat-card-content>
-</mat-card>
+<section class="instructions-section">
+  <h4 class="section-heading">Instructions</h4>
+  <ol class="instructions-list">
+    @for (instruction of instructions(); track $index) {
+      <li class="instruction">{{ instruction }}</li>
+    }
+  </ol>
+</section>

@@ -110,7 +110,7 @@ export class DevFeedbackDialog {
       display: flex;
     }
     .remove-icon {
-      color: black;
+      color: var(--mat-sys-on-surface);
     }
   `,
   imports: [

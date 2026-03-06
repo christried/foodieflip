@@ -7,17 +7,18 @@
 .body-cards {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 1rem;
-  padding: 1rem;
-  width: 70%;
+  gap: var(--space-24);
+  padding: var(--space-24);
+  width: var(--content-width);
+  max-width: var(--content-max-width);
   margin: 0 auto;
-  flex: 1; // grows body to push footer down
+  flex: 1;
 }
 
 .selection-component {
-  flex: 0 0 25%;
+  flex: 0 0 280px;
 }
 
 .body-cards.no-recipe .recipe-component {
@@ -26,6 +27,7 @@
 
 .recipe-component {
   flex: 1;
+  min-width: 0;
 }
 
 .body-cards.spinner-active .recipe-component {
@@ -35,15 +37,44 @@
   flex: 0 0 auto;
 }
 
-.submit-button {
+.submit-fab {
   position: fixed;
-  bottom: 5rem;
-  right: 1rem;
+  bottom: var(--space-32);
+  right: var(--space-32);
   z-index: 9999;
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
+
+  &:hover {
+    box-shadow:
+      0 0 20px rgba(69, 196, 176, 0.35),
+      0 4px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+  }
 }
 
+//Responsive Settings
 @media (min-width: 1024px) {
   .body-cards {
     flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .body-cards {
+    flex-direction: column;
+    width: 95%;
+    padding: var(--space-16);
+    gap: var(--space-16);
+  }
+
+  .selection-component {
+    flex: 1;
+  }
+
+  .submit-fab {
+    bottom: var(--space-16);
+    right: var(--space-16);
   }
 }
