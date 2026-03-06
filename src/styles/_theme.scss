@@ -27,9 +27,9 @@ html {
   );
 }
 
-//automatically adjusting to user's default
+// Default to dark mode
 html {
-  color-scheme: light dark;
+  color-scheme: dark;
 }
 
 body.dark-mode {

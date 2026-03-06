@@ -6,7 +6,9 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   border: var(--card-border);
-  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+  transition:
+    box-shadow var(--transition-normal),
+    transform var(--transition-normal);
 
   &:hover {
     box-shadow: var(--shadow-card-hover);
@@ -34,7 +36,8 @@
 }
 
 .option-subtitle {
-  font: var(--text-body-sm);
+  font: var(--text-body-md);
+  font-style: italic;
   color: var(--mat-sys-on-surface-variant);
   text-align: center;
 }

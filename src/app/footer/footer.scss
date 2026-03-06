@@ -28,11 +28,11 @@
 
 .legal-link {
   font: var(--text-label-md);
-  color: var(--brand-mint);
+  color: light-dark(var(--brand-turquoise-dark), var(--brand-mint));
   transition: color var(--transition-fast);
 
   &:hover {
-    color: var(--mat-sys-primary);
+    color: light-dark(var(--brand-deep-blue), var(--mat-sys-primary));
     text-decoration: underline;
   }
 }

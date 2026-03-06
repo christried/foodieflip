@@ -120,7 +120,7 @@
   left: 0;
   right: 0;
   padding: var(--space-8) var(--space-12);
-  background: linear-gradient(transparent, rgba(0, 0, 0, 1));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
   display: flex;
   justify-content: flex-end;
 }

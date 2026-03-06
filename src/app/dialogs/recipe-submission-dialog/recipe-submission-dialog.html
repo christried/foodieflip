@@ -194,7 +194,7 @@
 }
 
 <mat-dialog-actions>
-  <button matButton="filled" color="primary" (click)="onClickSubmit()" [disabled]="!canSubmit()">
+  <button matButton="filled" (click)="onClickSubmit()" [disabled]="!canSubmit()">
     {{ isUploading() ? 'Uploading...' : 'Submit' }}
   </button>
   <button matButton mat-dialog-close [disabled]="isUploading()">Close</button>

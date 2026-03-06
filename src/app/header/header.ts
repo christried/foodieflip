@@ -8,7 +8,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DevFeedbackDialog } from '../dialogs/dev-feedback-dialog/dev-feedback-dialog';
 import { DOCUMENT } from '@angular/common';
 
-type ThemeMode = 'system' | 'light' | 'dark';
+type ThemeMode = 'light' | 'dark';
 
 @Component({
   selector: 'app-header',
@@ -21,8 +21,9 @@ export class Header implements OnInit {
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
 
-  themeMode = signal<ThemeMode>('system');
-  themeIcon = signal<string>('brightness_auto');
+  themeMode = signal<ThemeMode>('dark');
+  themeIcon = signal<string>('dark_mode');
+  logoSrc = signal('hero_logo.png');
 
   private get isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -34,13 +35,13 @@ export class Header implements OnInit {
     if (saved) {
       this.themeMode.set(saved);
       this.applyTheme(saved);
+    } else {
+      this.applyTheme('dark');
     }
   }
 
   toggleTheme() {
-    const modes: ThemeMode[] = ['system', 'light', 'dark'];
-    const currentIndex = modes.indexOf(this.themeMode());
-    const next = modes[(currentIndex + 1) % modes.length];
+    const next: ThemeMode = this.themeMode() === 'dark' ? 'light' : 'dark';
     this.themeMode.set(next);
     this.applyTheme(next);
     if (this.isBrowser) {
@@ -52,18 +53,12 @@ export class Header implements OnInit {
     const body = this.document.body;
     body.classList.remove('dark-mode', 'light-mode');
 
-    switch (mode) {
-      case 'dark':
-        body.classList.add('dark-mode');
-        this.themeIcon.set('dark_mode');
-        break;
-      case 'light':
-        body.classList.add('light-mode');
-        this.themeIcon.set('light_mode');
-        break;
-      default:
-        this.themeIcon.set('brightness_auto');
-        break;
+    if (mode === 'dark') {
+      body.classList.add('dark-mode');
+      this.themeIcon.set('dark_mode');
+    } else {
+      body.classList.add('light-mode');
+      this.themeIcon.set('light_mode');
     }
   }
 
