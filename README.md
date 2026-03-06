@@ -4,7 +4,13 @@
 
 # Current Look (early development)
 
-![early mvp screenshot](/screenshots/early_mvp.png)
+- **0.2: pre-alpha MVP**
+  ![early alpha screenshot](/screenshots/02.png)
+
+# First Looks
+
+- **0.1: earliest mvp**
+  ![early mvp screenshot](/screenshots/01.png)
 
 # Backend
 
