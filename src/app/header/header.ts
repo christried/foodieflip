@@ -7,12 +7,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DevFeedbackDialog } from '../dialogs/dev-feedback-dialog/dev-feedback-dialog';
 import { DOCUMENT } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 type ThemeMode = 'light' | 'dark';
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule],
+  imports: [
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatDialogModule,
+    RouterLink,
+  ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
