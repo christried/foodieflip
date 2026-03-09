@@ -1,33 +1,45 @@
 <div class="actions-section">
-  <div class="cta-rating">
-    @if (!voteStatus()) {
-      <h4>Cooked this one?</h4>
-      <p class="cta-subtitle">Tell us how you liked it!</p>
-    } @else {
-      <h4>Thank you for your feedback!</h4>
-    }
+  <div class="voting-div">
+    <div class="cta-rating">
+      @if (!voteStatus()) {
+        <h4>Cooked this one?</h4>
+        <p class="cta-subtitle">Tell us how you liked it!</p>
+      } @else {
+        <h4>Thank you for your feedback!</h4>
+      }
+    </div>
+
+    <div class="vote-buttons">
+      <button
+        matIconButton
+        class="vote-button vote-up"
+        (click)="onClickVote('upvote')"
+        [disabled]="voteStatus()"
+        [class.voted]="voteStatus() === 'upvote'"
+        aria-label="Upvote this recipe"
+      >
+        <mat-icon>thumb_up</mat-icon>
+      </button>
+      <button
+        matIconButton
+        class="vote-button vote-down"
+        (click)="onClickVote('downvote')"
+        [disabled]="voteStatus()"
+        [class.voted]="voteStatus() === 'downvote'"
+        aria-label="Downvote this recipe"
+      >
+        <mat-icon>thumb_down</mat-icon>
+      </button>
+    </div>
   </div>
 
-  <div class="vote-buttons">
-    <button
-      mat-icon-button
-      class="vote-button vote-up"
-      (click)="onClickVote('upvote')"
-      [disabled]="voteStatus()"
-      [class.voted]="voteStatus() === 'upvote'"
-      aria-label="Upvote this recipe"
-    >
-      <mat-icon>thumb_up</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      class="vote-button vote-down"
-      (click)="onClickVote('downvote')"
-      [disabled]="voteStatus()"
-      [class.voted]="voteStatus() === 'downvote'"
-      aria-label="Downvote this recipe"
-    >
-      <mat-icon>thumb_down</mat-icon>
-    </button>
-  </div>
+  <button
+    matIconButton
+    [cdkCopyToClipboard]="shareUrl()"
+    (click)="openSnackBar()"
+    matTooltip="Copy link to clipboard"
+    matTooltipPosition="above"
+  >
+    <mat-icon>add_link</mat-icon>
+  </button>
 </div>
