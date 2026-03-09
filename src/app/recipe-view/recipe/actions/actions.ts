@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { RecipesService } from '../../recipes.service';
+import { RecipesService } from '../../../recipes.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 

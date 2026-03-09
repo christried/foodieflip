@@ -10,10 +10,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { Ingredients } from './ingredients/ingredients';
 import { Instructions } from './instructions/instructions';
 import { Actions } from './actions/actions';
-import { RecipesService } from '../recipes.service';
+import { RecipesService } from '../../recipes.service';
 
-import { FullsizeImageDialog } from '../dialogs/fullsize-image-dialog/fullsize-image-dialog';
-import { AiImageDialog } from '../dialogs/ai-image-dialog/ai-image-dialog';
+import { FullsizeImageDialog } from '../../dialogs/fullsize-image-dialog/fullsize-image-dialog';
+import { AiImageDialog } from '../../dialogs/ai-image-dialog/ai-image-dialog';
 
 @Component({
   selector: 'app-recipe',

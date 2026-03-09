@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { Selection } from './selection/selection';
+import { Selection } from './recipe-view/selection/selection';
+import { RecipeView } from './recipe-view/recipe-view';
 
 export const routes: Routes = [
   // home: only the selection card
@@ -11,7 +12,7 @@ export const routes: Routes = [
   // recipe view: selection + recipe side-by-side
   {
     path: 'recipe/:id',
-    loadComponent: () => import('./recipe-view/recipe-view').then((m) => m.RecipeView),
+    component: RecipeView,
     title: 'Recipe',
   },
   // legal/info pages
