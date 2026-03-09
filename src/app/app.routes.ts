@@ -6,12 +6,12 @@ export const routes: Routes = [
   // home: only the selection card
   {
     path: '',
-    component: Selection,
+    component: RecipeView,
     title: 'Foodie Flip',
   },
   // recipe view: selection + recipe side-by-side
   {
-    path: 'recipe/:id',
+    path: 'recipe/:shortTitle',
     component: RecipeView,
     title: 'Recipe',
   },
