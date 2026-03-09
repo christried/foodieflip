@@ -13,7 +13,8 @@
   matFab
   aria-label="Submit new recipe"
   matTooltip="Submit a new recipe"
-  (click)="onClickSubmitNewRecipe()"
+  routerLink="/"
+  [queryParams]="{ dialog: 'submit' }"
 >
   <mat-icon>add</mat-icon>
 </button>

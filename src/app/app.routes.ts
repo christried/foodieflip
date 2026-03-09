@@ -1,6 +1,19 @@
-import { Routes } from '@angular/router';
-import { Selection } from './recipe-view/selection/selection';
+import { ResolveFn, Routes } from '@angular/router';
 import { RecipeView } from './recipe-view/recipe-view';
+import { inject } from '@angular/core';
+import { catchError, map, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Recipe } from './recipe.model';
+
+const recipeTitleResolver: ResolveFn<string> = (route) => {
+  const shortTitle = route.paramMap.get('shortTitle')!;
+  return inject(HttpClient)
+    .get<Recipe>(`http://localhost:3000/api/recipes/${shortTitle}`)
+    .pipe(
+      map((recipe) => recipe.title),
+      catchError(() => of('Recipe')),
+    );
+};
 
 export const routes: Routes = [
   // home: only the selection card
@@ -13,7 +26,7 @@ export const routes: Routes = [
   {
     path: 'recipe/:shortTitle',
     component: RecipeView,
-    title: 'Recipe',
+    title: recipeTitleResolver,
   },
   // legal/info pages
   {

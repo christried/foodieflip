@@ -43,24 +43,8 @@ export class RecipesService {
     // skipping unsubscribe onDestroy since it's not necessary for http observables
   }
 
-  // loads recipe by ID when accessing a recipe using any way that doesnt involve setRandomRecipe()
-  // current use cases: accessing a recipe using the URL
-  loadRecipeByShortTitle(shortTitle: string) {
-    this.spinnerStatus.set('on');
-    this.httpClient
-      .get<Recipe>(`http://localhost:3000/api/recipes/${shortTitle}`)
-      .pipe(
-        catchError((error) => {
-          console.error(error);
-          return throwError(() => new Error('Could not load recipe'));
-        }),
-      )
-      .subscribe({
-        next: (recipe) => {
-          this.recipe.set(recipe);
-          this.spinnerStatus.set('off');
-        },
-      });
+  clearCurrentRecipe() {
+    this.recipe.set(undefined);
   }
 
   voteForRecipe(voteType: 'downvote' | 'upvote') {
@@ -84,6 +68,26 @@ export class RecipesService {
         console.log(err);
       },
     });
+  }
+
+  // loads recipe by ID when accessing a recipe using any way that doesnt involve setRandomRecipe()
+  // current use cases: accessing a recipe using the URL
+  loadRecipeByShortTitle(shortTitle: string) {
+    this.spinnerStatus.set('on');
+    this.httpClient
+      .get<Recipe>(`http://localhost:3000/api/recipes/${shortTitle}`)
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          return throwError(() => new Error('Could not load recipe'));
+        }),
+      )
+      .subscribe({
+        next: (recipe) => {
+          this.recipe.set(recipe);
+          this.spinnerStatus.set('off');
+        },
+      });
   }
 
   uploadRecipeImage(recipeId: string, image: File) {
