@@ -1,0 +1,52 @@
+.body-cards {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-24);
+  padding: var(--space-24);
+  width: var(--content-width);
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  flex: 1;
+}
+
+.selection-component {
+  flex: 0 0 280px;
+}
+
+.body-cards.no-recipe .recipe-component {
+  display: none;
+}
+
+.recipe-component {
+  flex: 1;
+  min-width: 0;
+}
+
+.body-cards.spinner-active .recipe-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+// Responsive Settings
+@media (min-width: 1024px) {
+  .body-cards {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .body-cards {
+    flex-direction: column;
+    width: 95%;
+    padding: var(--space-16);
+    gap: var(--space-16);
+  }
+
+  .selection-component {
+    flex: 1;
+  }
+}

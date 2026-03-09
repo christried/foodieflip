@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { catchError, throwError } from 'rxjs';
 import { Complexity } from './complexity.model';
@@ -10,6 +11,7 @@ import { Recipe, RecipeSubmission } from './recipe.model';
 })
 export class RecipesService {
   private httpClient = inject(HttpClient);
+  private router = inject(Router);
 
   private recipe = signal<Recipe | undefined>(undefined);
   public currentRecipe = this.recipe.asReadonly();
@@ -35,6 +37,7 @@ export class RecipesService {
         setTimeout(() => {
           this.recipe.set(recipe);
           this.spinnerStatus.set('off');
+          this.router.navigate(['/recipe', recipe.shortTitle]);
         }, 1000);
       },
     });

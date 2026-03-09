@@ -1,15 +1,17 @@
 <footer class="app-footer">
   <div class="footer-content">
     <div class="footer-brand">
-      {{ this.title() }} {{ this.version() }} &copy; 2026
-      <a href="https://github.com/christried" class="footer-link" target="_blank" rel="noopener">christried</a>
+      {{ title() }} {{ version() }} &copy; 2026
+      <a href="https://github.com/christried" class="footer-link" target="_blank" rel="noopener"
+        >christried</a
+      >
     </div>
 
-    <nav class="legal-links" aria-label="Legal">
-      <a href="/about" class="legal-link">About</a>
-      <a href="/contact" class="legal-link">Contact</a>
-      <a href="/imprint" class="legal-link">Imprint</a>
-      <a href="/privacy" class="legal-link">Privacy &amp; Terms of Use</a>
+    <nav class="footer-misc-links" aria-label="Footer Misc Links">
+      <a routerLink="/about" class="footer-misc-link">About</a>
+      <a routerLink="/contact" class="footer-misc-link">Contact</a>
+      <a routerLink="/imprint" class="footer-misc-link">Imprint</a>
+      <a routerLink="/privacy" class="footer-misc-link">Privacy &amp; Terms of Use</a>
     </nav>
   </div>
 </footer>

@@ -1,14 +1,8 @@
 <div class="app-container">
   <app-header />
 
-  <main
-    class="body-cards"
-    [class.no-recipe]="!recipesService.currentRecipe()"
-    [class.spinner-active]="recipesService.spinnerStatus() === 'on'"
-  >
-    <app-selection class="selection-component" />
-
-    <app-recipe class="recipe-component" />
+  <main class="main-content">
+    <router-outlet />
   </main>
 
   <app-footer [title]="title()" [version]="version()" />
@@ -23,5 +17,3 @@
 >
   <mat-icon>add</mat-icon>
 </button>
-
-<router-outlet />

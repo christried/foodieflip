@@ -19,14 +19,14 @@
   color: var(--mat-sys-primary);
 }
 
-.legal-links {
+.footer-misc-links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-16);
 }
 
-.legal-link {
+.footer-misc-link {
   font: var(--text-label-md);
   color: light-dark(var(--brand-turquoise-dark), var(--brand-mint));
   transition: color var(--transition-fast);
