@@ -3,8 +3,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { MatButtonModule } from '@angular/material/button';
-import { Complexity } from '../complexity.model';
-import { RecipesService } from '../recipes.service';
+import { Complexity } from '../../complexity.model';
+import { RecipesService } from '../../recipes.service';
 
 @Component({
   selector: 'app-selection',

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input } from '@angular/core';
 import { RecipesService } from '../recipes.service';
-import { Selection } from '../selection/selection';
-import { Recipe } from '../recipe/recipe';
+import { Selection } from './selection/selection';
+import { Recipe } from './recipe/recipe';
 
 @Component({
   selector: 'app-recipe-view',
@@ -13,4 +13,13 @@ import { Recipe } from '../recipe/recipe';
 export class RecipeView {
   protected readonly shortTitle = input<string>();
   public readonly recipesService = inject(RecipesService);
+
+  constructor() {
+    effect(() => {
+      const shortTitle = this.shortTitle();
+      if (shortTitle) {
+        this.recipesService.loadRecipeByShortTitle(shortTitle);
+      }
+    });
+  }
 }

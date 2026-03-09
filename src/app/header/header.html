@@ -9,12 +9,14 @@
     >
       <mat-icon>build_circle</mat-icon>
     </button>
-    <span class="dev-badge">in early development</span>
+    <span class="dev-badge">in development</span>
   </div>
 
-  <div class="header-center">
-    <img [src]="logoSrc()" alt="Foodieflip logo" class="header-logo" />
-  </div>
+  <a routerLink="/" (click)="onClickHero()">
+    <div class="header-center">
+      <img [src]="logoSrc()" alt="Foodieflip logo" class="header-logo" />
+    </div>
+  </a>
 
   <div class="header-right">
     <button mat-icon-button aria-label="Toggle theme" (click)="toggleTheme()">

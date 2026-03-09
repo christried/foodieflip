@@ -7,12 +7,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { DevFeedbackDialog } from '../dialogs/dev-feedback-dialog/dev-feedback-dialog';
 import { DOCUMENT } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { RecipesService } from '../recipes.service';
 
 type ThemeMode = 'light' | 'dark';
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbarModule, MatIconModule, MatButtonModule, MatTooltipModule, MatDialogModule],
+  imports: [
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    MatDialogModule,
+    RouterLink,
+  ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -20,6 +29,7 @@ export class Header implements OnInit {
   readonly dialog = inject(MatDialog);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
+  private recipesService = inject(RecipesService);
 
   themeMode = signal<ThemeMode>('dark');
   themeIcon = signal<string>('dark_mode');
@@ -67,5 +77,9 @@ export class Header implements OnInit {
       height: '46rem',
       width: '34.5rem',
     });
+  }
+
+  onClickHero() {
+    this.recipesService.clearCurrentRecipe();
   }
 }

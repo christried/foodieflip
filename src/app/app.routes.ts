@@ -1,18 +1,32 @@
-import { Routes } from '@angular/router';
-import { Selection } from './selection/selection';
+import { ResolveFn, Routes } from '@angular/router';
+import { RecipeView } from './recipe-view/recipe-view';
+import { inject } from '@angular/core';
+import { catchError, map, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Recipe } from './recipe.model';
+
+const recipeTitleResolver: ResolveFn<string> = (route) => {
+  const shortTitle = route.paramMap.get('shortTitle')!;
+  return inject(HttpClient)
+    .get<Recipe>(`http://localhost:3000/api/recipes/${shortTitle}`)
+    .pipe(
+      map((recipe) => recipe.title),
+      catchError(() => of('Recipe')),
+    );
+};
 
 export const routes: Routes = [
   // home: only the selection card
   {
     path: '',
-    component: Selection,
+    component: RecipeView,
     title: 'Foodie Flip',
   },
   // recipe view: selection + recipe side-by-side
   {
-    path: 'recipe/:id',
-    loadComponent: () => import('./recipe-view/recipe-view').then((m) => m.RecipeView),
-    title: 'Recipe',
+    path: 'recipe/:shortTitle',
+    component: RecipeView,
+    title: recipeTitleResolver,
   },
   // legal/info pages
   {

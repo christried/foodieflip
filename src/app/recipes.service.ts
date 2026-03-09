@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { catchError, throwError } from 'rxjs';
 import { Complexity } from './complexity.model';
 import { Recipe, RecipeSubmission } from './recipe.model';
@@ -44,6 +43,10 @@ export class RecipesService {
     // skipping unsubscribe onDestroy since it's not necessary for http observables
   }
 
+  clearCurrentRecipe() {
+    this.recipe.set(undefined);
+  }
+
   voteForRecipe(voteType: 'downvote' | 'upvote') {
     const PATCHVOTE = this.httpClient
       .patch<string>(`http://localhost:3000/api/recipes/vote`, {
@@ -65,6 +68,26 @@ export class RecipesService {
         console.log(err);
       },
     });
+  }
+
+  // loads recipe by ID when accessing a recipe using any way that doesnt involve setRandomRecipe()
+  // current use cases: accessing a recipe using the URL
+  loadRecipeByShortTitle(shortTitle: string) {
+    this.spinnerStatus.set('on');
+    this.httpClient
+      .get<Recipe>(`http://localhost:3000/api/recipes/${shortTitle}`)
+      .pipe(
+        catchError((error) => {
+          console.error(error);
+          return throwError(() => new Error('Could not load recipe'));
+        }),
+      )
+      .subscribe({
+        next: (recipe) => {
+          this.recipe.set(recipe);
+          this.spinnerStatus.set('off');
+        },
+      });
   }
 
   uploadRecipeImage(recipeId: string, image: File) {
