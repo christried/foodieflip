@@ -1,4 +1,4 @@
-@if (this.recipesService.currentRecipe() || this.recipesService.spinnerStatus() === 'on') {
+@if (this.recipesService.recipe() || this.recipesService.spinnerStatus() === 'on') {
   <mat-card
     appearance="raised"
     class="recipe-card"
@@ -6,7 +6,7 @@
   >
     @if (this.recipesService.spinnerStatus() === 'on') {
       <mat-progress-spinner mode="indeterminate" class="recipe-spinner"></mat-progress-spinner>
-    } @else if (this.recipesService.currentRecipe()) {
+    } @else if (this.recipesService.recipe()) {
       <mat-card-header class="recipe-header">
         <div class="header-col header-col-left">
           <mat-card-title class="recipe-title">{{ this.currentRecipe()!.title }}</mat-card-title>

@@ -33,7 +33,7 @@ import { AiImageDialog } from '../../dialogs/ai-image-dialog/ai-image-dialog';
 })
 export class Recipe {
   public recipesService = inject(RecipesService);
-  public currentRecipe = this.recipesService.currentRecipe;
+  public currentRecipe = this.recipesService.recipe;
 
   readonly dialog = inject(MatDialog);
 

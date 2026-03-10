@@ -22,7 +22,7 @@ export class Actions {
   protected readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
-  public currentRecipe = this.recipesService.currentRecipe;
+  public currentRecipe = this.recipesService.recipe;
   public voteStatus = signal<'upvote' | 'downvote' | null>(null);
 
   protected readonly shareUrl = computed<string>(() => `${environment.baseUrl}${this.router.url}`);

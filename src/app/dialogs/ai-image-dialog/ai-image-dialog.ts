@@ -79,7 +79,7 @@ export class AiImageDialog {
       display: flex;
     }
     .remove-icon {
-      color: var(--mat-sys-on-surface);
+      color: var(--brand-navy);
     }
   `,
   imports: [
