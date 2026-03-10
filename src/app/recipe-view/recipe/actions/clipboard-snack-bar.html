@@ -1,6 +1,11 @@
 <span matSnackBarLabel>Recipe link copied to clipboard!</span>
 <span matSnackBarActions>
-  <button mat-icon-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+  <button
+    mat-icon-button
+    matSnackBarAction
+    (click)="snackBarRef.dismissWithAction()"
+    aria-label="Dismiss"
+  >
     <mat-icon class="remove-icon">remove</mat-icon>
   </button>
 </span>

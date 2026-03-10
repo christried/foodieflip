@@ -16,7 +16,7 @@ import {
       display: flex;
     }
     .remove-icon {
-      color: black;
+      color: var(--brand-navy);
     }
   `,
   imports: [
