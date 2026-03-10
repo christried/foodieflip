@@ -12,5 +12,5 @@ import { RecipesService } from '../../recipes.service';
 })
 export class FullsizeImageDialog {
   public recipesService = inject(RecipesService);
-  public currentRecipe = this.recipesService.currentRecipe;
+  public currentRecipe = this.recipesService.recipe;
 }
