@@ -18,12 +18,6 @@ const recipeResolver: ResolveFn<Recipe> = (route) => {
   );
 };
 
-const recipeTitleResolver: ResolveFn<string> = (route) => {
-  // Extract title from the resolved recipe data
-  const recipe = route.data['recipe'] as Recipe;
-  return recipe?.title || 'Recipe';
-};
-
 export const routes: Routes = [
   // home: only the selection card
   {
@@ -38,7 +32,6 @@ export const routes: Routes = [
     resolve: {
       recipe: recipeResolver,
     },
-    title: recipeTitleResolver,
   },
   // legal/info pages
   {

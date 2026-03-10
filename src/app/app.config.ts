@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {
   provideRouter,
+  TitleStrategy,
   withComponentInputBinding,
   withInMemoryScrolling,
 } from '@angular/router';
@@ -8,6 +9,7 @@ import {
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { AppTitleStrategy } from './app-title-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +21,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
+    { provide: TitleStrategy, useClass: AppTitleStrategy },
   ],
 };
