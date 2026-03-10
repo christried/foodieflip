@@ -19,3 +19,10 @@
   border-bottom: 1px solid light-dark(rgba(0, 0, 0, 0.08), rgba(69, 196, 176, 0.15));
   margin-bottom: var(--space-16);
 }
+
+.pages-card-footer {
+  padding-top: var(--space-16);
+  padding-left: var(--space-16);
+  border-top: 1px solid light-dark(rgba(0, 0, 0, 0.08), rgba(69, 196, 176, 0.15));
+  margin-top: var(--space-16);
+}
