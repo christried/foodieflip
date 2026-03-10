@@ -84,21 +84,18 @@ export class DevFeedbackDialog {
     const nameValue = this.name.value ?? 'anonymous';
     const feedbackValue = this.feedbackControl.value ?? '';
 
-    this.feedbackService
-      .sendFeedback(nameValue, feedbackValue)
-      .pipe(takeUntilDestroyed())
-      .subscribe({
-        next: (res) => {
-          this.dialogRef.close();
-          this.openSnackBar();
-        },
-        error: (err) => {
-          //message is set via UpdateErrorMessage function above
-          this.feedbackControl.setErrors({ apiError: true });
+    this.feedbackService.sendFeedback(nameValue, feedbackValue).subscribe({
+      next: (res) => {
+        this.dialogRef.close();
+        this.openSnackBar();
+      },
+      error: (err) => {
+        //message is set via UpdateErrorMessage function above
+        this.feedbackControl.setErrors({ apiError: true });
 
-          console.log('Forwarding Feedback through API failed:', err);
-        },
-      });
+        console.log('Forwarding Feedback through API failed:', err);
+      },
+    });
   }
 }
 
