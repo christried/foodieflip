@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-imprint',
-  imports: [],
+  imports: [MatCardModule],
   templateUrl: './imprint.html',
-  styleUrl: './imprint.scss',
+  styleUrls: ['./imprint.scss', '../pages.scss'],
 })
-export class Imprint {
-
-}
+export class Imprint {}

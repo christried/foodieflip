@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-privacy',
-  imports: [],
+  imports: [MatCardModule],
   templateUrl: './privacy.html',
-  styleUrl: './privacy.scss',
+  styleUrls: ['./privacy.scss', '../pages.scss'],
 })
-export class Privacy {
-
-}
+export class Privacy {}
