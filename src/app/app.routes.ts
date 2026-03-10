@@ -1,18 +1,27 @@
-import { ResolveFn, Routes } from '@angular/router';
+import { RedirectCommand, ResolveFn, Router, Routes } from '@angular/router';
 import { RecipeView } from './recipe-view/recipe-view';
 import { inject } from '@angular/core';
-import { catchError, map, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs';
 import { Recipe } from './recipe.model';
+import { RecipesService } from './recipes.service';
+
+const recipeResolver: ResolveFn<Recipe> = (route) => {
+  const shortTitle = route.paramMap.get('shortTitle')!;
+  const router = inject(Router);
+  const recipesService = inject(RecipesService);
+
+  return recipesService.getRecipeByShortTitle(shortTitle).pipe(
+    catchError(() => {
+      const notFoundUrl = router.parseUrl('/404');
+      throw new RedirectCommand(notFoundUrl);
+    }),
+  );
+};
 
 const recipeTitleResolver: ResolveFn<string> = (route) => {
-  const shortTitle = route.paramMap.get('shortTitle')!;
-  return inject(HttpClient)
-    .get<Recipe>(`http://localhost:3000/api/recipes/${shortTitle}`)
-    .pipe(
-      map((recipe) => recipe.title),
-      catchError(() => of('Recipe')),
-    );
+  // Extract title from the resolved recipe data
+  const recipe = route.data['recipe'] as Recipe;
+  return recipe?.title || 'Recipe';
 };
 
 export const routes: Routes = [
@@ -26,6 +35,9 @@ export const routes: Routes = [
   {
     path: 'recipe/:shortTitle',
     component: RecipeView,
+    resolve: {
+      recipe: recipeResolver,
+    },
     title: recipeTitleResolver,
   },
   // legal/info pages
@@ -48,6 +60,11 @@ export const routes: Routes = [
     path: 'privacy',
     loadComponent: () => import('./pages/privacy/privacy').then((m) => m.Privacy),
     title: 'Privacy and Terms',
+  },
+  {
+    path: '404',
+    loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
+    title: 'Not Found',
   },
   {
     path: '**',
