@@ -3,7 +3,7 @@ export interface Recipe {
   title: string;
   shortTitle: string;
   time: number;
-  imagePath: string;
+  imageExtension: string;
   imageUrl: string;
   fullsizeUrl: string;
   imageAlt: string;
