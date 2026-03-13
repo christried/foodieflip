@@ -9,8 +9,8 @@ export interface Recipe {
   imageAlt: string;
   ingredients: string[];
   instructions: string[];
-  tags_public: string[];
-  tags_internal: string[];
+  tagsPublic: string[];
+  tagsInternal: string[];
   upvotes: number;
   downvotes: number;
   submittedBy: string;

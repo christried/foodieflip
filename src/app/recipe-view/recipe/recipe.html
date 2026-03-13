@@ -17,7 +17,7 @@
         </div>
         <div class="header-col recipe-tags">
           <mat-chip-set aria-label="recipe tags">
-            @for (tag of this.currentRecipe()!.tags_public; track $index) {
+            @for (tag of this.currentRecipe()!.tagsPublic; track $index) {
               <mat-chip>{{ tag }}</mat-chip>
             }
           </mat-chip-set>
@@ -39,7 +39,7 @@
                   by <em>{{ this.currentRecipe()!.submittedBy }}</em>
                 </span>
               </div>
-              @if (currentRecipe()!.tags_internal.includes('ai-image')) {
+              @if (currentRecipe()!.tagsInternal.includes('ai-image')) {
                 <button
                   class="ai-badge"
                   (click)="openAiImageDialog()"
