@@ -37,7 +37,7 @@ export class RecipesService {
           this.recipe.set(recipe);
           this.spinnerStatus.set('off');
           this.router.navigate(['/recipe', recipe.shortTitle]);
-        }, 1000);
+        }, 750);
       },
     });
     // skipping unsubscribe onDestroy since it's not necessary for http observables
