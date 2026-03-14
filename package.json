@@ -7,7 +7,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:foodieflip": "node dist/foodieflip/server/server.mjs"
+    "serve:ssr:foodieflip": "node dist/foodieflip/server/server.mjs",
+    "heroku-postbuild": "ng build"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   },
   "prettier": {
     "printWidth": 100,

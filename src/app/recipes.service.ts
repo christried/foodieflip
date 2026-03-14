@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from '../environments/environment';
+import { API_BASE_URL } from './api.config';
 import { Complexity } from './complexity.model';
 import { Recipe, RecipeSubmission } from './recipe.model';
 
@@ -12,6 +12,7 @@ import { Recipe, RecipeSubmission } from './recipe.model';
 export class RecipesService {
   private httpClient = inject(HttpClient);
   private router = inject(Router);
+  private apiBaseUrl = inject(API_BASE_URL);
 
   public recipe = signal<Recipe | undefined>(undefined);
   public spinnerStatus = signal<'on' | 'off'>('off');
@@ -20,7 +21,7 @@ export class RecipesService {
     const currentId = this.recipe()?.id ?? 'norecipe';
 
     const GETRECIPE = this.httpClient
-      .get<Recipe>(`${environment.apiBaseUrl}/api/recipes/random/${complexity}`, {
+      .get<Recipe>(`${this.apiBaseUrl}/api/recipes/random/${complexity}`, {
         params: { id: currentId },
       })
       .pipe(
@@ -50,7 +51,7 @@ export class RecipesService {
   // Helper method to fetch recipe by shortTitle - returns Observable without side effects
   // Used by route resolver to avoid duplicate HTTP requests
   getRecipeByShortTitle(shortTitle: string): Observable<Recipe> {
-    return this.httpClient.get<Recipe>(`${environment.apiBaseUrl}/api/recipes/${shortTitle}`).pipe(
+    return this.httpClient.get<Recipe>(`${this.apiBaseUrl}/api/recipes/${shortTitle}`).pipe(
       catchError((error) => {
         console.error(error);
         return throwError(() => new Error('Could not load recipe'));
@@ -60,7 +61,7 @@ export class RecipesService {
 
   voteForRecipe(voteType: 'downvote' | 'upvote') {
     const PATCHVOTE = this.httpClient
-      .patch<string>(`${environment.apiBaseUrl}/api/recipes/vote`, {
+      .patch<string>(`${this.apiBaseUrl}/api/recipes/vote`, {
         id: this.recipe()?.id,
         voteType,
       })
@@ -86,7 +87,7 @@ export class RecipesService {
   loadRecipeByShortTitle(shortTitle: string) {
     this.spinnerStatus.set('on');
     this.httpClient
-      .get<Recipe>(`${environment.apiBaseUrl}/api/recipes/${shortTitle}`)
+      .get<Recipe>(`${this.apiBaseUrl}/api/recipes/${shortTitle}`)
       .pipe(
         catchError((error) => {
           console.error(error);
@@ -107,7 +108,7 @@ export class RecipesService {
     formData.append('image', image, image.name);
 
     return this.httpClient
-      .put<{ message: string }>(`${environment.apiBaseUrl}/api/submit/image`, formData)
+      .put<{ message: string }>(`${this.apiBaseUrl}/api/submit/image`, formData)
       .pipe(
         catchError((error) => {
           console.log(error);
@@ -129,7 +130,7 @@ export class RecipesService {
     }
 
     return this.httpClient
-      .post<{ message: string }>(`${environment.apiBaseUrl}/api/submit/recipe`, formData)
+      .post<{ message: string }>(`${this.apiBaseUrl}/api/submit/recipe`, formData)
       .pipe(
         catchError((error) => {
           console.log(error);
