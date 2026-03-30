@@ -34,11 +34,7 @@ export const routes: Routes = [
     },
   },
   // legal/info pages
-  {
-    path: 'about',
-    loadComponent: () => import('./pages/about/about').then((m) => m.About),
-    title: 'About',
-  },
+
   {
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
