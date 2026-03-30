@@ -2,15 +2,31 @@
   <div class="footer-content">
     <div class="footer-brand">
       {{ title() }} {{ version() }} &copy; 2026
-      <a href="https://github.com/christried" class="footer-link" target="_blank" rel="noopener"
+      <a
+        href="https://github.com/christried"
+        class="footer-misc-link"
+        target="_blank"
+        rel="noopener"
         >christried</a
       >
     </div>
 
     <nav class="footer-misc-links" aria-label="Footer Misc Links">
       <a routerLink="/contact" class="footer-misc-link">Contact</a>
-      <a routerLink="/imprint" class="footer-misc-link">Imprint</a>
-      <a routerLink="/privacy" class="footer-misc-link">Privacy &amp; Terms of Use</a>
+      <a
+        href="https://christried.me/imprint.html"
+        target="_blank"
+        rel="noopener"
+        class="footer-misc-link"
+        >Imprint</a
+      >
+      <a
+        href="https://christried.me/privacy.html"
+        target="_blank"
+        rel="noopener"
+        class="footer-misc-link"
+        >Privacy</a
+      >
     </nav>
   </div>
 </footer>

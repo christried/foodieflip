@@ -40,16 +40,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
     title: 'Contact',
   },
-  {
-    path: 'imprint',
-    loadComponent: () => import('./pages/imprint/imprint').then((m) => m.Imprint),
-    title: 'Imprint',
-  },
-  {
-    path: 'privacy',
-    loadComponent: () => import('./pages/privacy/privacy').then((m) => m.Privacy),
-    title: 'Privacy and Terms',
-  },
+
   {
     path: '404',
     loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
