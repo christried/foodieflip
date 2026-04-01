@@ -33,7 +33,7 @@ export class Header implements OnInit {
 
   themeMode = signal<ThemeMode>('dark');
   themeIcon = signal<string>('dark_mode');
-  logoSrc = signal('hero_logo.png');
+  logoSrc = signal('header-logo.webp');
 
   private get isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
