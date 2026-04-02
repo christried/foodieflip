@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  PLATFORM_ID,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isPlatformBrowser } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialogActions,
@@ -12,18 +20,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RecipesService } from '../../recipes.service';
 import { RecipeSubmissionSnackBarComponent } from './recipe-submission-snack-bar';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
+import { fromEvent } from 'rxjs';
 
 // config for form validation
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -42,181 +44,219 @@ const MIN_INSTRUCTIONS = 2;
     MatDialogClose,
     MatButtonModule,
     MatStepperModule,
-    FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     MatIconModule,
-    MatListModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecipeSubmissionDialog {
   private readonly dialogRef = inject(MatDialogRef<RecipeSubmissionDialog>);
-
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly recipesService = inject(RecipesService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly fb = inject(FormBuilder);
 
-  public ingredients = signal<string[]>([]);
-  public instructions = signal<string[]>([]);
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  selectedFile = signal<File | null>(null);
-  isUploading = signal(false);
-  errorMessageFile = signal<string>('');
+  readonly selectedFile = signal<File | null>(null);
+  readonly isUploading = signal(false);
+  readonly errorMessageFile = signal<string>('');
 
-  visitedSteps = signal<Set<number>>(new Set([0]));
-
-  private _formBuilder = inject(FormBuilder);
-
-  titleIngredientsFormGroup: FormGroup = this._formBuilder.group({
-    titleCtrl: ['', Validators.required],
-    ingredientsCtrl: [''],
-    ingredientsCountCtrl: [0, [Validators.required, Validators.min(MIN_INGREDIENTS)]],
-  });
-  instructionsTimeFormGroup: FormGroup = this._formBuilder.group({
-    instructionsCtrl: [''],
-    timeCtrl: ['', [Validators.required, Validators.min(5), Validators.max(999)]],
-    instructionsCountCtrl: [0, [Validators.required, Validators.min(MIN_INSTRUCTIONS)]],
-  });
-  userNameImageFormGroup: FormGroup = this._formBuilder.group({
-    userNameCtrl: [''],
-    termsAcceptedCtrl: [false, Validators.requiredTrue],
-  });
-
-  ingredientsCtrl = this.titleIngredientsFormGroup.get('ingredientsCtrl');
-  instructionsCtrl = this.instructionsTimeFormGroup.get('instructionsCtrl');
-
-  // Value Changes of the Checkbox aren't a signal initially,
-  // but can be converted to one to be then used in computed formErrors
-  private readonly termsAccepted = toSignal(
-    this.userNameImageFormGroup.get('termsAcceptedCtrl')!.valueChanges,
-    { initialValue: false },
+  readonly viewportWidth = signal(this.isBrowser ? window.innerWidth : 1024);
+  readonly stepperOrientation = computed<'horizontal' | 'vertical'>(() =>
+    this.viewportWidth() < 768 ? 'vertical' : 'horizontal',
   );
 
-  formErrors = computed<string[]>(() => {
-    const errors: string[] = [];
-    const visited = this.visitedSteps();
+  readonly editingItemType = signal<'ingredient' | 'instruction' | null>(null);
+  readonly editingIndex = signal<number | null>(null);
+  readonly editValue = signal('');
 
-    // Step 0 validation
-    if (visited.has(0)) {
-      const titleCtrl = this.titleIngredientsFormGroup.get('titleCtrl');
-      if (!titleCtrl?.value?.trim()) {
-        errors.push('a title');
-      }
-      if (this.ingredients().length < MIN_INGREDIENTS) {
-        errors.push(`at least ${MIN_INGREDIENTS} ingredients`);
-      }
-    }
-
-    // Step 1 validation
-    if (visited.has(1)) {
-      const timeCtrl = this.instructionsTimeFormGroup.get('timeCtrl');
-      if (!timeCtrl?.value || timeCtrl.invalid) {
-        errors.push('a valid prep time (5 to 999 min)');
-      }
-      if (this.instructions().length < MIN_INSTRUCTIONS) {
-        errors.push(`at least ${MIN_INSTRUCTIONS} instructions`);
-      }
-    }
-
-    // Step 2 validation
-    if (visited.has(2)) {
-      if (!this.termsAccepted()) {
-        errors.push('accepted the terms of service');
-      }
-    }
-
-    return errors;
+  readonly titleIngredientsFormGroup = this.fb.group({
+    titleCtrl: this.fb.nonNullable.control('', [Validators.required, Validators.maxLength(24)]),
+    ingredientInputCtrl: this.fb.nonNullable.control(''),
+    ingredientsCtrl: this.fb.nonNullable.array<string>([], Validators.minLength(MIN_INGREDIENTS)),
   });
 
-  formErrorMessage = computed<string>(() => {
-    const errors = this.formErrors();
-    const tosError = this.visitedSteps().has(2) && !this.termsAccepted();
-
-    const recipeErrors = errors.filter((e) => e !== 'accepted the terms of service');
-
-    let message = '';
-
-    if (recipeErrors.length === 1) {
-      message = `Your new recipe has to have ${recipeErrors[0]}.`;
-    } else if (recipeErrors.length > 1) {
-      const last = recipeErrors[recipeErrors.length - 1];
-      const rest = recipeErrors.slice(0, -1).join(', ');
-      message = `Your new recipe has to have ${rest}, and ${last}.`;
-    }
-
-    if (tosError) {
-      message += (message ? ' ' : '') + 'You must accept the Terms of Service before submitting.';
-    }
-
-    return message;
+  readonly instructionsTimeFormGroup = this.fb.group({
+    instructionInputCtrl: this.fb.nonNullable.control(''),
+    timeCtrl: this.fb.control<number | null>(null, [
+      Validators.required,
+      Validators.min(5),
+      Validators.max(999),
+    ]),
+    instructionsCtrl: this.fb.nonNullable.array<string>([], Validators.minLength(MIN_INSTRUCTIONS)),
   });
 
-  canSubmit = computed<boolean>(() => {
-    // All steps must have been visited and no errors remain, then submission should be possible
-    return (
-      this.visitedSteps().has(0) &&
-      this.visitedSteps().has(1) &&
-      this.visitedSteps().has(2) &&
-      this.formErrors().length === 0 &&
-      !this.isUploading()
-    );
+  readonly userNameImageFormGroup = this.fb.group({
+    userNameCtrl: this.fb.nonNullable.control(''),
+    termsAcceptedCtrl: this.fb.nonNullable.control(false, Validators.requiredTrue),
   });
 
-  onStepChange(index: number) {
-    this.visitedSteps.update((s) => {
-      const next = new Set(s);
-      next.add(index);
-      return next;
-    });
+  readonly titleCtrl = this.titleIngredientsFormGroup.controls.titleCtrl;
+  readonly ingredientInputCtrl = this.titleIngredientsFormGroup.controls.ingredientInputCtrl;
+  readonly timeCtrl = this.instructionsTimeFormGroup.controls.timeCtrl;
+  readonly instructionInputCtrl = this.instructionsTimeFormGroup.controls.instructionInputCtrl;
+  readonly termsAcceptedCtrl = this.userNameImageFormGroup.controls.termsAcceptedCtrl;
+
+  readonly ingredientsArray = this.titleIngredientsFormGroup.controls.ingredientsCtrl;
+  readonly instructionsArray = this.instructionsTimeFormGroup.controls.instructionsCtrl;
+
+  constructor() {
+    if (!this.isBrowser) {
+      return;
+    }
+
+    fromEvent(window, 'resize')
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.viewportWidth.set(window.innerWidth));
   }
 
-  onClickAddItem(itemType: 'ingredient' | 'instruction', event?: Event) {
+  isStep1Valid(): boolean {
+    return this.titleIngredientsFormGroup.valid;
+  }
+
+  isStep2Valid(): boolean {
+    return this.instructionsTimeFormGroup.valid;
+  }
+
+  isStep3Valid(): boolean {
+    return this.userNameImageFormGroup.valid;
+  }
+
+  canSubmit(): boolean {
+    return this.isStep1Valid() && this.isStep2Valid() && this.isStep3Valid() && !this.isUploading();
+  }
+
+  showTitleRequiredError(): boolean {
+    const show = this.titleCtrl.touched || this.titleCtrl.dirty;
+    return show && this.titleCtrl.hasError('required');
+  }
+
+  showTitleMaxLengthError(): boolean {
+    const show = this.titleCtrl.touched || this.titleCtrl.dirty;
+    return show && this.titleCtrl.hasError('maxlength');
+  }
+
+  showIngredientsCountError(): boolean {
+    const interacted =
+      this.ingredientInputCtrl.touched ||
+      this.ingredientInputCtrl.dirty ||
+      this.ingredientsArray.dirty ||
+      this.ingredientsArray.touched;
+    return interacted && this.ingredientsArray.length < MIN_INGREDIENTS;
+  }
+
+  showTimeRequiredError(): boolean {
+    const show = this.timeCtrl.touched || this.timeCtrl.dirty;
+    return show && this.timeCtrl.hasError('required');
+  }
+
+  showTimeRangeError(): boolean {
+    const show = this.timeCtrl.touched || this.timeCtrl.dirty;
+    return show && (this.timeCtrl.hasError('min') || this.timeCtrl.hasError('max'));
+  }
+
+  showInstructionsCountError(): boolean {
+    const interacted =
+      this.instructionInputCtrl.touched ||
+      this.instructionInputCtrl.dirty ||
+      this.instructionsArray.dirty ||
+      this.instructionsArray.touched;
+    return interacted && this.instructionsArray.length < MIN_INSTRUCTIONS;
+  }
+
+  showTermsRequiredError(): boolean {
+    const show = this.termsAcceptedCtrl.touched || this.termsAcceptedCtrl.dirty;
+    return show && this.termsAcceptedCtrl.hasError('required');
+  }
+
+  onClickAddItem(itemType: 'ingredient' | 'instruction', event?: Event): void {
     if (event) {
       event.preventDefault();
     }
-    const inputValue =
-      itemType === 'ingredient' ? this.ingredientsCtrl?.value : this.instructionsCtrl?.value;
+
+    const inputCtrl =
+      itemType === 'ingredient'
+        ? this.titleIngredientsFormGroup.controls.ingredientInputCtrl
+        : this.instructionsTimeFormGroup.controls.instructionInputCtrl;
+
+    const inputValue = inputCtrl.value.trim();
 
     if (!inputValue) {
       return;
     }
 
     if (itemType === 'ingredient') {
-      this.ingredients.update((i) => [...i, inputValue]);
-      this.ingredientsCtrl?.setValue('');
+      this.ingredientsArray.push(this.fb.nonNullable.control(inputValue));
+      this.titleIngredientsFormGroup.controls.ingredientInputCtrl.setValue('');
+      this.ingredientsArray.markAsDirty();
     } else {
-      this.instructions.update((i) => [...i, inputValue]);
-      this.instructionsCtrl?.setValue('');
+      this.instructionsArray.push(this.fb.nonNullable.control(inputValue));
+      this.instructionsTimeFormGroup.controls.instructionInputCtrl.setValue('');
+      this.instructionsArray.markAsDirty();
     }
-
-    this.syncCountControls();
   }
 
-  onClickRemoveItem(itemIndex: number, itemType: 'ingredient' | 'instruction') {
+  onClickRemoveItem(itemIndex: number, itemType: 'ingredient' | 'instruction'): void {
     if (itemType === 'ingredient') {
-      this.ingredients.update((ingredients) => ingredients.toSpliced(itemIndex, 1));
+      this.ingredientsArray.removeAt(itemIndex);
+      this.ingredientsArray.markAsDirty();
     } else {
-      this.instructions.update((instructions) => instructions.toSpliced(itemIndex, 1));
+      this.instructionsArray.removeAt(itemIndex);
+      this.instructionsArray.markAsDirty();
     }
 
-    this.syncCountControls();
+    if (this.editingItemType() === itemType && this.editingIndex() === itemIndex) {
+      this.onClickCancelItemEdit();
+    }
   }
 
-  // Stepper validates through FormControls. The Ingredients/Instructions are stored in signals.
-  // This + setting up hidden form controls, that just hold the lengths allows
-  // validation of them (minimum of 2 currently)
-  private syncCountControls() {
-    this.titleIngredientsFormGroup.get('ingredientsCountCtrl')?.setValue(this.ingredients().length);
-    this.instructionsTimeFormGroup
-      .get('instructionsCountCtrl')
-      ?.setValue(this.instructions().length);
+  onClickEditItem(itemIndex: number, itemType: 'ingredient' | 'instruction'): void {
+    const array = itemType === 'ingredient' ? this.ingredientsArray : this.instructionsArray;
+    const currentValue = array.at(itemIndex)?.value ?? '';
+
+    this.editingItemType.set(itemType);
+    this.editingIndex.set(itemIndex);
+    this.editValue.set(currentValue);
   }
 
-  // File Stuff
+  onEditValueInput(event: Event): void {
+    this.editValue.set((event.target as HTMLInputElement).value);
+  }
 
-  onFileSelected(event: Event) {
+  onClickSaveItemEdit(itemType: 'ingredient' | 'instruction'): void {
+    if (this.editingItemType() !== itemType || this.editingIndex() === null) {
+      return;
+    }
+
+    const nextValue = this.editValue().trim();
+
+    if (!nextValue) {
+      return;
+    }
+
+    const array = itemType === 'ingredient' ? this.ingredientsArray : this.instructionsArray;
+    const editIndex = this.editingIndex()!;
+    const control = array.at(editIndex);
+
+    if (!control) {
+      return;
+    }
+
+    control.setValue(nextValue);
+    this.onClickCancelItemEdit();
+  }
+
+  onClickCancelItemEdit(): void {
+    this.editingItemType.set(null);
+    this.editingIndex.set(null);
+    this.editValue.set('');
+  }
+
+  onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0] ?? null;
 
     if (file) {
@@ -236,19 +276,27 @@ export class RecipeSubmissionDialog {
     this.errorMessageFile.set('');
   }
 
-  onClickSubmit() {
-    const title = this.titleIngredientsFormGroup.get('titleCtrl')?.value?.trim();
-    const time = this.instructionsTimeFormGroup.get('timeCtrl')?.value;
-    const userName = this.userNameImageFormGroup.get('userNameCtrl')?.value?.trim() || 'Anonymous';
+  onClickSubmit(): void {
+    if (!this.canSubmit()) {
+      return;
+    }
+
+    const title = this.titleIngredientsFormGroup.controls.titleCtrl.value.trim();
+    const time = this.instructionsTimeFormGroup.controls.timeCtrl.value;
+    const userName = this.userNameImageFormGroup.controls.userNameCtrl.value.trim() || 'Anonymous';
     const file = this.selectedFile() ?? undefined;
+
+    if (!title || !time) {
+      return;
+    }
 
     this.isUploading.set(true);
 
     this.recipesService
       .submitRecipe({
         title,
-        ingredients: this.ingredients(),
-        instructions: this.instructions(),
+        ingredients: this.ingredientsArray.controls.map((c) => c.value),
+        instructions: this.instructionsArray.controls.map((c) => c.value),
         time,
         submittedBy: userName,
         image: file,
@@ -265,7 +313,7 @@ export class RecipeSubmissionDialog {
       });
   }
 
-  openSnackBar() {
+  openSnackBar(): void {
     this.snackBar.openFromComponent(RecipeSubmissionSnackBarComponent, {
       duration: 5000,
       verticalPosition: 'top',

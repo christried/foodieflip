@@ -1,5 +1,5 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
 import { Footer } from './footer/footer';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,15 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    Header,
-    Footer,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    RouterLink,
-  ],
+  imports: [RouterOutlet, Header, Footer, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -34,15 +26,21 @@ export class App {
 
   constructor() {
     effect(() => {
-      this.queryParams()?.get('dialog') === 'submit' && this.openSubmitDialog();
+      if (this.queryParams()?.get('dialog') === 'submit') {
+        this.openSubmitDialog();
+      }
     });
   }
 
-  openSubmitDialog() {
+  openSubmitDialog(): void {
     const dialogRef = this.dialog.open(RecipeSubmissionDialog, {
-      width: '900px',
-      maxWidth: '90vw',
-      height: '80vh',
+      width: '95vw',
+      maxWidth: '900px',
+      maxHeight: '90vh',
+      height: 'auto',
+      autoFocus: 'first-heading',
+      restoreFocus: true,
+      ariaLabel: 'Submit a new recipe',
     });
 
     dialogRef.afterClosed().subscribe(() => this.router.navigate(['/']));

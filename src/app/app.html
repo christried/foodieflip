@@ -11,10 +11,10 @@
 <button
   class="submit-fab"
   matFab
+  type="button"
   aria-label="Submit new recipe"
   matTooltip="Submit a new recipe"
-  routerLink="/"
-  [queryParams]="{ dialog: 'submit' }"
+  (click)="openSubmitDialog()"
 >
   <mat-icon>add</mat-icon>
 </button>
