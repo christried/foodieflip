@@ -14,6 +14,12 @@ export interface Recipe {
   upvotes: number;
   downvotes: number;
   submittedBy: string;
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED';
+  approvedAt?: string | null;
+  approvedBy?: string | null;
+  reviewNotes?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface RecipeSubmission {

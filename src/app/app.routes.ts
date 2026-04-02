@@ -40,6 +40,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
     title: 'Contact',
   },
+  {
+    path: 'admin',
+    loadComponent: () => import('./user/admin/admin').then((m) => m.Admin),
+    title: 'Admin',
+  },
 
   {
     path: '404',

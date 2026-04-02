@@ -1,0 +1,67 @@
+<section class="admin-page">
+  <h1>Pending Recipes ({{ pendingRecipes().length }})</h1>
+
+  @if (pageMessage()) {
+    <p class="message">{{ pageMessage() }}</p>
+  }
+
+  @if (pageError()) {
+    <p class="error">{{ pageError() }}</p>
+  }
+
+  @if (isLoading()) {
+    <p>Loading pending recipes...</p>
+  }
+
+  @if (!isLoading() && pendingRecipes().length === 0) {
+    <p>No pending recipes right now.</p>
+  }
+
+  @if (!isLoading() && pendingRecipes().length > 0) {
+    <ul class="recipe-list">
+      @for (recipe of pendingRecipes(); track recipe.id) {
+        <li class="recipe-item">
+          <h2>{{ recipe.title }}</h2>
+          <p>Submitted by: {{ recipe.submittedBy || 'Unknown' }}</p>
+          <p>Submitted at: {{ formatSubmittedAt(recipe.createdAt) }}</p>
+          <p>Time: {{ recipe.time }} min</p>
+          <p>Ingredients: {{ recipe.ingredients.length }}</p>
+
+          @if (recipe.imageUrl) {
+            <img [src]="recipe.imageUrl" [alt]="recipe.imageAlt || recipe.title" loading="lazy" />
+          }
+
+          <div class="actions-row">
+            <button
+              type="button"
+              (click)="approveRecipe(recipe.id)"
+              [disabled]="isRecipeBusy(recipe.id)"
+            >
+              Approve
+            </button>
+            <button
+              type="button"
+              (click)="rejectRecipe(recipe.id)"
+              [disabled]="isRecipeBusy(recipe.id)"
+            >
+              Reject
+            </button>
+          </div>
+
+          <label [for]="'reject-notes-' + recipe.id">Rejection notes (required):</label>
+          <textarea
+            [id]="'reject-notes-' + recipe.id"
+            [value]="rejectNotes(recipe.id)"
+            (input)="onRejectNotesInput(recipe.id, $event)"
+            [disabled]="isRecipeBusy(recipe.id)"
+            rows="3"
+          ></textarea>
+
+          @if (rejectError(recipe.id)) {
+            <p class="error">{{ rejectError(recipe.id) }}</p>
+          }
+        </li>
+      }
+    </ul>
+  }
+</section>
