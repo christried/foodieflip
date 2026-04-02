@@ -15,6 +15,14 @@
   flex: 0 0 280px;
 }
 
+.body-cards.no-recipe {
+  justify-content: center;
+}
+
+.body-cards.no-recipe .selection-component {
+  flex: 0 1 280px;
+}
+
 .body-cards.no-recipe .recipe-component {
   display: none;
 }
@@ -38,7 +46,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .body-cards {
     flex-direction: column;
     width: 95%;
@@ -48,5 +56,24 @@
 
   .selection-component {
     flex: 1;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .recipe-component {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .body-cards {
+    width: 95%;
+    padding: var(--space-16);
+    gap: var(--space-16);
+  }
+
+  .selection-component {
+    max-width: 100%;
   }
 }
