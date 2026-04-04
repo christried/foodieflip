@@ -49,7 +49,7 @@ jobs:
               "content": "📢 **Neuer Eintrag im Changelog zu Foodie Flip!**",
               "embeds": [{
                   "title": "📄 CHANGELOG.md ansehen",
-                  "url": f"https://github.com/{os.environ['REPO_NAME']}/blob/main/CHANGELOG.md",
+                  "url": f"https://github.com/{os.environ['REPO_NAME']}/blob/master/CHANGELOG.md",
                   "description": full_text,
                   "color": 8992538,
                   "timestamp": datetime.utcnow().isoformat() + "Z",
