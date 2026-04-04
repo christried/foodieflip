@@ -12,11 +12,11 @@
           <mat-card-title class="recipe-title">{{ this.currentRecipe()!.title }}</mat-card-title>
           <mat-card-subtitle class="recipe-time">
             <mat-icon class="time-icon">schedule</mat-icon>
-            {{ this.currentRecipe()!.time }} minutes
+            {{ this.currentRecipe()!.time }} Minuten
           </mat-card-subtitle>
         </div>
         <div class="header-col recipe-tags">
-          <mat-chip-set aria-label="recipe tags">
+          <mat-chip-set aria-label="Rezept-Tags">
             @for (tag of this.currentRecipe()!.tagsPublic; track $index) {
               <mat-chip>{{ tag }}</mat-chip>
             }
@@ -36,18 +36,18 @@
               />
               <div class="image-overlay-bottom">
                 <span class="submitter-badge">
-                  by <em>{{ this.currentRecipe()!.submittedBy }}</em>
+                  von <em>{{ this.currentRecipe()!.submittedBy }}</em>
                 </span>
               </div>
               @if (currentRecipe()!.tagsInternal.includes('ai-image')) {
                 <button
                   class="ai-badge"
                   (click)="openAiImageDialog()"
-                  matTooltip="This image is AI-generated. Click to submit a real photo."
+                  matTooltip="Dieses Bild wurde KI-generiert. Hier klicken, um dein eigenes Foto einzureichen."
                   matTooltipPosition="above"
                 >
                   <mat-icon>auto_awesome</mat-icon>
-                  <span>AI Image</span>
+                  <span>KI-Bild</span>
                 </button>
               }
             </div>

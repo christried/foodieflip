@@ -21,7 +21,7 @@ export class ContactService {
     return this.httpClient.post(`${this.apiBaseUrl}/api/contact`, payload).pipe(
       catchError((error) => {
         console.error(error);
-        return throwError(() => new Error('Could not send contact message'));
+        return throwError(() => new Error('Kontaktnachricht konnte nicht gesendet werden'));
       }),
     );
   }

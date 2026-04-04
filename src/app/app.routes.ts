@@ -38,7 +38,7 @@ export const routes: Routes = [
   {
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
-    title: 'Contact',
+    title: 'Kontakt',
   },
   {
     path: 'admin',
@@ -49,7 +49,7 @@ export const routes: Routes = [
   {
     path: '404',
     loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
-    title: 'Not Found',
+    title: 'Seite nicht gefunden',
   },
   {
     path: '**',

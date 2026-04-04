@@ -23,7 +23,7 @@ export class RecipeAdminService {
   getPendingRecipes(): Observable<Recipe[]> {
     return this.httpClient.get<Recipe[]>(`${this.apiBaseUrl}/api/recipes/pending`).pipe(
       catchError((error) => {
-        return throwError(() => this.toError(error, 'Failed to load pending recipes'));
+        return throwError(() => this.toError(error, 'Konnte ausstehende Rezepte nicht laden'));
       }),
     );
   }
@@ -35,7 +35,7 @@ export class RecipeAdminService {
       })
       .pipe(
         catchError((error) => {
-          return throwError(() => this.toError(error, 'Failed to approve recipe'));
+          return throwError(() => this.toError(error, 'Konnte Rezept nicht genehmigen'));
         }),
       );
   }
@@ -48,7 +48,7 @@ export class RecipeAdminService {
       })
       .pipe(
         catchError((error) => {
-          return throwError(() => this.toError(error, 'Failed to reject recipe'));
+          return throwError(() => this.toError(error, 'Konnte Rezept nicht ablehnen'));
         }),
       );
   }
@@ -56,7 +56,7 @@ export class RecipeAdminService {
   private toError(error: unknown, fallbackMessage: string): Error {
     if (error instanceof HttpErrorResponse) {
       if (error.status === 429) {
-        return new Error('Too many approvals, please try again later.');
+        return new Error('Zu viele Genehmigungen, bitte versuche es später erneut.');
       }
 
       return new Error(this.getApiErrorMessage(error) ?? fallbackMessage);

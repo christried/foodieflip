@@ -27,7 +27,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not retreive random recipe'));
+          return throwError(() => new Error('Konnte kein zufälliges Rezept abrufen'));
         }),
       );
 
@@ -54,7 +54,7 @@ export class RecipesService {
     return this.httpClient.get<Recipe>(`${this.apiBaseUrl}/api/recipes/${shortTitle}`).pipe(
       catchError((error) => {
         console.error(error);
-        return throwError(() => new Error('Could not load recipe'));
+        return throwError(() => new Error('Rezept konnte nicht geladen werden'));
       }),
     );
   }
@@ -68,7 +68,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not patch vote'));
+          return throwError(() => new Error('Bewertung konnte nicht gespeichert werden'));
         }),
       );
 
@@ -91,7 +91,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.error(error);
-          return throwError(() => new Error('Could not load recipe'));
+          return throwError(() => new Error('Rezept konnte nicht geladen werden'));
         }),
       )
       .subscribe({
@@ -112,7 +112,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not upload image'));
+          return throwError(() => new Error('Bild konnte nicht hochgeladen werden'));
         }),
       );
   }
@@ -134,7 +134,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not submit recipe'));
+          return throwError(() => new Error('Rezept konnte nicht eingereicht werden'));
         }),
       );
   }
