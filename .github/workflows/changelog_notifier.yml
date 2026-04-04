@@ -1,0 +1,50 @@
+name: Notify Discord on Changelog Update
+
+on:
+  push:
+    paths:
+      - 'CHANGELOG.md'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract Changelog Content
+        id: extract
+        run: |
+          # Extrahiert alles vom 1. Header (##) bis zum 3. Header (exklusiv)
+          CONTENT=$(awk '/^## / { count++ } count > 2 { exit } count >= 1 { print }' CHANGELOG.md)
+          
+          # Limit von Discord 4096 Zeichen
+          CONTENT_TRIMMED=$(echo "$CONTENT" | head -c 4000)
+
+          # JSON-Maskierung mit jq (verhindert Fehler bei Sonderzeichen)
+          CLEAN_CONTENT=$(echo "$CONTENT_TRIMMED" | jq -aRs .)
+          echo "payload=$CLEAN_CONTENT" >> $GITHUB_OUTPUT
+
+      - name: Send notification to Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{
+                     \"content\": \"📢 **Neuer Eintrag im Changelog zu Foodie Flip!**\",
+                     \"embeds\": [{
+                       \"title\": \"📄 CHANGELOG.md ansehen\",
+                       \"url\": \"https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md\",
+                       \"description\": ${{ steps.extract.outputs.payload }},
+                       \"color\": 3066993,
+                       \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\",
+                       \"footer\": {
+                         \"text\": \"${{ github.repository }} • GitHub Actions\",
+                         \"icon_url\": \"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"
+                       },
+                       \"author\": {
+                         \"name\": \"FoodieFlip Developer Updates\",
+                         \"icon_url\": \"https://cdn-icons-png.flaticon.com/512/1082/1082440.png\"
+                       }
+                     }]
+                   }" \
+               ${{ secrets.DISCORD_WEBHOOK_CHANGELOG_UPDATES }}
