@@ -15,7 +15,7 @@ jobs:
 
       - name: Extract and Send to Discord
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_CHANGELOG_UPDATES }}
         run: |
           Extrahiere den Inhalt (Ab dem ersten ## bis zum dritten ##)
           CHANGELOG_CONTENT=$(awk '/^## / { count++ } count > 2 { exit } count >= 1 { print }' CHANGELOG.md)
@@ -47,4 +47,4 @@ jobs:
               }]
             }')
          
-          curl -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK_CHANGELOG_UPDATES"
+          curl -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK"
