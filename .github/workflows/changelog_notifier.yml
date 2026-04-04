@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'CHANGELOG.md'
-  workflow_dispatch:
+  workflow_dispatch: # Ermöglicht den manuellen Start über den "Actions" Tab
 
 jobs:
   notify:
@@ -13,38 +13,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Extract Changelog Content
-        id: extract
+      - name: Extract and Send to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          # Extrahiert alles vom 1. Header (##) bis zum 3. Header (exklusiv)
-          CONTENT=$(awk '/^## / { count++ } count > 2 { exit } count >= 1 { print }' CHANGELOG.md)
+          Extrahiere den Inhalt (Ab dem ersten ## bis zum dritten ##)
+          CHANGELOG_CONTENT=$(awk '/^## / { count++ } count > 2 { exit } count >= 1 { print }' CHANGELOG.md)
           
-          # Limit von Discord 4096 Zeichen
-          CONTENT_TRIMMED=$(echo "$CONTENT" | head -c 4000)
+          Discord Limit Sicherheit
+          CHANGELOG_TRIMMED=$(echo "$CHANGELOG_CONTENT" | head -c 2000)
 
-          # JSON-Maskierung mit jq (verhindert Fehler bei Sonderzeichen)
-          CLEAN_CONTENT=$(echo "$CONTENT_TRIMMED" | jq -aRs .)
-          echo "payload=$CLEAN_CONTENT" >> $GITHUB_OUTPUT
-
-      - name: Send notification to Discord
-        run: |
-          curl -H "Content-Type: application/json" \
-               -d "{
-                     \"content\": \"📢 **Neuer Eintrag im Changelog zu Foodie Flip!**\",
-                     \"embeds\": [{
-                       \"title\": \"📄 CHANGELOG.md ansehen\",
-                       \"url\": \"https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md\",
-                       \"description\": ${{ steps.extract.outputs.payload }},
-                       \"color\": 3066993,
-                       \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\",
-                       \"footer\": {
-                         \"text\": \"${{ github.repository }} • GitHub Actions\",
-                         \"icon_url\": \"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png\"
-                       },
-                       \"author\": {
-                         \"name\": \"FoodieFlip Developer Updates\",
-                         \"icon_url\": \"https://cdn-icons-png.flaticon.com/512/1082/1082440.png\"
-                       }
-                     }]
-                   }" \
-               ${{ secrets.DISCORD_WEBHOOK_CHANGELOG_UPDATES }}
+          Baue das JSON-Payload mit jq zusammen (behandelt alle Sonderzeichen/Quotes)
+          PAYLOAD=$(jq -n \
+            --arg desc "$CHANGELOG_TRIMMED" \
+            --arg repo "${{ github.repository }}" \
+            --arg ts "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+            '{
+              content: "📢 **Neuer Eintrag im Changelog zu Foodie Flip!**",
+              embeds: [{
+                title: "📄 CHANGELOG.md ansehen",
+                url: "https://github.com/\($repo)/blob/main/CHANGELOG.md",
+                description: $desc,
+                color: 8992538,
+                timestamp: $ts,
+                footer: {
+                  text: "\($repo) • GitHub Actions",
+                  icon_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                },
+                author: {
+                  name: "FoodieFlip Developer Updates",
+                  icon_url: "https://cdn-icons-png.flaticon.com/512/1082/1082440.png"
+                }
+              }]
+            }')
+         
+          curl -H "Content-Type: application/json" -d "$PAYLOAD" "$DISCORD_WEBHOOK_CHANGELOG_UPDATES"
