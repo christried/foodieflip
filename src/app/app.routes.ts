@@ -36,6 +36,11 @@ export const routes: Routes = [
   // legal/info pages
 
   {
+    path: 'terms',
+    loadComponent: () => import('./pages/terms/terms').then((m) => m.Terms),
+    title: 'Nutzungsbedingungen',
+  },
+  {
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
     title: 'Kontakt',
