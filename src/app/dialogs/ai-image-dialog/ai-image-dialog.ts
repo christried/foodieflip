@@ -52,7 +52,7 @@ export class AiImageDialog {
   onClickSubmit() {
     const file = this.selectedFile();
     if (!file) {
-      this.errorMessage.set('Bitte wähld ein Bild aus, um es einzureichen.');
+      this.errorMessage.set('Bitte wähle ein Bild aus, um es einzureichen.');
       return;
     }
 
