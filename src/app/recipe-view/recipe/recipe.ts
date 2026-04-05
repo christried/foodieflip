@@ -38,7 +38,7 @@ export class Recipe {
 
   readonly dialog = inject(MatDialog);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly minBackFaceVisibleMs = 750;
+  private readonly minBackFaceVisibleMs = 1000;
   private backFaceEnteredAt = 0;
   private flipBackTimer: ReturnType<typeof setTimeout> | undefined;
 

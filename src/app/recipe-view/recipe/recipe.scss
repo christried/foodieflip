@@ -10,7 +10,7 @@
 .recipe-flip-card {
   position: relative;
   transform-style: preserve-3d;
-  transition: transform var(--transition-slow);
+  transition: transform var(--transition-card-flip);
 }
 
 .recipe-flip-card.flipped {
@@ -31,7 +31,7 @@
 
 .recipe-card-face {
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; // safari reliability
 }
 
 .recipe-flip-scene:hover .recipe-card {
@@ -117,12 +117,6 @@
   padding: var(--space-8) var(--space-16);
   color: var(--brand-turquoise-light);
   background: rgba(69, 196, 176, 0.08);
-
-  mat-icon {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-  }
 }
 
 .recipe-header {
@@ -315,6 +309,7 @@
   }
 }
 
+// accesssibility fallback for motion-sensitive users
 @media (prefers-reduced-motion: reduce) {
   .recipe-flip-card {
     transition: none;
