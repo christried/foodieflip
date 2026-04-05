@@ -1,12 +1,15 @@
-<h2 mat-dialog-title class="dialog-title">Submit a Recipe Image</h2>
+<h2 mat-dialog-title class="dialog-title">Rezeptbild einreichen</h2>
 
 <mat-dialog-content>
-  <p>Help us replace the AI-generated placeholder for this recipe by uploading your own photo.</p>
   <p>
-    Please adhere to our <a href="/privacy" target="_blank">Terms of Use</a> and make sure
-    everything you submit and upload to our page is your own intellectual property.
+    Hilf uns, das KI-generierte Platzhalterbild für dieses Rezept zu ersetzen, indem du ein eigenes
+    Foto hochlädst.
   </p>
-  <p>Supported File Types: JPEG / PNG / WEBP | Maximum File Size: 2MB</p>
+  <p>
+    Bitte halte dich an unsere <a href="/terms" target="_blank">Nutzungsbedingungen</a> und stelle
+    sicher, dass alles, was du einreichen und hochladen willst, dein eigenes geistiges Eigentum ist.
+  </p>
+  <p>Unterstützte Dateitypen: JPEG / PNG / WEBP | Maximale Dateigröße: 2MB</p>
 
   <input
     type="file"
@@ -17,7 +20,7 @@
   />
 
   <button matButton="tonal" (click)="fileInput.click()" [disabled]="isUploading()">
-    Choose Image
+    Bild auswählen
   </button>
 
   @if (selectedFile()) {
@@ -35,7 +38,7 @@
     (click)="onClickSubmit()"
     [disabled]="!selectedFile() || isUploading()"
   >
-    {{ isUploading() ? 'Uploading...' : 'Submit' }}
+    {{ isUploading() ? 'Wird hochgeladen...' : 'Einreichen' }}
   </button>
-  <button matButton mat-dialog-close [disabled]="isUploading()">Close</button>
+  <button matButton mat-dialog-close [disabled]="isUploading()">Schließen</button>
 </mat-dialog-actions>

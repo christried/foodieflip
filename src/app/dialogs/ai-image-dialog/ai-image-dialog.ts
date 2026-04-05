@@ -52,7 +52,7 @@ export class AiImageDialog {
   onClickSubmit() {
     const file = this.selectedFile();
     if (!file) {
-      this.errorMessage.set('Please select an image before submitting.');
+      this.errorMessage.set('Bitte wähle ein Bild aus, um es einzureichen.');
       return;
     }
 
@@ -64,7 +64,7 @@ export class AiImageDialog {
         this.openSnackBar();
       },
       error: () => {
-        this.errorMessage.set('Something went wrong. Please try again.');
+        this.errorMessage.set('Etwas ist schiefgelaufen. Bitte versuche es erneut.');
         this.isUploading.set(false);
       },
     });

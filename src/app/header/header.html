@@ -2,8 +2,8 @@
   <div class="header-left">
     <button
       mat-icon-button
-      aria-label="Provide feedback to the developer"
-      matTooltip="Send feedback to the developer"
+      aria-label="Feedback an Entwickler senden"
+      matTooltip="Feedback an Entwickler"
       matTooltipPosition="below"
       (click)="openDevFeedbackDialog()"
     >
@@ -14,12 +14,12 @@
 
   <a routerLink="/" (click)="onClickHero()">
     <div class="header-center">
-      <img [src]="logoSrc()" alt="Foodieflip logo" class="header-logo" />
+      <img [src]="logoSrc()" alt="Foodieflip-Logo" class="header-logo" />
     </div>
   </a>
 
   <div class="header-right">
-    <button mat-icon-button aria-label="Toggle theme" (click)="toggleTheme()">
+    <button mat-icon-button aria-label="Design wechseln" (click)="toggleTheme()">
       <mat-icon>{{ themeIcon() }}</mat-icon>
     </button>
   </div>

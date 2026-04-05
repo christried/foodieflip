@@ -32,7 +32,7 @@ export class Admin {
         this.isLoading.set(false);
       },
       error: (error) => {
-        this.pageError.set(this.toErrorMessage(error, 'Could not load pending recipes.'));
+        this.pageError.set(this.toErrorMessage(error, 'Konnte ausstehende Rezepte nicht laden.'));
         this.isLoading.set(false);
       },
     });
@@ -49,12 +49,12 @@ export class Admin {
 
     this.recipeAdminService.approveRecipe(recipeId).subscribe({
       next: () => {
-        this.pageMessage.set('Recipe approved.');
+        this.pageMessage.set('Rezept genehmigt.');
         this.clearRecipeTransientState(recipeId);
         this.loadPendingRecipes();
       },
       error: (error) => {
-        this.pageError.set(this.toErrorMessage(error, 'Could not approve recipe.'));
+        this.pageError.set(this.toErrorMessage(error, 'Konnte Rezept nicht genehmigen.'));
         this.setRecipeBusy(recipeId, false);
       },
     });
@@ -68,7 +68,7 @@ export class Admin {
     const notes = (this.rejectNotesById()[recipeId] ?? '').trim();
 
     if (!notes) {
-      this.setRejectError(recipeId, 'Rejection notes are required.');
+      this.setRejectError(recipeId, 'Ablehnungsnotizen sind erforderlich.');
       return;
     }
 
@@ -79,12 +79,12 @@ export class Admin {
 
     this.recipeAdminService.rejectRecipe(recipeId, notes).subscribe({
       next: () => {
-        this.pageMessage.set('Recipe rejected.');
+        this.pageMessage.set('Rezept abgelehnt.');
         this.clearRecipeTransientState(recipeId);
         this.loadPendingRecipes();
       },
       error: (error) => {
-        this.pageError.set(this.toErrorMessage(error, 'Could not reject recipe.'));
+        this.pageError.set(this.toErrorMessage(error, 'Konnte Rezept nicht ablehnen.'));
         this.setRecipeBusy(recipeId, false);
       },
     });
@@ -116,7 +116,7 @@ export class Admin {
 
   formatSubmittedAt(value?: string): string {
     if (!value) {
-      return 'Unknown';
+      return 'Unbekannt';
     }
 
     const parsedDate = new Date(value);

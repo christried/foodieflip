@@ -14,7 +14,7 @@ export class FeedbackService {
     return this.httpClient.post(`${this.apiBaseUrl}/api/feedback`, { name, feedback }).pipe(
       catchError((error) => {
         console.error(error);
-        return throwError(() => new Error('Could not send feedback'));
+        return throwError(() => new Error('Feedback konnte nicht gesendet werden'));
       }),
     );
   }

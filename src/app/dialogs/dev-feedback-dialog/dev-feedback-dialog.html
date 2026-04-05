@@ -1,18 +1,18 @@
-<h2 mat-dialog-title>Developer Feedback</h2>
+<h2 mat-dialog-title>Feedback für Entwickler</h2>
 
 <mat-dialog-content class="feedback-dialog-content">
   <mat-form-field class="feedback-dialog-input">
     <mat-label>(Nick-)Name</mat-label>
-    <input matInput [formControl]="name" placeholder="e.g. Christried" />
+    <input matInput [formControl]="name" placeholder="z. B. Christried" />
     <mat-hint>optional</mat-hint>
   </mat-form-field>
 
   <mat-form-field class="feedback-dialog-texarea">
-    <mat-label>Issue or Feedback</mat-label>
+    <mat-label>Problem oder Feedback</mat-label>
     <textarea
       matInput
       [formControl]="feedbackControl"
-      placeholder="e.g. 'the image submission form is not loading when I click on the AI-Image indicator'"
+      placeholder="z. B. 'Das Formular zur Bildübermittlung wird nicht geladen, wenn ich auf das KI-Bild-Symbol klicke'"
       required
       cdkTextareaAutosize
       cdkAutosizeMinRows="6"
@@ -21,8 +21,9 @@
       maxlength="1000"
     ></textarea>
     <mat-hint
-      >Try to be precise! I take constructive feedback to heart. If you want to provide pictures or
-      error-messages, please upload them elsewhere and provide a link.</mat-hint
+      >Bitte so präzise wie möglich! Ich nehme konstruktives Feedback ernst. Wenn du Bilder oder
+      Fehlermeldungen bereitstellen möchtest, lade diese bitte anderswo hoch und füge einen Link
+      ein.</mat-hint
     >
     @if (feedbackControl.invalid || errorMessage()) {
       <mat-error>{{ errorMessage() }}</mat-error>
@@ -30,6 +31,6 @@
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions class="feedback-dialog-actions">
-  <button matButton="filled" (click)="onClickSend()">Send</button>
-  <button matButton mat-dialog-close>Close</button>
+  <button matButton="filled" (click)="onClickSend()">Senden</button>
+  <button matButton mat-dialog-close>Schließen</button>
 </mat-dialog-actions>

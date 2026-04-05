@@ -261,12 +261,12 @@ export class RecipeSubmissionDialog {
 
     if (file) {
       if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-        this.errorMessageFile.set('Only JPEG, PNG, and WEBP images are supported.');
+        this.errorMessageFile.set('Nur JPEG-, PNG- und WEBP-Bilder werden unterstützt.');
         this.selectedFile.set(null);
         return;
       }
       if (file.size > MAX_FILE_SIZE) {
-        this.errorMessageFile.set('Image must be under 2 MB.');
+        this.errorMessageFile.set('Das Bild muss kleiner als 2 MB sein.');
         this.selectedFile.set(null);
         return;
       }
@@ -283,7 +283,7 @@ export class RecipeSubmissionDialog {
 
     const title = this.titleIngredientsFormGroup.controls.titleCtrl.value.trim();
     const time = this.instructionsTimeFormGroup.controls.timeCtrl.value;
-    const userName = this.userNameImageFormGroup.controls.userNameCtrl.value.trim() || 'Anonymous';
+    const userName = this.userNameImageFormGroup.controls.userNameCtrl.value.trim() || 'Anonym';
     const file = this.selectedFile() ?? undefined;
 
     if (!title || !time) {
@@ -307,7 +307,7 @@ export class RecipeSubmissionDialog {
           this.openSnackBar();
         },
         error: () => {
-          this.errorMessageFile.set('Something went wrong. Please try again.');
+          this.errorMessageFile.set('Etwas ist schiefgelaufen. Bitte versuche es erneut.');
           this.isUploading.set(false);
         },
       });

@@ -2,10 +2,10 @@
   <div class="voting-div">
     <div class="cta-rating">
       @if (!voteStatus()) {
-        <h4>Cooked this one?</h4>
-        <p class="cta-subtitle">Tell us how you liked it!</p>
+        <h4>Schon probiert?</h4>
+        <p class="cta-subtitle">Teile uns mit, wie es dir geschmeckt hat!</p>
       } @else {
-        <h4>Thank you for your feedback!</h4>
+        <h4>Vielen Dank für dein Feedback!</h4>
       }
     </div>
 
@@ -16,7 +16,7 @@
         (click)="onClickVote('upvote')"
         [disabled]="voteStatus()"
         [class.voted]="voteStatus() === 'upvote'"
-        aria-label="Upvote this recipe"
+        aria-label="Dieses Rezept positiv bewerten"
       >
         <mat-icon>thumb_up</mat-icon>
       </button>
@@ -26,7 +26,7 @@
         (click)="onClickVote('downvote')"
         [disabled]="voteStatus()"
         [class.voted]="voteStatus() === 'downvote'"
-        aria-label="Downvote this recipe"
+        aria-label="Dieses Rezept negativ bewerten"
       >
         <mat-icon>thumb_down</mat-icon>
       </button>
@@ -37,9 +37,9 @@
     matIconButton
     [cdkCopyToClipboard]="shareUrl()"
     (click)="openSnackBar()"
-    matTooltip="Copy link to clipboard"
+    matTooltip="Link in die Zwischenablage kopieren"
     matTooltipPosition="above"
-    aria-label="Copy to clipboard"
+    aria-label="In Zwischenablage kopieren"
   >
     <mat-icon>add_link</mat-icon>
   </button>

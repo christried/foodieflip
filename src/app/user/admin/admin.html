@@ -1,5 +1,5 @@
 <section class="admin-page">
-  <h1>Pending Recipes ({{ pendingRecipes().length }})</h1>
+  <h1>Ausstehende Rezepte ({{ pendingRecipes().length }})</h1>
 
   @if (pageMessage()) {
     <p class="message">{{ pageMessage() }}</p>
@@ -10,11 +10,11 @@
   }
 
   @if (isLoading()) {
-    <p>Loading pending recipes...</p>
+    <p>Lade ausstehende Rezepte...</p>
   }
 
   @if (!isLoading() && pendingRecipes().length === 0) {
-    <p>No pending recipes right now.</p>
+    <p>Derzeit keine ausstehenden Rezepte.</p>
   }
 
   @if (!isLoading() && pendingRecipes().length > 0) {
@@ -22,10 +22,10 @@
       @for (recipe of pendingRecipes(); track recipe.id) {
         <li class="recipe-item">
           <h2>{{ recipe.title }}</h2>
-          <p>Submitted by: {{ recipe.submittedBy || 'Unknown' }}</p>
-          <p>Submitted at: {{ formatSubmittedAt(recipe.createdAt) }}</p>
-          <p>Time: {{ recipe.time }} min</p>
-          <p>Ingredients: {{ recipe.ingredients.length }}</p>
+          <p>Eingereicht von: {{ recipe.submittedBy || 'Unbekannt' }}</p>
+          <p>Eingereicht am: {{ formatSubmittedAt(recipe.createdAt) }}</p>
+          <p>Dauer: {{ recipe.time }} min</p>
+          <p>Zutaten: {{ recipe.ingredients.length }}</p>
 
           @if (recipe.imageUrl) {
             <img [src]="recipe.imageUrl" [alt]="recipe.imageAlt || recipe.title" loading="lazy" />
@@ -37,18 +37,18 @@
               (click)="approveRecipe(recipe.id)"
               [disabled]="isRecipeBusy(recipe.id)"
             >
-              Approve
+              Annehmen
             </button>
             <button
               type="button"
               (click)="rejectRecipe(recipe.id)"
               [disabled]="isRecipeBusy(recipe.id)"
             >
-              Reject
+              Ablehnen
             </button>
           </div>
 
-          <label [for]="'reject-notes-' + recipe.id">Rejection notes (required):</label>
+          <label [for]="'reject-notes-' + recipe.id">Ablehnungsnotizen (erforderlich):</label>
           <textarea
             [id]="'reject-notes-' + recipe.id"
             [value]="rejectNotes(recipe.id)"

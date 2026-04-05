@@ -40,7 +40,7 @@ export class App {
       height: 'auto',
       autoFocus: 'first-heading',
       restoreFocus: true,
-      ariaLabel: 'Submit a new recipe',
+      ariaLabel: 'Neues Rezept einreichen',
     });
 
     dialogRef.afterClosed().subscribe(() => this.router.navigate(['/']));

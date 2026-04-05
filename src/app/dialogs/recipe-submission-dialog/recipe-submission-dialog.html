@@ -1,13 +1,14 @@
-<h2 mat-dialog-title class="dialog-title">Submit a New Recipe</h2>
+<h2 mat-dialog-title class="dialog-title">Neues Rezept einreichen</h2>
 
 <mat-dialog-content>
   <p>
-    Help our community by providing detailed guides to your own recipes. Keep in mind Foodie Flip is
-    community-driven and relies on people uploading their own recipes and ideas.
+    Unterstütze unsere Community, indem du ausführliche Anleitungen zu deinen eigenen Rezepten
+    bereitstellst. Bitte beachte, dass Foodie Flip von der Community getragen wird und auf das
+    Hochladen eigener Rezepte und Ideen angewiesen ist.
   </p>
   <p>
-    Please adhere to our <a href="/terms" target="_blank">Terms of Service</a> and make sure
-    everything you submit and upload to our page is your own intellectual property.
+    Bitte halte dich an unsere <a href="/terms" target="_blank">Nutzungsbedingungen</a> und stelle
+    sicher, dass alles, was du einreichen und hochladen willst, dein eigenes geistiges Eigentum ist.
   </p>
 
   <mat-vertical-stepper
@@ -19,44 +20,44 @@
     <!-- 1st Step: Title and Ingredients -->
     <mat-step [stepControl]="titleIngredientsFormGroup">
       <form [formGroup]="titleIngredientsFormGroup">
-        <ng-template matStepLabel>Title & Ingredients</ng-template>
+        <ng-template matStepLabel>Titel & Zutaten</ng-template>
         <div class="submit-form-step">
           <section class="form-section">
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Recipe Title</mat-label>
+              <mat-label>Rezepttitel</mat-label>
               <input
                 matInput
-                placeholder="e.g. Chickpea Masala"
+                placeholder="z. B. Kichererbsen-Masala"
                 formControlName="titleCtrl"
                 maxlength="24"
               />
               @if (showTitleRequiredError()) {
-                <mat-error>Title is required</mat-error>
+                <mat-error>Titel ist erforderlich</mat-error>
               }
               @if (showTitleMaxLengthError()) {
-                <mat-error>Title may not exceed 24 characters</mat-error>
+                <mat-error>Der Titel darf nicht mehr als 24 Zeichen beinhalten</mat-error>
               }
             </mat-form-field>
           </section>
 
           <section class="form-section">
-            <h3 class="section-title">Ingredients</h3>
+            <h3 class="section-title">Zutaten</h3>
             <div class="add-row">
               <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Add Ingredient</mat-label>
+                <mat-label>Zutat hinzufügen</mat-label>
                 <input
                   matInput
-                  placeholder="e.g. 250g pasta"
+                  placeholder="z. B. 250g Pasta"
                   formControlName="ingredientInputCtrl"
                   maxlength="50"
                   (keydown.enter)="onClickAddItem('ingredient', $event)"
                 />
-                <mat-hint>Add at least 2</mat-hint>
+                <mat-hint>Mindestens 2 Zutaten erforderlich</mat-hint>
               </mat-form-field>
               <button
                 type="button"
                 matIconButton
-                aria-label="Add ingredient button"
+                aria-label="Zutat hinzufügen"
                 (click)="onClickAddItem('ingredient')"
               >
                 <mat-icon>add</mat-icon>
@@ -65,14 +66,14 @@
 
             <div class="item-list">
               @if (ingredientsArray.length === 0) {
-                <p class="removal-notice">No ingredients added yet.</p>
+                <p class="removal-notice">Noch keine Zutaten hinzugefügt.</p>
               }
 
               @for (ingredientCtrl of ingredientsArray.controls; track $index) {
                 <div class="list-item-row">
                   @if (editingItemType() === 'ingredient' && editingIndex() === $index) {
                     <mat-form-field appearance="fill" class="inline-edit-field">
-                      <mat-label>Edit ingredient</mat-label>
+                      <mat-label>Zutat bearbeiten</mat-label>
                       <input
                         matInput
                         [value]="editValue()"
@@ -86,7 +87,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Save edited ingredient"
+                        aria-label="Bearbeitete Zutat speichern"
                         (click)="onClickSaveItemEdit('ingredient')"
                       >
                         <mat-icon>check</mat-icon>
@@ -94,7 +95,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Cancel ingredient edit"
+                        aria-label="Bearbeitung abbrechen"
                         (click)="onClickCancelItemEdit()"
                       >
                         <mat-icon>close</mat-icon>
@@ -106,7 +107,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Edit ingredient"
+                        aria-label="Zutat bearbeiten"
                         (click)="onClickEditItem($index, 'ingredient')"
                       >
                         <mat-icon>edit</mat-icon>
@@ -114,7 +115,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Remove ingredient"
+                        aria-label="Zutat entfernen"
                         (click)="onClickRemoveItem($index, 'ingredient')"
                       >
                         <mat-icon>delete</mat-icon>
@@ -126,13 +127,13 @@
             </div>
 
             @if (showIngredientsCountError()) {
-              <p class="error-message">Add at least 2 ingredients before continuing.</p>
+              <p class="error-message">Füge mindestens 2 Zutaten hinzu, um fortzufahren.</p>
             }
           </section>
         </div>
         <div class="nav-buttons">
           <button type="button" matButton="tonal" matStepperNext [disabled]="!isStep1Valid()">
-            Next
+            Weiter
           </button>
         </div>
       </form>
@@ -140,46 +141,46 @@
 
     <mat-step [stepControl]="instructionsTimeFormGroup">
       <form [formGroup]="instructionsTimeFormGroup">
-        <ng-template matStepLabel>Preparation Instructions</ng-template>
+        <ng-template matStepLabel>Zubereitung</ng-template>
         <div class="submit-form-step">
           <section class="form-section">
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Preparation Time</mat-label>
+              <mat-label>Zubereitungszeit</mat-label>
               <input
                 matInput
-                placeholder="e.g. 25"
+                placeholder="z. B. 25"
                 formControlName="timeCtrl"
                 type="number"
                 min="5"
                 max="999"
               />
               @if (showTimeRequiredError()) {
-                <mat-error>Prep time is required</mat-error>
+                <mat-error>Zubereitungszeit ist erforderlich</mat-error>
               }
               @if (showTimeRangeError()) {
-                <mat-error>Prep time must be between 5 and 999 minutes</mat-error>
+                <mat-error>Die Zubereitungszeit muss zwischen 5 und 999 Minuten liegen</mat-error>
               }
             </mat-form-field>
           </section>
 
           <section class="form-section">
-            <h3 class="section-title">Instructions</h3>
+            <h3 class="section-title">Anleitung</h3>
             <div class="add-row">
               <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Add Instruction</mat-label>
+                <mat-label>Schritt hinzufügen</mat-label>
                 <input
                   matInput
                   formControlName="instructionInputCtrl"
-                  placeholder="e.g. bring oven to 200°C "
+                  placeholder="z. B. Ofen auf 200°C vorheizen"
                   maxlength="1000"
                   (keydown.enter)="onClickAddItem('instruction', $event)"
                 />
-                <mat-hint>Add at least 2</mat-hint>
+                <mat-hint>Mindestens 2 Schritte erforderlich</mat-hint>
               </mat-form-field>
               <button
                 type="button"
                 matIconButton
-                aria-label="Add instruction"
+                aria-label="Schritt hinzufügen"
                 (click)="onClickAddItem('instruction')"
               >
                 <mat-icon>add</mat-icon>
@@ -188,14 +189,14 @@
 
             <div class="item-list">
               @if (instructionsArray.length === 0) {
-                <p class="removal-notice">No instructions added yet.</p>
+                <p class="removal-notice">Noch keine Anweisungen hinzugefügt.</p>
               }
 
               @for (instructionCtrl of instructionsArray.controls; track $index) {
                 <div class="list-item-row">
                   @if (editingItemType() === 'instruction' && editingIndex() === $index) {
                     <mat-form-field appearance="fill" class="inline-edit-field">
-                      <mat-label>Edit instruction</mat-label>
+                      <mat-label>Anweisung bearbeiten</mat-label>
                       <input
                         matInput
                         [value]="editValue()"
@@ -209,7 +210,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Save edited instruction"
+                        aria-label="Bearbeitete Anweisung speichern"
                         (click)="onClickSaveItemEdit('instruction')"
                       >
                         <mat-icon>check</mat-icon>
@@ -217,7 +218,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Cancel instruction edit"
+                        aria-label="Bearbeitung abbrechen"
                         (click)="onClickCancelItemEdit()"
                       >
                         <mat-icon>close</mat-icon>
@@ -229,7 +230,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Edit instruction"
+                        aria-label="Anweisung bearbeiten"
                         (click)="onClickEditItem($index, 'instruction')"
                       >
                         <mat-icon>edit</mat-icon>
@@ -237,7 +238,7 @@
                       <button
                         type="button"
                         matIconButton
-                        aria-label="Remove instruction"
+                        aria-label="Anweisung entfernen"
                         (click)="onClickRemoveItem($index, 'instruction')"
                       >
                         <mat-icon>delete</mat-icon>
@@ -249,14 +250,14 @@
             </div>
 
             @if (showInstructionsCountError()) {
-              <p class="error-message">Add at least 2 instructions before continuing.</p>
+              <p class="error-message">Füge mindestens 2 Anweisungen hinzu, um fortzufahren.</p>
             }
           </section>
         </div>
         <div class="nav-buttons">
-          <button type="button" matButton="tonal" matStepperPrevious>Back</button>
+          <button type="button" matButton="tonal" matStepperPrevious>Zurück</button>
           <button type="button" matButton="tonal" matStepperNext [disabled]="!isStep2Valid()">
-            Next
+            Weiter
           </button>
         </div>
       </form>
@@ -265,19 +266,19 @@
     <!-- 3rd Step: Image Upload -->
     <mat-step [stepControl]="userNameImageFormGroup">
       <form [formGroup]="userNameImageFormGroup">
-        <ng-template matStepLabel>Upload Image</ng-template>
+        <ng-template matStepLabel>Bild hochladen</ng-template>
         <p class="removal-notice">
-          Providing your name and a recipe image are optional. When submitting without providing
-          these information, you acknowledge that Foodie Flip will publish your recipe as 'submitted
-          by Anonymous' with an AI-generated image as a placeholder. Supported File Types: JPEG /
-          PNG / WEBP | Maximum File Size: 2MB
+          Das Angeben deines Namens und eines Rezeptbildes ist optional. Wenn du ohne diese Angaben
+          einreichst, erklärst du dich damit einverstanden, dass Foodie Flip dein Rezept als
+          'eingereicht von Anonym' veröffentlicht und ein KI-generiertes Bild als Platzhalter
+          verwendet. Unterstützte Dateitypen: JPEG / PNG / WEBP | Maximale Dateigröße: 2MB
         </p>
         <div class="form-inputs">
           <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Your Name</mat-label>
+            <mat-label>Dein Name</mat-label>
             <input
               matInput
-              placeholder="e.g. Christried"
+              placeholder="z. B. Christried"
               formControlName="userNameCtrl"
               maxlength="24"
             />
@@ -297,7 +298,7 @@
               (click)="fileInput.click()"
               [disabled]="isUploading()"
             >
-              Choose Image
+              Bild auswählen
             </button>
             @if (selectedFile()) {
               <p class="selected-file-name">{{ selectedFile()!.name }}</p>
@@ -311,15 +312,17 @@
 
         <div class="terms-row">
           <mat-checkbox formControlName="termsAcceptedCtrl">
-            I confirm that all submitted recipe text and uploaded media are my own intellectual
-            property, or that I hold all necessary rights and permission to publish them on Foodie
-            Flip, and I agree to the
-            <a href="/terms" target="_blank">Terms of Service</a>.
+            Ich bestätige, dass alle eingereichten Rezepttexte und hochgeladenen Medien mein eigenes
+            geistiges Eigentum sind oder dass ich alle erforderlichen Rechte und Genehmigungen
+            besitze, um diese auf Foodie Flip zu veröffentlichen, und ich stimme den
+            <a href="/terms" target="_blank">Nutzungsbedingungen</a> zu.
           </mat-checkbox>
         </div>
 
         @if (showTermsRequiredError()) {
-          <p class="error-message">You must accept the Terms of Service before submitting.</p>
+          <p class="error-message">
+            Du musst die Nutzungsbedingungen akzeptieren, um ein Rezept einzureichen.
+          </p>
         }
 
         <div class="nav-buttons">
@@ -332,7 +335,7 @@
 
 <mat-dialog-actions>
   <button matButton="filled" (click)="onClickSubmit()" [disabled]="!canSubmit()">
-    {{ isUploading() ? 'Uploading...' : 'Submit' }}
+    {{ isUploading() ? 'Wird hochgeladen...' : 'Einreichen' }}
   </button>
-  <button matButton mat-dialog-close [disabled]="isUploading()">Close</button>
+  <button matButton mat-dialog-close [disabled]="isUploading()">Schließen</button>
 </mat-dialog-actions>
