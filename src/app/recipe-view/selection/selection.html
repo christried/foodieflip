@@ -5,7 +5,12 @@
 
   <mat-card-content class="selection-buttons">
     <div class="selection-option">
-      <button matFab extended (click)="onClickButton('quick')">
+      <button
+        matFab
+        extended
+        (click)="onClickButton('quick')"
+        [disabled]="recipeService.spinnerStatus() === 'on'"
+      >
         <mat-icon>bolt</mat-icon>
         Schnell
       </button>
@@ -13,7 +18,12 @@
     </div>
 
     <div class="selection-option">
-      <button matFab extended (click)="onClickButton('ordinary')">
+      <button
+        matFab
+        extended
+        (click)="onClickButton('ordinary')"
+        [disabled]="recipeService.spinnerStatus() === 'on'"
+      >
         <mat-icon>restaurant</mat-icon>
         Standard
       </button>
@@ -21,7 +31,12 @@
     </div>
 
     <div class="selection-option">
-      <button matFab extended (click)="onClickButton('complex')">
+      <button
+        matFab
+        extended
+        (click)="onClickButton('complex')"
+        [disabled]="recipeService.spinnerStatus() === 'on'"
+      >
         <mat-icon>menu_book</mat-icon>
         Aufwendig
       </button>

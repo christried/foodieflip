@@ -24,19 +24,13 @@
 }
 
 .body-cards.no-recipe .recipe-component {
-  display: none;
+  flex: 1 1 520px;
 }
 
 .recipe-component {
   flex: 1;
   min-width: 0;
-}
-
-.body-cards.spinner-active .recipe-component {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0 0 auto;
+  max-width: 860px;
 }
 
 // Responsive Settings
