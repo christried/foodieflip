@@ -316,7 +316,7 @@
   }
 }
 
-// accesssibility fallback for motion-sensitive users
+// accessibility fallback for motion-sensitive users
 @media (prefers-reduced-motion: reduce) {
   .recipe-flip-card {
     transition: none;

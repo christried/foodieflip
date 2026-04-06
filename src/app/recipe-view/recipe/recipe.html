@@ -1,9 +1,11 @@
-<div
-  class="recipe-flip-scene"
-  [class.is-loading]="this.recipesService.spinnerStatus() === 'on'"
->
+<div class="recipe-flip-scene" [class.is-loading]="this.isFlipped()">
   <div class="recipe-flip-card" [class.flipped]="this.isFlipped()">
-    <mat-card appearance="raised" class="recipe-card recipe-card-face recipe-card-front">
+    <mat-card
+      appearance="raised"
+      class="recipe-card recipe-card-face recipe-card-front"
+      [attr.aria-hidden]="this.isFlipped() ? 'true' : null"
+      [attr.inert]="this.isFlipped() ? '' : null"
+    >
       @if (this.currentRecipe(); as recipe) {
         <mat-card-header class="recipe-header">
           <div class="header-col header-col-left">
@@ -76,7 +78,9 @@
     <mat-card
       appearance="raised"
       class="recipe-card recipe-card-face recipe-card-back"
-      aria-live="polite"
+      [attr.aria-hidden]="this.isFlipped() ? null : 'true'"
+      [attr.inert]="this.isFlipped() ? null : ''"
+      [attr.aria-live]="this.isFlipped() ? 'polite' : 'off'"
       aria-label="Neues Rezept wird geladen"
     >
       <div class="recipe-loading-back">
