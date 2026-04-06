@@ -2,16 +2,32 @@
 
 All notable changes to this project and its API will be documented in this file starting 2026-04-01 with patch 0.2.1, which is the first version after first publishing the app to foodieflip.app.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-- Re-Localization to German language
-- Terms of Service Page
-- Animation for Recipe Card
-- Reconsiderate SSR for Frontend
-- Implement discord notifications for Foodie Flip changelog updates
+- Introduction of user accounts using signups with Google(?)
+- Introduction of favourite recipes view in user account profiles
+- Rework of recipe tags: make them matter
+- Rework of quick feedback actions on all recipes incl. report functions for false information
+
+## [0.2.2] - 2026-04-06
+
+### Added
+
+- Added Flip animation to recipe card: App name finally makes sense
+- Added "Nutzungsbedingungen" Page and various links to it because people may actually read that sometimes
+
+### Changed
+
+- Re-localized all of the app and all of its content to German language.
+
+### Fixed
+
+- Add button now aligns with input field for ingredients/instructions
+- various accessibility improvements (still probably really bad)
+- [API] Discord notification now properly shows a link to the recipe because that's kind of the point isn't it
+- various minor additions, bugfixes, spelling, security fixes
 
 ## [0.2.1] - 2026-04-01
 
