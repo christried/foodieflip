@@ -1,4 +1,7 @@
-<div class="recipe-flip-scene" [class.is-loading]="this.recipesService.spinnerStatus() === 'on'">
+<div
+  class="recipe-flip-scene"
+  [class.is-loading]="this.recipesService.spinnerStatus() === 'on'"
+>
   <div class="recipe-flip-card" [class.flipped]="this.isFlipped()">
     <mat-card appearance="raised" class="recipe-card recipe-card-face recipe-card-front">
       @if (this.currentRecipe(); as recipe) {

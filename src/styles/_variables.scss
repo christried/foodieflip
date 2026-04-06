@@ -57,6 +57,8 @@
   --recipe-card-min-height: 430px;
   --recipe-placeholder-min-height: 382px;
   --recipe-placeholder-min-height-mobile: 320px;
+  --loading-back-content-top-offset: var(--space-56);
+  --loading-back-content-top-offset-mobile: var(--space-40);
 
   // Reusable element sizing
   --logo-loading-width: min(220px, 80%);
