@@ -9,6 +9,19 @@
   --brand-deep-blue: #13678a;
   --brand-navy: #012030;
 
+  // Alpha overlays and contextual text
+  --brand-turquoise-border-soft: rgba(69, 196, 176, 0.15);
+  --brand-turquoise-border-medium: rgba(69, 196, 176, 0.35);
+  --brand-turquoise-border-strong: rgba(69, 196, 176, 0.4);
+  --brand-turquoise-surface-soft: rgba(69, 196, 176, 0.08);
+  --brand-turquoise-surface-medium: rgba(69, 196, 176, 0.25);
+  --brand-deep-blue-overlay: rgba(19, 103, 138, 0.95);
+  --brand-navy-overlay: rgba(1, 32, 48, 0.98);
+  --brand-navy-shadow: rgba(1, 32, 48, 0.35);
+  --overlay-scrim-medium: rgba(0, 0, 0, 0.6);
+  --overlay-scrim-strong: rgba(0, 0, 0, 0.65);
+  --text-on-media: #ffffff;
+
   // Spacing
   --space-4: 0.25rem;
   --space-8: 0.5rem;
@@ -34,6 +47,22 @@
   --transition-normal: 250ms ease;
   --transition-slow: 400ms ease;
   --transition-card-flip: 600ms ease;
+
+  // Layout dimensions
+  --flip-perspective: 1200px;
+  --selection-card-width: 280px;
+  --selection-card-width-mobile-max: 400px;
+  --recipe-content-min-width: 520px;
+  --recipe-content-max-width: 860px;
+  --recipe-card-min-height: 430px;
+  --recipe-placeholder-min-height: 382px;
+  --recipe-placeholder-min-height-mobile: 320px;
+
+  // Reusable element sizing
+  --logo-loading-width: min(220px, 80%);
+  --logo-placeholder-width: min(225px, 82%);
+  --icon-size-sm: 16px;
+  --blur-overlay-sm: 4px;
 
   // Shadows — light mode
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.08);

@@ -12,7 +12,7 @@
 }
 
 .selection-component {
-  flex: 0 0 280px;
+  flex: 0 0 var(--selection-card-width);
 }
 
 .body-cards.no-recipe {
@@ -20,17 +20,17 @@
 }
 
 .body-cards.no-recipe .selection-component {
-  flex: 0 1 280px;
+  flex: 0 1 var(--selection-card-width);
 }
 
 .body-cards.no-recipe .recipe-component {
-  flex: 1 1 520px;
+  flex: 1 1 var(--recipe-content-min-width);
 }
 
 .recipe-component {
   flex: 1;
   min-width: 0;
-  max-width: 860px;
+  max-width: var(--recipe-content-max-width);
 }
 
 // Responsive Settings
@@ -51,7 +51,7 @@
   .selection-component {
     flex: 1;
     width: 100%;
-    max-width: 400px;
+    max-width: var(--selection-card-width-mobile-max);
     margin: 0 auto;
   }
 
