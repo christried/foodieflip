@@ -36,9 +36,14 @@ export const routes: Routes = [
   // legal/info pages
 
   {
+    path: 'terms',
+    loadComponent: () => import('./pages/terms/terms').then((m) => m.Terms),
+    title: 'Nutzungsbedingungen',
+  },
+  {
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
-    title: 'Contact',
+    title: 'Kontakt',
   },
   {
     path: 'admin',
@@ -49,7 +54,7 @@ export const routes: Routes = [
   {
     path: '404',
     loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
-    title: 'Not Found',
+    title: 'Seite nicht gefunden',
   },
   {
     path: '**',

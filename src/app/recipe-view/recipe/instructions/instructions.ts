@@ -7,5 +7,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './instructions.scss',
 })
 export class Instructions {
-  public instructions = input<string[] | undefined>(['instructions loading...']);
+  public instructions = input<string[] | undefined>(['Anweisungen werden geladen...']);
 }

@@ -1,10 +1,11 @@
 <mat-card class="pages-card">
   <mat-card-header class="pages-card-header">
-    <mat-card-title> Contact Information</mat-card-title>
+    <mat-card-title> Kontakt</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <p>
-      If you wish to reach out, feel free to use one of these options or the contact form below.
+      Wenn du einen Verantwortlichen für Foodie Flip kontaktieren möchtest, nutze einfach eine der
+      folgenden Optionen oder das Kontaktformular unten.
     </p>
 
     <section>
@@ -26,34 +27,34 @@
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" required />
         @if (contactForm.get('name')?.hasError('required')) {
-          <mat-error>Name is required.</mat-error>
+          <mat-error>Name ist erforderlich.</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Email</mat-label>
+        <mat-label>E-Mail</mat-label>
         <input matInput formControlName="email" required type="email" />
         @if (contactForm.get('email')?.hasError('required')) {
-          <mat-error>Email is required.</mat-error>
+          <mat-error>E-Mail ist erforderlich.</mat-error>
         }
         @if (contactForm.get('email')?.hasError('strictEmail')) {
-          <mat-error>Invalid email.</mat-error>
+          <mat-error>Ungültige E-Mail-Adresse.</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Subject</mat-label>
+        <mat-label>Betreff</mat-label>
         <input matInput formControlName="subject" required maxlength="120" />
         @if (contactForm.get('subject')?.hasError('required')) {
-          <mat-error>Subject is required.</mat-error>
+          <mat-error>Betreff ist erforderlich.</mat-error>
         }
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Message</mat-label>
+        <mat-label>Nachricht</mat-label>
         <textarea matInput formControlName="message" required rows="6" maxlength="2000"></textarea>
         @if (contactForm.get('message')?.hasError('required')) {
-          <mat-error>Message is required.</mat-error>
+          <mat-error>Nachricht ist erforderlich.</mat-error>
         }
       </mat-form-field>
 
@@ -64,10 +65,10 @@
       <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting()">
         <mat-icon>send</mat-icon>
         @if (!isSubmitting()) {
-          <span>Send message</span>
+          <span>Nachricht senden</span>
         }
         @if (isSubmitting()) {
-          <span>Sending...</span>
+          <span>Wird gesendet...</span>
         }
       </button>
     </form>

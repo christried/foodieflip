@@ -42,12 +42,13 @@ a {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: var(--space-8);
-  align-items: center;
+  align-items: start;
   padding-bottom: 1rem;
 }
 
 .add-row > button {
-  align-self: center;
+  align-self: start;
+  margin-top: var(--space-8);
 }
 
 .item-list {

@@ -50,7 +50,7 @@ export class Contact {
     const value = this.contactForm.getRawValue();
 
     if (!value.name || !value.email || !value.subject || !value.message) {
-      this.submitError.set('Please fill in all required fields.');
+      this.submitError.set('Bitte fülle alle erforderlichen Felder aus.');
       this.isSubmitting.set(false);
       return;
     }
@@ -70,14 +70,16 @@ export class Contact {
           this.contactForm.reset();
           this.router.navigate(['/']);
 
-          this.snackBar.open('Message sent! Thank you for contacting us.', 'OK', {
+          this.snackBar.open('Nachricht gesendet! Vielen Dank für deine Kontaktaufnahme.', 'OK', {
             duration: 5000,
           });
         },
         error: (err) => {
           console.error('Contact send error', err);
           this.isSubmitting.set(false);
-          this.submitError.set('Could not send message. Try again later.');
+          this.submitError.set(
+            'Nachricht konnte nicht gesendet werden. Bitte versuche es später erneut.',
+          );
         },
       });
   }

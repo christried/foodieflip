@@ -19,6 +19,9 @@ export class RecipesService {
 
   setRandomRecipe(complexity: Complexity) {
     const currentId = this.recipe()?.id ?? 'norecipe';
+    const loadingStartedAt = Date.now();
+
+    this.spinnerStatus.set('on');
 
     const GETRECIPE = this.httpClient
       .get<Recipe>(`${this.apiBaseUrl}/api/recipes/random/${complexity}`, {
@@ -27,18 +30,23 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not retreive random recipe'));
+          return throwError(() => new Error('Konnte kein zufälliges Rezept abrufen'));
         }),
       );
 
     GETRECIPE.subscribe({
       next: (recipe: Recipe) => {
-        this.spinnerStatus.set('on');
+        const elapsed = Date.now() - loadingStartedAt;
+        const remainingDelay = Math.max(750 - elapsed, 0);
+
         setTimeout(() => {
           this.recipe.set(recipe);
           this.spinnerStatus.set('off');
           this.router.navigate(['/recipe', recipe.shortTitle]);
-        }, 750);
+        }, remainingDelay);
+      },
+      error: () => {
+        this.spinnerStatus.set('off');
       },
     });
     // skipping unsubscribe onDestroy since it's not necessary for http observables
@@ -46,6 +54,7 @@ export class RecipesService {
 
   clearCurrentRecipe() {
     this.recipe.set(undefined);
+    this.spinnerStatus.set('off');
   }
 
   // Helper method to fetch recipe by shortTitle - returns Observable without side effects
@@ -54,7 +63,7 @@ export class RecipesService {
     return this.httpClient.get<Recipe>(`${this.apiBaseUrl}/api/recipes/${shortTitle}`).pipe(
       catchError((error) => {
         console.error(error);
-        return throwError(() => new Error('Could not load recipe'));
+        return throwError(() => new Error('Rezept konnte nicht geladen werden'));
       }),
     );
   }
@@ -68,7 +77,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not patch vote'));
+          return throwError(() => new Error('Bewertung konnte nicht gespeichert werden'));
         }),
       );
 
@@ -86,17 +95,21 @@ export class RecipesService {
   // current use cases: accessing a recipe using the URL
   loadRecipeByShortTitle(shortTitle: string) {
     this.spinnerStatus.set('on');
+
     this.httpClient
       .get<Recipe>(`${this.apiBaseUrl}/api/recipes/${shortTitle}`)
       .pipe(
         catchError((error) => {
           console.error(error);
-          return throwError(() => new Error('Could not load recipe'));
+          return throwError(() => new Error('Rezept konnte nicht geladen werden'));
         }),
       )
       .subscribe({
         next: (recipe) => {
           this.recipe.set(recipe);
+          this.spinnerStatus.set('off');
+        },
+        error: () => {
           this.spinnerStatus.set('off');
         },
       });
@@ -112,7 +125,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not upload image'));
+          return throwError(() => new Error('Bild konnte nicht hochgeladen werden'));
         }),
       );
   }
@@ -134,7 +147,7 @@ export class RecipesService {
       .pipe(
         catchError((error) => {
           console.log(error);
-          return throwError(() => new Error('Could not submit recipe'));
+          return throwError(() => new Error('Rezept konnte nicht eingereicht werden'));
         }),
       );
   }

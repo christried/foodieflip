@@ -7,5 +7,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './ingredients.scss',
 })
 export class Ingredients {
-  public ingredients = input<string[] | undefined>(['ingredients loading...']);
+  public ingredients = input<string[] | undefined>(['Zutaten werden geladen...']);
 }

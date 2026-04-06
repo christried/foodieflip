@@ -1,31 +1,46 @@
 <mat-card class="selection-card" appearance="raised">
   <mat-card-header>
-    <mat-card-title class="selection-card-title">Preferred Preparation Time</mat-card-title>
+    <mat-card-title class="selection-card-title">Wie schnell soll's gehen?</mat-card-title>
   </mat-card-header>
 
   <mat-card-content class="selection-buttons">
     <div class="selection-option">
-      <button matFab extended (click)="onClickButton('quick')">
+      <button
+        matFab
+        extended
+        (click)="onClickButton('quick')"
+        [disabled]="recipeService.spinnerStatus() === 'on'"
+      >
         <mat-icon>bolt</mat-icon>
-        Quick
+        Schnell
       </button>
-      <span class="option-subtitle">Ready before your coffee cools</span>
+      <span class="option-subtitle">Fertig, bevor dein Kaffee kalt ist</span>
     </div>
 
     <div class="selection-option">
-      <button matFab extended (click)="onClickButton('ordinary')">
+      <button
+        matFab
+        extended
+        (click)="onClickButton('ordinary')"
+        [disabled]="recipeService.spinnerStatus() === 'on'"
+      >
         <mat-icon>restaurant</mat-icon>
-        Ordinary
+        Standard
       </button>
-      <span class="option-subtitle">A meal worth the wait</span>
+      <span class="option-subtitle">Ist das Warten wert</span>
     </div>
 
     <div class="selection-option">
-      <button matFab extended (click)="onClickButton('complex')">
+      <button
+        matFab
+        extended
+        (click)="onClickButton('complex')"
+        [disabled]="recipeService.spinnerStatus() === 'on'"
+      >
         <mat-icon>menu_book</mat-icon>
-        Complex
+        Aufwendig
       </button>
-      <span class="option-subtitle">For those who love the craft</span>
+      <span class="option-subtitle">Für alle, die gerne kochen</span>
     </div>
   </mat-card-content>
 </mat-card>

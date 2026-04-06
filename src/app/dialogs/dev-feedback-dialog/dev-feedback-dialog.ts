@@ -58,11 +58,13 @@ export class DevFeedbackDialog {
 
   updateErrorMessage() {
     if (this.feedbackControl.hasError('required')) {
-      this.errorMessage.set('You must enter feedback to submit');
+      this.errorMessage.set('Bitte gib ein Feedback ein, um es zu senden');
     } else if (this.feedbackControl.hasError('maxlength')) {
-      this.errorMessage.set('Please keep your feedback below 1000 characters before sending');
+      this.errorMessage.set('Bitte halte dein Feedback unter 1000 Zeichen');
     } else if (this.feedbackControl.hasError('apiError')) {
-      this.errorMessage.set('Error when forwarding your feedback. Please try again later.');
+      this.errorMessage.set(
+        'Fehler beim Weiterleiten deines Feedbacks. Bitte versuche es später erneut.',
+      );
     } else {
       this.errorMessage.set('');
     }
@@ -81,7 +83,7 @@ export class DevFeedbackDialog {
       return;
     }
 
-    const nameValue = this.name.value ?? 'anonymous';
+    const nameValue = this.name.value ?? 'Anonym';
     const feedbackValue = this.feedbackControl.value ?? '';
 
     this.feedbackService.sendFeedback(nameValue, feedbackValue).subscribe({
