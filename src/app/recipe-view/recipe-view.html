@@ -1,7 +1,6 @@
 <div
   class="body-cards"
   [class.no-recipe]="!recipesService.recipe()"
-  [class.spinner-active]="recipesService.spinnerStatus() === 'on'"
 >
   <app-selection class="selection-component" />
   <app-recipe class="recipe-component" />

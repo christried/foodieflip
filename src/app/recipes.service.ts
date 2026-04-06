@@ -19,6 +19,9 @@ export class RecipesService {
 
   setRandomRecipe(complexity: Complexity) {
     const currentId = this.recipe()?.id ?? 'norecipe';
+    const loadingStartedAt = Date.now();
+
+    this.spinnerStatus.set('on');
 
     const GETRECIPE = this.httpClient
       .get<Recipe>(`${this.apiBaseUrl}/api/recipes/random/${complexity}`, {
@@ -33,12 +36,17 @@ export class RecipesService {
 
     GETRECIPE.subscribe({
       next: (recipe: Recipe) => {
-        this.spinnerStatus.set('on');
+        const elapsed = Date.now() - loadingStartedAt;
+        const remainingDelay = Math.max(750 - elapsed, 0);
+
         setTimeout(() => {
           this.recipe.set(recipe);
           this.spinnerStatus.set('off');
           this.router.navigate(['/recipe', recipe.shortTitle]);
-        }, 750);
+        }, remainingDelay);
+      },
+      error: () => {
+        this.spinnerStatus.set('off');
       },
     });
     // skipping unsubscribe onDestroy since it's not necessary for http observables
@@ -46,6 +54,7 @@ export class RecipesService {
 
   clearCurrentRecipe() {
     this.recipe.set(undefined);
+    this.spinnerStatus.set('off');
   }
 
   // Helper method to fetch recipe by shortTitle - returns Observable without side effects
@@ -86,6 +95,7 @@ export class RecipesService {
   // current use cases: accessing a recipe using the URL
   loadRecipeByShortTitle(shortTitle: string) {
     this.spinnerStatus.set('on');
+
     this.httpClient
       .get<Recipe>(`${this.apiBaseUrl}/api/recipes/${shortTitle}`)
       .pipe(
@@ -97,6 +107,9 @@ export class RecipesService {
       .subscribe({
         next: (recipe) => {
           this.recipe.set(recipe);
+          this.spinnerStatus.set('off');
+        },
+        error: () => {
           this.spinnerStatus.set('off');
         },
       });
