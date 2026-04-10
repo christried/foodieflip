@@ -75,7 +75,7 @@ export class RecipeSubmissionDialog {
   readonly editValue = signal('');
 
   readonly titleIngredientsFormGroup = this.fb.group({
-    titleCtrl: this.fb.nonNullable.control('', [Validators.required, Validators.maxLength(24)]),
+    titleCtrl: this.fb.nonNullable.control('', [Validators.required, Validators.maxLength(40)]),
     ingredientInputCtrl: this.fb.nonNullable.control(''),
     ingredientsCtrl: this.fb.nonNullable.array<string>([], Validators.minLength(MIN_INGREDIENTS)),
   });

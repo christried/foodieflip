@@ -32,13 +32,13 @@
                 matInput
                 placeholder="z. B. Kichererbsen-Masala"
                 formControlName="titleCtrl"
-                maxlength="24"
+                maxlength="40"
               />
               @if (showTitleRequiredError()) {
                 <mat-error>Titel ist erforderlich</mat-error>
               }
               @if (showTitleMaxLengthError()) {
-                <mat-error>Der Titel darf nicht mehr als 24 Zeichen beinhalten</mat-error>
+                <mat-error>Der Titel darf nicht mehr als 40 Zeichen beinhalten</mat-error>
               }
             </mat-form-field>
           </section>
