@@ -1,0 +1,40 @@
+<mat-card class="pages-card">
+  <mat-card-header class="pages-card-header">
+    <mat-card-title> Nutzerprofil von {{ user().userName }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <section>
+      <h3>Nutzer-Info</h3>
+      <table>
+        <tbody>
+          <tr>
+            <td>E-Mail:</td>
+            <td>{{ user().email }}</td>
+          </tr>
+          <tr>
+            <td>Username:</td>
+            <td>{{ user().userName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Eingereichte Mahlzeiten:</h3>
+      <ul>
+        @for (recipe of user().submittedRecipes; track $index) {
+          <li>{{ recipe.title }}</li>
+        }
+      </ul>
+    </section>
+
+    <section>
+      <h3>Favorisierte Mahlzeiten:</h3>
+      <ul>
+        @for (recipe of user().favouriteRecipes; track $index) {
+          <li>{{ recipe.title }}</li>
+        }
+      </ul>
+    </section>
+  </mat-card-content>
+</mat-card>

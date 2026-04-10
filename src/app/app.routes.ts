@@ -33,6 +33,20 @@ export const routes: Routes = [
       recipe: recipeResolver,
     },
   },
+
+  // user pages
+
+  {
+    path: 'admin',
+    loadComponent: () => import('./user/admin/admin').then((m) => m.Admin),
+    title: 'Admin',
+  },
+
+  {
+    path: 'user',
+    loadComponent: () => import('./user/user').then((m) => m.User),
+    title: 'Nutzerprofil',
+  },
   // legal/info pages
 
   {
@@ -44,11 +58,6 @@ export const routes: Routes = [
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
     title: 'Kontakt',
-  },
-  {
-    path: 'admin',
-    loadComponent: () => import('./user/admin/admin').then((m) => m.Admin),
-    title: 'Admin',
   },
 
   {
