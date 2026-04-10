@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-user',
   imports: [MatCardModule],
   templateUrl: './user.html',
-  styleUrl: './user.scss',
+  styleUrls: ['./user.scss', '../pages/pages.scss'],
 })
 export class User {
   public user = signal({

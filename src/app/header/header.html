@@ -20,12 +20,14 @@
 
   <!-- Include Material Badge on header icon whenever logged in, then edit aria-label and edit menu options below depending on login state -->
   <div class="header-right">
-    <button mat-icon-button aria-label="In Nutzerkonto einloggen" [matMenuTriggerFor]="userMenu">
+    <button mat-icon-button aria-label="Benutzermenü öffnen" [matMenuTriggerFor]="userMenu">
       <mat-icon>account_circle</mat-icon>
     </button>
 
     <mat-menu #userMenu="matMenu">
-      <button mat-menu-item><mat-icon>login</mat-icon> <span>Login mit Google</span></button>
+      <button mat-menu-item aria-label="Einloggen mit Google">
+        <mat-icon>login</mat-icon> <span>Login mit Google</span>
+      </button>
     </mat-menu>
     <button mat-icon-button aria-label="Design wechseln" (click)="toggleTheme()">
       <mat-icon>{{ themeIcon() }}</mat-icon>
