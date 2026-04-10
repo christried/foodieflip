@@ -4,6 +4,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: '', renderMode: RenderMode.Prerender },
   { path: 'terms', renderMode: RenderMode.Prerender },
   { path: 'contact', renderMode: RenderMode.Prerender },
+  { path: 'admin', renderMode: RenderMode.Prerender },
+  { path: 'user', renderMode: RenderMode.Prerender },
 
   // dynamic route — recipe shortTitle is unknown at build time, render on each request
   { path: 'recipe/:shortTitle', renderMode: RenderMode.Server },

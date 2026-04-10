@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 import { DevFeedbackDialog } from '../dialogs/dev-feedback-dialog/dev-feedback-dialog';
 import { DOCUMENT } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -20,6 +21,7 @@ type ThemeMode = 'light' | 'dark';
     MatButtonModule,
     MatTooltipModule,
     MatDialogModule,
+    MatMenuModule,
     RouterLink,
   ],
   templateUrl: './header.html',
