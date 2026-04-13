@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,8 +8,11 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { DevFeedbackDialog } from '../dialogs/dev-feedback-dialog/dev-feedback-dialog';
 import { DOCUMENT } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RecipesService } from '../recipes.service';
+import { AuthService } from '../auth.service';
+import { GoogleIdentityService } from '../google-identity.service';
+import { firstValueFrom } from 'rxjs';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -31,11 +34,23 @@ export class Header implements OnInit {
   readonly dialog = inject(MatDialog);
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
-  private recipesService = inject(RecipesService);
+  private readonly router = inject(Router);
+  private readonly recipesService = inject(RecipesService);
+  private readonly authService = inject(AuthService);
+  private readonly googleIdentityService = inject(GoogleIdentityService);
 
   themeMode = signal<ThemeMode>('dark');
   themeIcon = signal<string>('dark_mode');
   logoSrc = signal('header-logo.webp');
+  readonly isAuthenticated = this.authService.isAuthenticated;
+  readonly currentUser = this.authService.user;
+  readonly isBootstrappingAuth = this.authService.isBootstrapping;
+  readonly isLoginPending = signal(false);
+  readonly authMessage = signal('');
+  readonly isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
+  readonly accountLabel = computed(
+    () => this.currentUser()?.username ?? this.currentUser()?.email ?? 'Nutzerkonto',
+  );
 
   private get isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -43,13 +58,19 @@ export class Header implements OnInit {
 
   ngOnInit() {
     if (!this.isBrowser) return;
+
     const saved = localStorage.getItem('foodieflip-theme') as ThemeMode | null;
+
     if (saved) {
       this.themeMode.set(saved);
       this.applyTheme(saved);
     } else {
       this.applyTheme('dark');
     }
+
+    void this.googleIdentityService.preload().catch(() => {
+      // The user can still retry from the login button; avoid noisy startup errors.
+    });
   }
 
   toggleTheme() {
@@ -83,5 +104,47 @@ export class Header implements OnInit {
 
   onClickHero() {
     this.recipesService.clearCurrentRecipe();
+  }
+
+  async onClickLoginWithGoogle(): Promise<void> {
+    if (!this.isBrowser || this.isLoginPending() || this.isBootstrappingAuth()) {
+      return;
+    }
+
+    this.authMessage.set('');
+    this.isLoginPending.set(true);
+
+    try {
+      const credential = await this.googleIdentityService.requestCredential();
+      const authResponse = await firstValueFrom(
+        this.authService.loginWithGoogleCredential(credential),
+      );
+
+      if (authResponse.needsUsername) {
+        this.authMessage.set('Bitte zuerst einen Benutzernamen festlegen.');
+        return;
+      }
+
+      this.authMessage.set('');
+      await this.router.navigate(['/user']);
+    } catch (error) {
+      this.authMessage.set(
+        error instanceof Error ? error.message : 'Google-Anmeldung konnte nicht gestartet werden.',
+      );
+      console.error(error);
+    } finally {
+      this.isLoginPending.set(false);
+    }
+  }
+
+  async onClickLogout(): Promise<void> {
+    try {
+      await firstValueFrom(this.authService.logout());
+      this.authMessage.set('');
+      await this.router.navigate(['/']);
+    } catch (error) {
+      this.authMessage.set(error instanceof Error ? error.message : 'Abmeldung fehlgeschlagen.');
+      console.error(error);
+    }
   }
 }
