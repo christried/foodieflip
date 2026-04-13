@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 
-function resolveAdminAccess(authService: AuthService, router: Router): boolean | UrlTree {
+function _resolveAdminAccess(authService: AuthService, router: Router): boolean | UrlTree {
   const user = authService.user();
 
   if (!user) {
@@ -23,11 +23,11 @@ export const adminGuard: CanActivateFn = (): boolean | UrlTree | Observable<bool
   const router = inject(Router);
 
   if (authService.isAuthenticated()) {
-    return resolveAdminAccess(authService, router);
+    return _resolveAdminAccess(authService, router);
   }
 
   return authService.bootstrapSession().pipe(
-    map(() => resolveAdminAccess(authService, router)),
+    map(() => _resolveAdminAccess(authService, router)),
     catchError(() => of(router.parseUrl('/'))),
   );
 };
