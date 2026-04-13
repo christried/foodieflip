@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 export const authGuard: CanActivateFn = (): boolean | UrlTree | Observable<boolean | UrlTree> => {
@@ -12,8 +11,7 @@ export const authGuard: CanActivateFn = (): boolean | UrlTree | Observable<boole
     return true;
   }
 
-  return authService.bootstrapSession().pipe(
+  return authService.waitForBootstrapCompletion().pipe(
     map(() => (authService.isAuthenticated() ? true : router.parseUrl('/'))),
-    catchError(() => of(router.parseUrl('/'))),
   );
 };

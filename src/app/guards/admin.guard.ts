@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 function _resolveAdminAccess(authService: AuthService, router: Router): boolean | UrlTree {
@@ -26,8 +25,7 @@ export const adminGuard: CanActivateFn = (): boolean | UrlTree | Observable<bool
     return _resolveAdminAccess(authService, router);
   }
 
-  return authService.bootstrapSession().pipe(
+  return authService.waitForBootstrapCompletion().pipe(
     map(() => _resolveAdminAccess(authService, router)),
-    catchError(() => of(router.parseUrl('/'))),
   );
 };
