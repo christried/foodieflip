@@ -1,40 +1,95 @@
-<mat-card class="pages-card">
-  <mat-card-header class="pages-card-header">
-    <mat-card-title> Nutzerprofil von {{ user().userName }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <section>
-      <h3>Nutzer-Info</h3>
-      <table>
-        <tbody>
-          <tr>
-            <td>E-Mail:</td>
-            <td>{{ user().email }}</td>
-          </tr>
-          <tr>
-            <td>Username:</td>
-            <td>{{ user().userName }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section>
-      <h3>Eingereichte Mahlzeiten:</h3>
-      <ul>
-        @for (recipe of user().submittedRecipes; track $index) {
-          <li>{{ recipe.title }}</li>
+@if (!isAuthenticated()) {
+  <mat-card class="pages-card">
+    <mat-card-header class="pages-card-header">
+      <mat-card-title>Nutzerprofil</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Bitte melde dich an, um dein Nutzerprofil zu sehen.</p>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <mat-card class="pages-card">
+    <mat-card-header class="pages-card-header">
+      <mat-card-title>
+        @if (user()?.username) {
+          Nutzerprofil von {{ user()?.username }}
+        } @else {
+          Nutzerprofil
         }
-      </ul>
-    </section>
+      </mat-card-title>
+    </mat-card-header>
 
-    <section>
-      <h3>Favorisierte Mahlzeiten:</h3>
-      <ul>
-        @for (recipe of user().favouriteRecipes; track $index) {
-          <li>{{ recipe.title }}</li>
-        }
-      </ul>
-    </section>
-  </mat-card-content>
-</mat-card>
+    <mat-card-content>
+      @if (needsUsername()) {
+        <section class="username-required-box" aria-live="polite">
+          <h3>Benutzername erforderlich</h3>
+          <p class="helper-text">
+            Du musst zuerst einen Benutzernamen festlegen, bevor du dieses Profil vollständig nutzen
+            kannst. Dein Benutzername ist öffentlich und wird anderen Nutzer:Innen bei Rezepten
+            angezeigt, die du eingereicht hast.
+          </p>
+
+          <form class="username-form" [formGroup]="usernameForm" (ngSubmit)="onClickSaveUsername()">
+            <mat-form-field appearance="outline">
+              <mat-label>Benutzername</mat-label>
+              <input
+                matInput
+                formControlName="usernameCtrl"
+                placeholder="z. B. Mara"
+                (input)="onUsernameInput()"
+              />
+
+              <mat-hint>Erlaubt: 3-24 Zeichen, a-z, A-Z, 0-9 und Unterstrich.</mat-hint>
+
+              @if (usernameError()) {
+                <mat-error>{{ usernameError() }}</mat-error>
+              } @else if (showUsernameRequiredError()) {
+                <mat-error>Bitte gib einen Benutzernamen ein.</mat-error>
+              } @else if (showUsernamePatternError()) {
+                <mat-error>
+                  Der Benutzername muss 3-24 Zeichen haben und darf nur a-z, A-Z, 0-9 und _
+                  enthalten.
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <button
+              mat-flat-button
+              class="save-button"
+              color="primary"
+              type="submit"
+              [disabled]="!canSaveUsername()"
+            >
+              {{ isSavingUsername() ? 'Speichere...' : 'Benutzernamen speichern' }}
+            </button>
+          </form>
+        </section>
+      } @else {
+        <section>
+          <h3>Nutzer-Info</h3>
+          <table>
+            <tbody>
+              <tr>
+                <td>E-Mail:</td>
+                <td>{{ user()?.email }}</td>
+              </tr>
+              <tr>
+                <td>Username:</td>
+                <td>{{ user()?.username || 'Noch nicht gesetzt' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <section>
+          <h3>Eingereichte Mahlzeiten</h3>
+          <p class="helper-text">Deine Einreichungen werden hier bald angezeigt.</p>
+        </section>
+
+        <section>
+          <h3>Favorisierte Mahlzeiten</h3>
+          <p class="helper-text">Deine Favoriten werden hier bald angezeigt.</p>
+        </section>
+      }
+    </mat-card-content>
+  </mat-card>
+}
