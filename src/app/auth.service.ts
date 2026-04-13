@@ -65,7 +65,7 @@ export class AuthService {
   }
 
   updateUsername(username: string): Observable<AuthSessionResponse> {
-    const normalizedUsername = username.trim().toLowerCase();
+    const normalizedUsername = username.trim();
 
     if (!normalizedUsername) {
       return throwError(() => new Error('Benutzername darf nicht leer sein.'));

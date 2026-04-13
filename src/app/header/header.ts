@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DevFeedbackDialog } from '../dialogs/dev-feedback-dialog/dev-feedback-dialog';
 import { DOCUMENT } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -38,6 +39,7 @@ export class Header implements OnInit {
   private readonly recipesService = inject(RecipesService);
   private readonly authService = inject(AuthService);
   private readonly googleIdentityService = inject(GoogleIdentityService);
+  private readonly snackBar = inject(MatSnackBar);
 
   themeMode = signal<ThemeMode>('dark');
   themeIcon = signal<string>('dark_mode');
@@ -51,6 +53,7 @@ export class Header implements OnInit {
   readonly accountLabel = computed(
     () => this.currentUser()?.username ?? this.currentUser()?.email ?? 'Nutzerkonto',
   );
+  readonly headerUserName = computed(() => this.currentUser()?.username ?? '');
 
   private get isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -121,11 +124,20 @@ export class Header implements OnInit {
       );
 
       if (authResponse.needsUsername) {
+        this.snackBar.open('Login erfolgreich. Bitte Benutzernamen festlegen.', 'OK', {
+          duration: 3200,
+          verticalPosition: 'top',
+        });
         this.authMessage.set('Bitte zuerst einen Benutzernamen festlegen.');
+        await this.router.navigate(['/user']);
         return;
       }
 
       this.authMessage.set('');
+      this.snackBar.open('Erfolgreich mit Google angemeldet.', 'OK', {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
       await this.router.navigate(['/user']);
     } catch (error) {
       this.authMessage.set(
@@ -141,6 +153,10 @@ export class Header implements OnInit {
     try {
       await firstValueFrom(this.authService.logout());
       this.authMessage.set('');
+      this.snackBar.open('Erfolgreich ausgeloggt.', 'OK', {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
       await this.router.navigate(['/']);
     } catch (error) {
       this.authMessage.set(error instanceof Error ? error.message : 'Abmeldung fehlgeschlagen.');
