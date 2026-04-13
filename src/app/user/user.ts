@@ -28,7 +28,6 @@ export class User {
   private readonly snackBar = inject(MatSnackBar);
 
   readonly user = this.authService.user;
-  readonly isAuthenticated = this.authService.isAuthenticated;
   readonly needsUsername = this.authService.needsUsername;
   readonly isSavingUsername = signal(false);
   readonly usernameError = signal('');

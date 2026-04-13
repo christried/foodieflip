@@ -4,6 +4,8 @@ import { inject } from '@angular/core';
 import { catchError } from 'rxjs';
 import { Recipe } from './recipe.model';
 import { RecipesService } from './recipes.service';
+import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 const recipeResolver: ResolveFn<Recipe> = (route) => {
   const shortTitle = route.paramMap.get('shortTitle')!;
@@ -39,12 +41,14 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadComponent: () => import('./user/admin/admin').then((m) => m.Admin),
+    canActivate: [adminGuard],
     title: 'Admin',
   },
 
   {
     path: 'user',
     loadComponent: () => import('./user/user').then((m) => m.User),
+    canActivate: [authGuard],
     title: 'Nutzerprofil',
   },
   // legal/info pages

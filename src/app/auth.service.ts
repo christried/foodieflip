@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { catchError, finalize, map, Observable, of, tap, throwError } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { catchError, filter, finalize, map, Observable, of, take, tap, throwError } from 'rxjs';
 import { API_BASE_URL } from './api.config';
 import { AuthSessionResponse, AuthUser, UsernameUpdatePayload } from './auth.model';
 
@@ -23,6 +24,19 @@ export class AuthService {
   readonly needsUsername = signal(false);
   readonly isBootstrapping = signal(false);
   readonly isAuthenticated = computed(() => this.user() !== null);
+  private readonly isBootstrapping$ = toObservable(this.isBootstrapping);
+
+  waitForBootstrapCompletion(): Observable<void> {
+    if (!this.isBootstrapping()) {
+      return of(undefined);
+    }
+
+    return this.isBootstrapping$.pipe(
+      filter((value) => !value),
+      take(1),
+      map(() => undefined),
+    );
+  }
 
   bootstrapSession(): Observable<AuthSessionResponse | null> {
     this.isBootstrapping.set(true);
