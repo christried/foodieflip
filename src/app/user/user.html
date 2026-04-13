@@ -64,70 +64,70 @@
             </tr>
             <tr>
               <td>Username:</td>
-                <td>
-                  @if (isEditingUsername()) {
-                    <form
-                      class="username-edit-form"
-                      [formGroup]="usernameForm"
-                      (ngSubmit)="onClickSaveUsername()"
-                    >
-                      <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                        <mat-label>Benutzername</mat-label>
-                        <input
-                          matInput
-                          formControlName="usernameCtrl"
-                          placeholder="z. B. Chris"
-                          (input)="onUsernameInput()"
-                        />
+              <td>
+                @if (isEditingUsername()) {
+                  <form
+                    class="username-edit-form"
+                    [formGroup]="usernameForm"
+                    (ngSubmit)="onClickSaveUsername()"
+                  >
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                      <mat-label>Benutzername</mat-label>
+                      <input
+                        matInput
+                        formControlName="usernameCtrl"
+                        placeholder="z. B. Chris"
+                        (input)="onUsernameInput()"
+                      />
 
-                        @if (usernameError()) {
-                          <mat-error>{{ usernameError() }}</mat-error>
-                        } @else if (showUsernameRequiredError()) {
-                          <mat-error>Bitte gib einen Benutzernamen ein.</mat-error>
-                        } @else if (showUsernamePatternError()) {
-                          <mat-error>
-                            Der Benutzername muss 3-24 Zeichen haben und darf nur a-z, A-Z, 0-9
-                            und _ enthalten.
-                          </mat-error>
-                        }
-                      </mat-form-field>
+                      @if (usernameError()) {
+                        <mat-error>{{ usernameError() }}</mat-error>
+                      } @else if (showUsernameRequiredError()) {
+                        <mat-error>Bitte gib einen Benutzernamen ein.</mat-error>
+                      } @else if (showUsernamePatternError()) {
+                        <mat-error>
+                          Der Benutzername muss 3-24 Zeichen haben und darf nur a-z, A-Z, 0-9 und _
+                          enthalten.
+                        </mat-error>
+                      }
+                    </mat-form-field>
 
-                      <div class="username-edit-actions">
-                        <button
-                          mat-flat-button
-                          color="primary"
-                          type="submit"
-                          [disabled]="!canSaveUsername()"
-                        >
-                          {{ isSavingUsername() ? 'Speichere...' : 'Speichern' }}
-                        </button>
-
-                        <button
-                          mat-button
-                          type="button"
-                          (click)="onClickCancelUsernameEdit()"
-                          [disabled]="isSavingUsername()"
-                        >
-                          Abbrechen
-                        </button>
-                      </div>
-                    </form>
-                  } @else {
-                    <div class="username-view">
-                      <span>{{ user()?.username || 'Noch nicht gesetzt' }}</span>
+                    <div class="username-edit-actions">
                       <button
-                        mat-icon-button
-                        type="button"
-                        aria-label="Benutzernamen bearbeiten"
-                        matTooltip="Benutzernamen bearbeiten"
-                        matTooltipPosition="above"
-                        (click)="onClickStartUsernameEdit()"
+                        mat-flat-button
+                        color="primary"
+                        type="submit"
+                        [disabled]="!canSaveUsername()"
                       >
-                        <mat-icon>edit</mat-icon>
+                        {{ isSavingUsername() ? 'Speichere...' : 'Speichern' }}
+                      </button>
+
+                      <button
+                        mat-button
+                        type="button"
+                        (click)="onClickCancelUsernameEdit()"
+                        [disabled]="isSavingUsername()"
+                      >
+                        Abbrechen
                       </button>
                     </div>
-                  }
-                </td>
+                  </form>
+                } @else {
+                  <div class="username-view">
+                    <span>{{ user()?.username || 'Noch nicht gesetzt' }}</span>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      aria-label="Benutzernamen bearbeiten"
+                      matTooltip="Benutzernamen bearbeiten"
+                      matTooltipPosition="above"
+                      (click)="onClickStartUsernameEdit()"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                }
+              </td>
             </tr>
           </tbody>
         </table>
