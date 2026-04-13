@@ -76,7 +76,9 @@ export class GoogleIdentityService {
     const googleClientId = environment.googleClientId?.trim();
 
     if (!googleClientId) {
-      throw new Error('Google Client ID fehlt in den Umgebungsvariablen.');
+      throw new Error(
+        'Google Client ID fehlt in den Umgebungsvariablen von Angular (environment.ts).',
+      );
     }
 
     const googleIdentity = this.getGoogleIdentity();

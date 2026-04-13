@@ -58,6 +58,12 @@ export class User {
     return show && this.usernameCtrl.hasError('pattern');
   }
 
+  onUsernameInput(): void {
+    if (this.usernameError()) {
+      this.usernameError.set('');
+    }
+  }
+
   onClickSaveUsername(): void {
     this.usernameError.set('');
 

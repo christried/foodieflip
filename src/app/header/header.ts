@@ -140,9 +140,13 @@ export class Header implements OnInit {
       });
       await this.router.navigate(['/user']);
     } catch (error) {
-      this.authMessage.set(
-        error instanceof Error ? error.message : 'Google-Anmeldung konnte nicht gestartet werden.',
-      );
+      const message =
+        error instanceof Error ? error.message : 'Google-Anmeldung konnte nicht gestartet werden.';
+      this.authMessage.set(message);
+      this.snackBar.open(`Login fehlgeschlagen: ${message}`, 'OK', {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
       console.error(error);
     } finally {
       this.isLoginPending.set(false);
@@ -159,7 +163,12 @@ export class Header implements OnInit {
       });
       await this.router.navigate(['/']);
     } catch (error) {
-      this.authMessage.set(error instanceof Error ? error.message : 'Abmeldung fehlgeschlagen.');
+      const message = error instanceof Error ? error.message : 'Abmeldung fehlgeschlagen.';
+      this.authMessage.set(message);
+      this.snackBar.open(`Logout fehlgeschlagen: ${message}`, 'OK', {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
       console.error(error);
     }
   }

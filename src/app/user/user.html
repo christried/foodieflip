@@ -32,26 +32,34 @@
           <form class="username-form" [formGroup]="usernameForm" (ngSubmit)="onClickSaveUsername()">
             <mat-form-field appearance="outline">
               <mat-label>Benutzername</mat-label>
-              <input matInput formControlName="usernameCtrl" placeholder="z. B. Mara" />
+              <input
+                matInput
+                formControlName="usernameCtrl"
+                placeholder="z. B. Mara"
+                (input)="onUsernameInput()"
+              />
+
+              <mat-hint>Erlaubt: 3-24 Zeichen, a-z, A-Z, 0-9 und Unterstrich.</mat-hint>
+
+              @if (usernameError()) {
+                <mat-error>{{ usernameError() }}</mat-error>
+              } @else if (showUsernameRequiredError()) {
+                <mat-error>Bitte gib einen Benutzernamen ein.</mat-error>
+              } @else if (showUsernamePatternError()) {
+                <mat-error>
+                  Der Benutzername muss 3-24 Zeichen haben und darf nur a-z, A-Z, 0-9 und _
+                  enthalten.
+                </mat-error>
+              }
             </mat-form-field>
 
-            <p class="helper-text">Erlaubt: 3-24 Zeichen, a-z, A-Z, 0-9 und Unterstrich.</p>
-
-            @if (showUsernameRequiredError()) {
-              <p class="error-text">Bitte gib einen Benutzernamen ein.</p>
-            }
-
-            @if (showUsernamePatternError()) {
-              <p class="error-text">
-                Der Benutzername muss 3-24 Zeichen haben und darf nur a-z, A-Z, 0-9 und _ enthalten.
-              </p>
-            }
-
-            @if (usernameError()) {
-              <p class="error-text">{{ usernameError() }}</p>
-            }
-
-            <button mat-flat-button color="primary" type="submit" [disabled]="!canSaveUsername()">
+            <button
+              mat-flat-button
+              class="save-button"
+              color="primary"
+              type="submit"
+              [disabled]="!canSaveUsername()"
+            >
               {{ isSavingUsername() ? 'Speichere...' : 'Benutzernamen speichern' }}
             </button>
           </form>
