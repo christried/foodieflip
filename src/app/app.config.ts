@@ -8,10 +8,11 @@ import {
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { AppTitleStrategy } from './app-title-strategy';
 import { API_BASE_URL } from './api.config';
 import { environment } from '../environments/environment';
+import { authCredentialsInterceptor } from './auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +23,7 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
     ),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authCredentialsInterceptor])),
     { provide: TitleStrategy, useClass: AppTitleStrategy },
     { provide: API_BASE_URL, useValue: environment.apiBaseUrl },
   ],
