@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../auth.service';
@@ -17,6 +19,8 @@ const USERNAME_PATTERN = /^[A-Za-z0-9_]{3,24}$/;
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
+    MatTooltipModule,
     ReactiveFormsModule,
   ],
   templateUrl: './user.html',
@@ -30,6 +34,7 @@ export class User {
   readonly user = this.authService.user;
   readonly needsUsername = this.authService.needsUsername;
   readonly isSavingUsername = signal(false);
+  readonly isEditingUsername = signal(false);
   readonly usernameError = signal('');
 
   readonly usernameForm = this.fb.group({
@@ -63,7 +68,29 @@ export class User {
     }
   }
 
+  onClickStartUsernameEdit(): void {
+    const currentUserName = this.user()?.username ?? '';
+
+    this.usernameError.set('');
+    this.usernameCtrl.setValue(currentUserName);
+    this.usernameCtrl.markAsPristine();
+    this.usernameCtrl.markAsUntouched();
+    this.isEditingUsername.set(true);
+  }
+
+  onClickCancelUsernameEdit(): void {
+    const currentUserName = this.user()?.username ?? '';
+
+    this.usernameError.set('');
+    this.usernameCtrl.setValue(currentUserName);
+    this.usernameCtrl.markAsPristine();
+    this.usernameCtrl.markAsUntouched();
+    this.isEditingUsername.set(false);
+  }
+
   onClickSaveUsername(): void {
+    const isOnboardingFlow = this.needsUsername();
+
     this.usernameError.set('');
 
     if (!this.usernameForm.valid) {
@@ -84,10 +111,23 @@ export class User {
       next: (response) => {
         this.isSavingUsername.set(false);
         this.usernameCtrl.setValue(response.user.username ?? username);
-        this.snackBar.open('Benutzername gespeichert. Profil ist jetzt voll nutzbar.', 'OK', {
+        this.usernameCtrl.markAsPristine();
+        this.usernameCtrl.markAsUntouched();
+
+        if (!isOnboardingFlow) {
+          this.isEditingUsername.set(false);
+        }
+
+        this.snackBar.open(
+          isOnboardingFlow
+            ? 'Benutzername gespeichert. Profil ist jetzt voll nutzbar.'
+            : 'Benutzername aktualisiert.',
+          'OK',
+          {
           duration: 3000,
           verticalPosition: 'top',
-        });
+          },
+        );
       },
       error: (error) => {
         this.isSavingUsername.set(false);

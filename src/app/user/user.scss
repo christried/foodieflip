@@ -22,3 +22,23 @@
 .save-button {
   margin-top: var(--space-16);
 }
+
+.username-view {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.username-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 22rem;
+}
+
+.username-edit-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
