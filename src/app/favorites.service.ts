@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { catchError, EMPTY, finalize, map, Observable, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, finalize, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { API_BASE_URL } from './api.config';
 import { AuthService } from './auth.service';
 
@@ -126,12 +126,20 @@ export class FavoritesService {
       .post(`${this.apiBaseUrl}/api/favorites`, {
         recipeId,
       })
-      .pipe(switchMap(() => this.fetchFavorites()));
+      .pipe(
+        switchMap(() => this.fetchFavorites()),
+        catchError((error) =>
+          throwError(() => new Error('Favorit konnte nicht hinzugefügt werden')),
+        ),
+      );
   }
 
   private deleteFavorite(recipeId: string): Observable<FavoriteRecipe[]> {
     return this.httpClient
       .delete(`${this.apiBaseUrl}/api/favorites/${encodeURIComponent(recipeId)}`)
-      .pipe(switchMap(() => this.fetchFavorites()));
+      .pipe(
+        switchMap(() => this.fetchFavorites()),
+        catchError((error) => throwError(() => new Error('Favorit konnte nicht gelöscht werden'))),
+      );
   }
 }
