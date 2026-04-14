@@ -85,7 +85,7 @@ export class RecipeSubmissionDialog {
 
   readonly instructionsTimeFormGroup = this.fb.group({
     instructionInputCtrl: this.fb.nonNullable.control(''),
-    timeCtrl: this.fb.control<number | null>(null, [
+    timeCtrl: this.fb.nonNullable.control<number>(0, [
       Validators.required,
       Validators.min(5),
       Validators.max(999),
@@ -292,7 +292,7 @@ export class RecipeSubmissionDialog {
     }
 
     const title = this.titleIngredientsFormGroup.controls.titleCtrl.value.trim();
-    const time = this.instructionsTimeFormGroup.controls.timeCtrl.value || 25;
+    const time = this.instructionsTimeFormGroup.controls.timeCtrl.value;
     const submittedBy = this.currentUser()?.username?.trim() || '';
     const file = this.selectedFile() ?? undefined;
 

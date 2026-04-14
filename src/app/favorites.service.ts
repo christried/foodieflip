@@ -129,7 +129,7 @@ export class FavoritesService {
       .pipe(
         switchMap(() => this.fetchFavorites()),
         catchError((error) =>
-          throwError(() => new Error('Favorit konnte nicht hinzugefügt werden')),
+          throwError(() => new Error(`Favorit konnte nicht hinzugefügt werden: ${error}`)),
         ),
       );
   }
@@ -139,7 +139,9 @@ export class FavoritesService {
       .delete(`${this.apiBaseUrl}/api/favorites/${encodeURIComponent(recipeId)}`)
       .pipe(
         switchMap(() => this.fetchFavorites()),
-        catchError((error) => throwError(() => new Error('Favorit konnte nicht gelöscht werden'))),
+        catchError((error) =>
+          throwError(() => new Error(`Favorit konnte nicht gelöscht werden: ${error}`)),
+        ),
       );
   }
 }
