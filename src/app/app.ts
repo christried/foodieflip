@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Header } from './header/header';
 import { Footer } from './footer/footer';
@@ -26,6 +26,12 @@ export class App {
   private readonly authService = inject(AuthService);
   private readonly platformId = inject(PLATFORM_ID);
   readonly dialog = inject(MatDialog);
+  readonly canSubmitRecipe = computed(() => {
+    const user = this.authService.user();
+    const username = user?.username?.trim();
+
+    return Boolean(user && username);
+  });
 
   private readonly queryParams = toSignal(this.route.queryParamMap);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
@@ -47,6 +53,29 @@ export class App {
   }
 
   openSubmitDialog(): void {
+    if (this.authService.isBootstrapping()) {
+      this.authService.waitForBootstrapCompletion().subscribe({
+        next: () => this.openSubmitDialog(),
+        error: (error) => {
+          console.error(error);
+        },
+      });
+      return;
+    }
+
+    const user = this.authService.user();
+    const username = user?.username?.trim();
+
+    if (!user) {
+      void this.router.navigate(['/']);
+      return;
+    }
+
+    if (!username) {
+      void this.router.navigate(['/user']);
+      return;
+    }
+
     const dialogRef = this.dialog.open(RecipeSubmissionDialog, {
       width: '95vw',
       maxWidth: '900px',
