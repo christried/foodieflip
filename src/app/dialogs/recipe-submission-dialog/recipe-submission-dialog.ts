@@ -292,16 +292,9 @@ export class RecipeSubmissionDialog {
     }
 
     const title = this.titleIngredientsFormGroup.controls.titleCtrl.value.trim();
-    const time = this.instructionsTimeFormGroup.controls.timeCtrl.value;
-    const submittedBy = this.currentUser()?.username?.trim();
+    const time = this.instructionsTimeFormGroup.controls.timeCtrl.value || 25;
+    const submittedBy = this.currentUser()?.username?.trim() || '';
     const file = this.selectedFile() ?? undefined;
-
-    if (!title || !time || !submittedBy) {
-      if (!submittedBy) {
-        this.errorMessageFile.set('Bitte melde dich an und lege zuerst einen Benutzernamen fest.');
-      }
-      return;
-    }
 
     this.isUploading.set(true);
 
