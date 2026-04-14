@@ -8,7 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { FavoritesService } from '../favorites.service';
 
 const USERNAME_PATTERN = /^[A-Za-z0-9_]{3,24}$/;
 
@@ -28,10 +30,15 @@ const USERNAME_PATTERN = /^[A-Za-z0-9_]{3,24}$/;
 })
 export class User {
   private readonly authService = inject(AuthService);
+  private readonly favoritesService = inject(FavoritesService);
   private readonly fb = inject(FormBuilder);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
 
   readonly user = this.authService.user;
+  readonly favorites = this.favoritesService.favorites;
+  readonly isLoadingFavorites = this.favoritesService.isLoading;
+  readonly isMutatingFavorites = this.favoritesService.isMutating;
   readonly needsUsername = this.authService.needsUsername;
   readonly isSavingUsername = signal(false);
   readonly isEditingUsername = signal(false);
@@ -124,8 +131,8 @@ export class User {
             : 'Benutzername aktualisiert.',
           'OK',
           {
-          duration: 3000,
-          verticalPosition: 'top',
+            duration: 3000,
+            verticalPosition: 'top',
           },
         );
       },
@@ -136,5 +143,24 @@ export class User {
         );
       },
     });
+  }
+
+  onClickRemoveFavorite(recipeId: string): void {
+    if (this.isMutatingFavorites()) {
+      return;
+    }
+
+    this.favoritesService.removeFavorite(recipeId).subscribe({
+      next: () => {
+        this.snackBar.open('Favorit entfernt.', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+      },
+    });
+  }
+
+  onClickOpenFavorite(shortTitle: string): void {
+    void this.router.navigate(['/recipe', shortTitle]);
   }
 }

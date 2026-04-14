@@ -33,6 +33,25 @@
     </div>
   </div>
 
+  @if (canUseFavorites()) {
+    <button
+      matIconButton
+      class="favorite-button"
+      [class.active]="isCurrentRecipeFavorite()"
+      (click)="onClickToggleFavorite()"
+      [disabled]="isFavoritesBusy()"
+      [matTooltip]="isCurrentRecipeFavorite() ? 'Aus Favoriten entfernen' : 'Als Favorit speichern'"
+      matTooltipPosition="above"
+      [attr.aria-label]="
+        isCurrentRecipeFavorite()
+          ? 'Rezept aus Favoriten entfernen'
+          : 'Rezept als Favorit speichern'
+      "
+    >
+      <mat-icon>{{ isCurrentRecipeFavorite() ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
+  }
+
   <button
     matIconButton
     [cdkCopyToClipboard]="shareUrl()"
