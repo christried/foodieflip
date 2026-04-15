@@ -10,7 +10,9 @@
 .recipe-flip-card {
   position: relative;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transition: transform var(--transition-card-flip);
+  will-change: transform;
 }
 
 .recipe-flip-card.flipped {
@@ -26,12 +28,14 @@
   min-height: var(--recipe-card-min-height);
   position: relative;
   overflow: hidden;
-  isolation: isolate;
 }
 
 .recipe-card-face {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden; // safari reliability
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .recipe-flip-scene:hover .recipe-card {
@@ -41,6 +45,7 @@
 .recipe-card-front {
   position: relative;
   z-index: 2;
+  transform: rotateY(0deg);
 }
 
 .recipe-card-back {
