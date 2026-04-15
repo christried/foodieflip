@@ -29,7 +29,9 @@ export class FavoritesService {
 
   constructor() {
     effect(() => {
-      if (!this.canManageFavorites()) {
+      const username = this.authService.user()?.username?.trim();
+
+      if (!username) {
         this.favorites.set([]);
         this.isMutating.set(false);
         return;
