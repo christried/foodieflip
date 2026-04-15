@@ -63,3 +63,18 @@
 .vote-button.voted:disabled {
   opacity: 0.8;
 }
+
+.favorite-button {
+  color: var(--mat-sys-on-surface-variant);
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover {
+    transform: scale(1.4);
+  }
+
+  &.active {
+    color: var(--mat-sys-error);
+  }
+}

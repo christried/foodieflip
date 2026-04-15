@@ -139,7 +139,41 @@
 
       <section>
         <h3>Favorisierte Mahlzeiten</h3>
-        <p class="helper-text">Deine Favoriten werden hier bald angezeigt.</p>
+        @if (isLoadingFavorites()) {
+          <p class="helper-text">Favoriten werden geladen...</p>
+        } @else if (favorites().length === 0) {
+          <p class="helper-text">Du hast noch keine Favoriten gespeichert.</p>
+        } @else {
+          <ul class="favorite-list">
+            @for (favorite of favorites(); track favorite.id) {
+              <li class="favorite-item">
+                <div class="favorite-main">
+                  <button
+                    class="favorite-link"
+                    type="button"
+                    (click)="onClickOpenFavorite(favorite.shortTitle)"
+                  >
+                    {{ favorite.title }}
+                  </button>
+                  <p class="favorite-meta">
+                    {{ favorite.time }} min • von {{ favorite.submittedBy }}
+                  </p>
+                </div>
+
+                <button
+                  matIconButton
+                  type="button"
+                  aria-label="Favorit entfernen"
+                  matTooltip="Favorit entfernen"
+                  matTooltipPosition="above"
+                  (click)="onClickRemoveFavorite(favorite.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </li>
+            }
+          </ul>
+        }
       </section>
     }
   </mat-card-content>

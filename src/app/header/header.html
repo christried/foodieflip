@@ -18,7 +18,6 @@
     </div>
   </a>
 
-  <!-- Include Material Badge on header icon whenever logged in, then edit aria-label and edit menu options below depending on login state -->
   <div class="header-right">
     @if (isAuthenticated() && headerUserName()) {
       <span class="header-user-name" aria-hidden="true">{{ headerUserName() }}</span>

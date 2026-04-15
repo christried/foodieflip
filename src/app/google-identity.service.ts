@@ -2,6 +2,8 @@ import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environment } from '../environments/environment';
 
+const GOOGLE_TIMEOUT = 30000;
+
 interface GoogleCredentialResponse {
   credential?: string;
 }
@@ -62,7 +64,7 @@ export class GoogleIdentityService {
       this.pendingReject = reject;
       this.pendingTimeoutId = window.setTimeout(() => {
         this.rejectPendingRequest('Google-Anmeldung wurde abgebrochen oder nicht abgeschlossen.');
-      }, 30000);
+      }, GOOGLE_TIMEOUT);
 
       googleIdentity.accounts.id.prompt();
     });
