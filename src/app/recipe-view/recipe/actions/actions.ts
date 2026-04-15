@@ -28,8 +28,7 @@ export class Actions {
 
   public currentRecipe = this.recipesService.recipe;
   public voteStatus = signal<'upvote' | 'downvote' | null>(null);
-  readonly isFavoritesBusy = this.favoritesService.isMutating;
-  readonly canUseFavorites = computed(() => Boolean(this.authService.user()?.username?.trim()));
+  readonly canUseFavorites = this.authService.isAuthenticated;
   readonly isCurrentRecipeFavorite = computed(() => {
     const recipe = this.currentRecipe();
 
@@ -69,7 +68,7 @@ export class Actions {
   onClickToggleFavorite() {
     const recipe = this.currentRecipe();
 
-    if (!recipe || !this.canUseFavorites() || this.isFavoritesBusy()) {
+    if (!recipe || !this.canUseFavorites()) {
       return;
     }
 

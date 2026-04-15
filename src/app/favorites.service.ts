@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { catchError, EMPTY, finalize, map, Observable, switchMap, tap, throwError } from 'rxjs';
+import { effect, inject, Injectable, signal } from '@angular/core';
+import { catchError, EMPTY, finalize, map, Observable, switchMap, tap } from 'rxjs';
 import { API_BASE_URL } from './api.config';
 import { AuthService } from './auth.service';
 
@@ -24,16 +24,13 @@ export class FavoritesService {
 
   readonly favorites = signal<FavoriteRecipe[]>([]);
   readonly isLoading = signal(false);
-  readonly isMutating = signal(false);
-  readonly canManageFavorites = computed(() => Boolean(this.authService.user()?.username?.trim()));
 
   constructor() {
     effect(() => {
-      const username = this.authService.user()?.username?.trim();
+      const isAuthenticated = this.authService.isAuthenticated();
 
-      if (!username) {
+      if (!isAuthenticated) {
         this.favorites.set([]);
-        this.isMutating.set(false);
         return;
       }
 
@@ -61,89 +58,32 @@ export class FavoritesService {
   }
 
   toggleFavorite(recipeId: string): Observable<boolean> {
-    const normalizedRecipeId = recipeId.trim();
-
-    if (!this.canManageFavorites()) {
-      return EMPTY;
-    }
-
-    if (this.isMutating()) {
-      return EMPTY;
-    }
-
-    if (!normalizedRecipeId) {
-      return EMPTY;
-    }
-
-    const wasFavorite = this.isFavorite(normalizedRecipeId);
-    this.isMutating.set(true);
+    const wasFavorite = this.isFavorite(recipeId);
 
     const request$ = wasFavorite
-      ? this.deleteFavorite(normalizedRecipeId)
-      : this.addFavorite(normalizedRecipeId);
+      ? this.httpClient.delete(`${this.apiBaseUrl}/api/favorites/${encodeURIComponent(recipeId)}`)
+      : this.httpClient.post(`${this.apiBaseUrl}/api/favorites`, { recipeId });
 
     return request$.pipe(
-      tap({
-        next: (favorites) => this.favorites.set(favorites),
-      }),
+      switchMap(() => this.fetchFavorites()),
+      tap((favorites) => this.favorites.set(favorites)),
       map(() => !wasFavorite),
       catchError(() => EMPTY),
-      finalize(() => this.isMutating.set(false)),
     );
   }
 
   removeFavorite(recipeId: string): Observable<void> {
-    const normalizedRecipeId = recipeId.trim();
-
-    if (!this.canManageFavorites()) {
-      return EMPTY;
-    }
-
-    if (this.isMutating()) {
-      return EMPTY;
-    }
-
-    if (!normalizedRecipeId) {
-      return EMPTY;
-    }
-
-    this.isMutating.set(true);
-
-    return this.deleteFavorite(normalizedRecipeId).pipe(
-      tap({
-        next: (favorites) => this.favorites.set(favorites),
-      }),
-      map(() => undefined),
-      catchError(() => EMPTY),
-      finalize(() => this.isMutating.set(false)),
-    );
-  }
-
-  private fetchFavorites(): Observable<FavoriteRecipe[]> {
-    return this.httpClient.get<FavoriteRecipe[]>(`${this.apiBaseUrl}/api/favorites`);
-  }
-
-  private addFavorite(recipeId: string): Observable<FavoriteRecipe[]> {
-    return this.httpClient
-      .post(`${this.apiBaseUrl}/api/favorites`, {
-        recipeId,
-      })
-      .pipe(
-        switchMap(() => this.fetchFavorites()),
-        catchError((error) =>
-          throwError(() => new Error(`Favorit konnte nicht hinzugefügt werden: ${error}`)),
-        ),
-      );
-  }
-
-  private deleteFavorite(recipeId: string): Observable<FavoriteRecipe[]> {
     return this.httpClient
       .delete(`${this.apiBaseUrl}/api/favorites/${encodeURIComponent(recipeId)}`)
       .pipe(
         switchMap(() => this.fetchFavorites()),
-        catchError((error) =>
-          throwError(() => new Error(`Favorit konnte nicht gelöscht werden: ${error}`)),
-        ),
+        tap((favorites) => this.favorites.set(favorites)),
+        map(() => undefined),
+        catchError(() => EMPTY),
       );
+  }
+
+  private fetchFavorites(): Observable<FavoriteRecipe[]> {
+    return this.httpClient.get<FavoriteRecipe[]>(`${this.apiBaseUrl}/api/favorites`);
   }
 }

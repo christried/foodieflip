@@ -39,7 +39,6 @@
       class="favorite-button"
       [class.active]="isCurrentRecipeFavorite()"
       (click)="onClickToggleFavorite()"
-      [disabled]="isFavoritesBusy()"
       [matTooltip]="isCurrentRecipeFavorite() ? 'Aus Favoriten entfernen' : 'Als Favorit speichern'"
       matTooltipPosition="above"
       [attr.aria-label]="

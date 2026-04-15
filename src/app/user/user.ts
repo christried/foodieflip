@@ -38,7 +38,6 @@ export class User {
   readonly user = this.authService.user;
   readonly favorites = this.favoritesService.favorites;
   readonly isLoadingFavorites = this.favoritesService.isLoading;
-  readonly isMutatingFavorites = this.favoritesService.isMutating;
   readonly needsUsername = this.authService.needsUsername;
   readonly isSavingUsername = signal(false);
   readonly isEditingUsername = signal(false);
@@ -146,10 +145,6 @@ export class User {
   }
 
   onClickRemoveFavorite(recipeId: string): void {
-    if (this.isMutatingFavorites()) {
-      return;
-    }
-
     this.favoritesService.removeFavorite(recipeId).subscribe({
       next: () => {
         this.snackBar.open('Favorit entfernt.', 'OK', {
