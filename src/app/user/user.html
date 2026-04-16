@@ -134,7 +134,28 @@
       </section>
       <section>
         <h3>Eingereichte Mahlzeiten</h3>
-        <p class="helper-text">Deine Einreichungen werden hier bald angezeigt.</p>
+        @if (isLoadingSubmittedRecipes()) {
+          <p class="helper-text">Deine Einreichungen werden geladen...</p>
+        } @else if (submittedRecipes().length === 0) {
+          <p class="helper-text">Du hast noch keine Rezepte eingereicht.</p>
+        } @else {
+          <ul class="favorite-list">
+            @for (submittedRecipe of submittedRecipes(); track submittedRecipe.id) {
+              <li class="favorite-item">
+                <div class="favorite-main">
+                  <button
+                    class="favorite-link"
+                    type="button"
+                    (click)="onClickOpenFavorite(submittedRecipe.shortTitle)"
+                  >
+                    {{ submittedRecipe.title }}
+                  </button>
+                  <p class="favorite-meta">{{ submittedRecipe.time }} min</p>
+                </div>
+              </li>
+            }
+          </ul>
+        }
       </section>
 
       <section>

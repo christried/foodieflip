@@ -68,6 +68,15 @@ export class RecipesService {
     );
   }
 
+  getMySubmittedRecipes(): Observable<Recipe[]> {
+    return this.httpClient.get<Recipe[]>(`${this.apiBaseUrl}/api/recipes/mine`).pipe(
+      catchError((error) => {
+        console.error(error);
+        return throwError(() => new Error('Eigene Rezepte konnten nicht geladen werden'));
+      }),
+    );
+  }
+
   voteForRecipe(voteType: 'downvote' | 'upvote') {
     const PATCHVOTE = this.httpClient
       .patch<string>(`${this.apiBaseUrl}/api/recipes/vote`, {
