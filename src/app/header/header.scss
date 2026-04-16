@@ -37,6 +37,20 @@
   gap: var(--space-4);
 }
 
+.header-user-name {
+  font: var(--text-label-sm);
+  color: light-dark(rgba(0, 0, 0, 0.8), rgba(255, 255, 255, 0.84));
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: var(--space-4);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
 .dev-badge {
   font: var(--text-label-sm);
   color: var(--brand-turquoise);

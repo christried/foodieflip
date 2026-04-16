@@ -19,6 +19,62 @@
   </a>
 
   <div class="header-right">
+    @if (isAuthenticated() && headerUserName()) {
+      <span class="header-user-name" aria-hidden="true">{{ headerUserName() }}</span>
+    }
+
+    <button
+      mat-icon-button
+      [attr.aria-label]="
+        isAuthenticated() ? 'Benutzermenü öffnen, angemeldet' : 'Benutzermenü öffnen, abgemeldet'
+      "
+      [matMenuTriggerFor]="userMenu"
+    >
+      <mat-icon>account_circle</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+      @if (!isAuthenticated()) {
+        <button
+          mat-menu-item
+          aria-label="Einloggen mit Google"
+          (click)="onClickLoginWithGoogle()"
+          [disabled]="isLoginPending() || isBootstrappingAuth()"
+        >
+          <mat-icon>login</mat-icon>
+          <span>{{ isLoginPending() ? 'Google Login startet...' : 'Login mit Google' }}</span>
+        </button>
+      } @else {
+        <button mat-menu-item disabled aria-label="Aktiver Nutzer">
+          <mat-icon>badge</mat-icon>
+          <span>{{ accountLabel() }}</span>
+        </button>
+
+        <button mat-menu-item routerLink="/user" aria-label="Mein Profil öffnen">
+          <mat-icon>person</mat-icon>
+          <span>Mein Profil</span>
+        </button>
+
+        @if (isAdmin()) {
+          <button mat-menu-item routerLink="/admin" aria-label="Adminbereich öffnen">
+            <mat-icon>admin_panel_settings</mat-icon>
+            <span>Adminbereich</span>
+          </button>
+        }
+
+        <button mat-menu-item aria-label="Ausloggen" (click)="onClickLogout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      }
+
+      @if (authMessage()) {
+        <button mat-menu-item disabled aria-label="Authentifizierungsstatus">
+          <mat-icon>info</mat-icon>
+          <span>{{ authMessage() }}</span>
+        </button>
+      }
+    </mat-menu>
     <button mat-icon-button aria-label="Design wechseln" (click)="toggleTheme()">
       <mat-icon>{{ themeIcon() }}</mat-icon>
     </button>

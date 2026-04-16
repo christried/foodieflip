@@ -26,6 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { fromEvent } from 'rxjs';
+import { AuthService } from '../../auth.service';
 
 // config for form validation
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -56,6 +57,7 @@ export class RecipeSubmissionDialog {
   private readonly dialogRef = inject(MatDialogRef<RecipeSubmissionDialog>);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly recipesService = inject(RecipesService);
+  private readonly authService = inject(AuthService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly fb = inject(FormBuilder);
 
@@ -64,6 +66,7 @@ export class RecipeSubmissionDialog {
   readonly selectedFile = signal<File | null>(null);
   readonly isUploading = signal(false);
   readonly errorMessageFile = signal<string>('');
+  readonly currentUser = this.authService.user;
 
   readonly viewportWidth = signal(this.isBrowser ? window.innerWidth : 1024);
   readonly stepperOrientation = computed<'horizontal' | 'vertical'>(() =>
@@ -75,14 +78,14 @@ export class RecipeSubmissionDialog {
   readonly editValue = signal('');
 
   readonly titleIngredientsFormGroup = this.fb.group({
-    titleCtrl: this.fb.nonNullable.control('', [Validators.required, Validators.maxLength(24)]),
+    titleCtrl: this.fb.nonNullable.control('', [Validators.required, Validators.maxLength(40)]),
     ingredientInputCtrl: this.fb.nonNullable.control(''),
     ingredientsCtrl: this.fb.nonNullable.array<string>([], Validators.minLength(MIN_INGREDIENTS)),
   });
 
   readonly instructionsTimeFormGroup = this.fb.group({
     instructionInputCtrl: this.fb.nonNullable.control(''),
-    timeCtrl: this.fb.control<number | null>(null, [
+    timeCtrl: this.fb.nonNullable.control<number>(0, [
       Validators.required,
       Validators.min(5),
       Validators.max(999),
@@ -91,7 +94,6 @@ export class RecipeSubmissionDialog {
   });
 
   readonly userNameImageFormGroup = this.fb.group({
-    userNameCtrl: this.fb.nonNullable.control(''),
     termsAcceptedCtrl: this.fb.nonNullable.control(false, Validators.requiredTrue),
   });
 
@@ -127,7 +129,15 @@ export class RecipeSubmissionDialog {
   }
 
   canSubmit(): boolean {
-    return this.isStep1Valid() && this.isStep2Valid() && this.isStep3Valid() && !this.isUploading();
+    const submittedBy = this.currentUser()?.username?.trim();
+
+    return (
+      this.isStep1Valid() &&
+      this.isStep2Valid() &&
+      this.isStep3Valid() &&
+      !this.isUploading() &&
+      Boolean(submittedBy)
+    );
   }
 
   showTitleRequiredError(): boolean {
@@ -283,12 +293,8 @@ export class RecipeSubmissionDialog {
 
     const title = this.titleIngredientsFormGroup.controls.titleCtrl.value.trim();
     const time = this.instructionsTimeFormGroup.controls.timeCtrl.value;
-    const userName = this.userNameImageFormGroup.controls.userNameCtrl.value.trim() || 'Anonym';
+    const submittedBy = this.currentUser()?.username?.trim() || '';
     const file = this.selectedFile() ?? undefined;
-
-    if (!title || !time) {
-      return;
-    }
 
     this.isUploading.set(true);
 
@@ -298,7 +304,7 @@ export class RecipeSubmissionDialog {
         ingredients: this.ingredientsArray.controls.map((c) => c.value),
         instructions: this.instructionsArray.controls.map((c) => c.value),
         time,
-        submittedBy: userName,
+        submittedBy,
         image: file,
       })
       .subscribe({

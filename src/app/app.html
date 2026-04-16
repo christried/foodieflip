@@ -8,13 +8,15 @@
   <app-footer [title]="title()" [version]="version()" />
 </div>
 
-<button
-  class="submit-fab"
-  matFab
-  type="button"
-  aria-label="Neues Rezept einreichen"
-  matTooltip="Neues Rezept einreichen"
-  (click)="openSubmitDialog()"
->
-  <mat-icon>add</mat-icon>
-</button>
+@if (canSubmitRecipe()) {
+  <button
+    class="submit-fab"
+    matFab
+    type="button"
+    aria-label="Neues Rezept einreichen"
+    matTooltip="Neues Rezept einreichen"
+    (click)="openSubmitDialog()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+}

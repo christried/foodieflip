@@ -1,0 +1,201 @@
+<mat-card class="pages-card">
+  <mat-card-header class="pages-card-header">
+    <mat-card-title>
+      @if (user()?.username) {
+        Nutzerprofil von {{ user()?.username }}
+      } @else {
+        Nutzerprofil
+      }
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (needsUsername()) {
+      <section class="username-required-box" aria-live="polite">
+        <h3>Benutzername erforderlich</h3>
+        <p class="helper-text">
+          Du musst zuerst einen Benutzernamen festlegen, bevor du dieses Profil vollständig nutzen
+          kannst. Dein Benutzername ist öffentlich und wird anderen Nutzer:Innen bei Rezepten
+          angezeigt, die du eingereicht hast.
+        </p>
+
+        <form class="username-form" [formGroup]="usernameForm" (ngSubmit)="onClickSaveUsername()">
+          <mat-form-field appearance="outline">
+            <mat-label>Benutzername</mat-label>
+            <input
+              matInput
+              formControlName="usernameCtrl"
+              placeholder="z. B. Mara"
+              (input)="onUsernameInput()"
+            />
+
+            <mat-hint>Erlaubt: 3-24 Zeichen, a-z, A-Z, 0-9 und Unterstrich.</mat-hint>
+
+            @if (usernameError()) {
+              <mat-error>{{ usernameError() }}</mat-error>
+            } @else if (showUsernameRequiredError()) {
+              <mat-error>Bitte gib einen Benutzernamen ein.</mat-error>
+            } @else if (showUsernamePatternError()) {
+              <mat-error>
+                Der Benutzername muss 3-24 Zeichen haben und darf nur a-z, A-Z, 0-9 und _ enthalten.
+              </mat-error>
+            }
+          </mat-form-field>
+
+          <button
+            mat-flat-button
+            class="save-button"
+            color="primary"
+            type="submit"
+            [disabled]="!canSaveUsername()"
+          >
+            {{ isSavingUsername() ? 'Speichere...' : 'Benutzernamen speichern' }}
+          </button>
+        </form>
+      </section>
+    } @else {
+      <section>
+        <h3>Nutzer-Info</h3>
+        <table>
+          <tbody>
+            <tr>
+              <td>E-Mail:</td>
+              <td>{{ user()?.email }}</td>
+            </tr>
+            <tr>
+              <td>Username:</td>
+              <td>
+                @if (isEditingUsername()) {
+                  <form
+                    class="username-edit-form"
+                    [formGroup]="usernameForm"
+                    (ngSubmit)="onClickSaveUsername()"
+                  >
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                      <mat-label>Benutzername</mat-label>
+                      <input
+                        matInput
+                        formControlName="usernameCtrl"
+                        placeholder="z. B. Chris"
+                        (input)="onUsernameInput()"
+                      />
+
+                      @if (usernameError()) {
+                        <mat-error>{{ usernameError() }}</mat-error>
+                      } @else if (showUsernameRequiredError()) {
+                        <mat-error>Bitte gib einen Benutzernamen ein.</mat-error>
+                      } @else if (showUsernamePatternError()) {
+                        <mat-error>
+                          Der Benutzername muss 3-24 Zeichen haben und darf nur a-z, A-Z, 0-9 und _
+                          enthalten.
+                        </mat-error>
+                      }
+                    </mat-form-field>
+
+                    <div class="username-edit-actions">
+                      <button
+                        mat-flat-button
+                        color="primary"
+                        type="submit"
+                        [disabled]="!canSaveUsername()"
+                      >
+                        {{ isSavingUsername() ? 'Speichere...' : 'Speichern' }}
+                      </button>
+
+                      <button
+                        mat-button
+                        type="button"
+                        (click)="onClickCancelUsernameEdit()"
+                        [disabled]="isSavingUsername()"
+                      >
+                        Abbrechen
+                      </button>
+                    </div>
+                  </form>
+                } @else {
+                  <div class="username-view">
+                    <span>{{ user()?.username || 'Noch nicht gesetzt' }}</span>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      aria-label="Benutzernamen bearbeiten"
+                      matTooltip="Benutzernamen bearbeiten"
+                      matTooltipPosition="above"
+                      (click)="onClickStartUsernameEdit()"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                }
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h3>Eingereichte Mahlzeiten</h3>
+        @if (isLoadingSubmittedRecipes()) {
+          <p class="helper-text">Deine Einreichungen werden geladen...</p>
+        } @else if (submittedRecipes().length === 0) {
+          <p class="helper-text">Du hast noch keine Rezepte eingereicht.</p>
+        } @else {
+          <ul class="favorite-list">
+            @for (submittedRecipe of submittedRecipes(); track submittedRecipe.id) {
+              <li class="favorite-item">
+                <div class="favorite-main">
+                  <button
+                    class="favorite-link"
+                    type="button"
+                    (click)="onClickOpenFavorite(submittedRecipe.shortTitle)"
+                  >
+                    {{ submittedRecipe.title }}
+                  </button>
+                  <p class="favorite-meta">{{ submittedRecipe.time }} min</p>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <section>
+        <h3>Favorisierte Mahlzeiten</h3>
+        @if (isLoadingFavorites()) {
+          <p class="helper-text">Favoriten werden geladen...</p>
+        } @else if (favorites().length === 0) {
+          <p class="helper-text">Du hast noch keine Favoriten gespeichert.</p>
+        } @else {
+          <ul class="favorite-list">
+            @for (favorite of favorites(); track favorite.id) {
+              <li class="favorite-item">
+                <div class="favorite-main">
+                  <button
+                    class="favorite-link"
+                    type="button"
+                    (click)="onClickOpenFavorite(favorite.shortTitle)"
+                  >
+                    {{ favorite.title }}
+                  </button>
+                  <p class="favorite-meta">
+                    {{ favorite.time }} min • von {{ favorite.submittedBy }}
+                  </p>
+                </div>
+
+                <button
+                  matIconButton
+                  type="button"
+                  aria-label="Favorit entfernen"
+                  matTooltip="Favorit entfernen"
+                  matTooltipPosition="above"
+                  (click)="onClickRemoveFavorite(favorite.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    }
+  </mat-card-content>
+</mat-card>

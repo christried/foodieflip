@@ -9,6 +9,8 @@ import { environment } from '../../../../environments/environment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClipboardSnackBar } from './clipboard-snack-bar';
+import { AuthService } from '../../../auth.service';
+import { FavoritesService } from '../../../favorites.service';
 
 @Component({
   selector: 'app-actions',
@@ -21,9 +23,21 @@ export class Actions {
   private platformId = inject(PLATFORM_ID);
   protected readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly authService = inject(AuthService);
+  private readonly favoritesService = inject(FavoritesService);
 
   public currentRecipe = this.recipesService.recipe;
   public voteStatus = signal<'upvote' | 'downvote' | null>(null);
+  readonly canUseFavorites = this.authService.isAuthenticated;
+  readonly isCurrentRecipeFavorite = computed(() => {
+    const recipe = this.currentRecipe();
+
+    if (!recipe) {
+      return false;
+    }
+
+    return this.favoritesService.isFavorite(recipe.id);
+  });
 
   protected readonly shareUrl = computed<string>(() => `${environment.baseUrl}${this.router.url}`);
 
@@ -49,6 +63,33 @@ export class Actions {
 
     // count vote in backend, no user affiliation = fire and forget
     this.recipesService.voteForRecipe(voteType);
+  }
+
+  onClickToggleFavorite() {
+    const recipe = this.currentRecipe();
+
+    if (!recipe || !this.canUseFavorites()) {
+      return;
+    }
+
+    this.favoritesService.toggleFavorite(recipe.id).subscribe({
+      next: (isNowFavorite) => {
+        this.snackBar.open(
+          isNowFavorite ? 'Zu Favoriten hinzugefügt.' : 'Aus Favoriten entfernt.',
+          'OK',
+          {
+            duration: 3000,
+            verticalPosition: 'top',
+          },
+        );
+      },
+      error: () => {
+        this.snackBar.open('Favorit konnte nicht aktualisiert werden.', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+      },
+    });
   }
 
   openSnackBar() {
