@@ -83,6 +83,12 @@ export class Actions {
           },
         );
       },
+      error: () => {
+        this.snackBar.open('Favorit konnte nicht aktualisiert werden.', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
+      },
     });
   }
 
