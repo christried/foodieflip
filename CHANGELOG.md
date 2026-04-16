@@ -6,10 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-- Introduction of user accounts using signups with Google(?)
-- Introduction of favourite recipes view in user account profiles
+- Introduction of other Login Methods: Discord
+- Introduce Servings per Recipe, Calories per Serving, Distinguish between ingredient and quantity per ingredient
 - Rework of recipe tags: make them matter
 - Rework of quick feedback actions on all recipes incl. report functions for false information
+- Lots of minor Stuff (feedback pls?)
+
+## [0.3.0] - 2026-04-16
+
+### Added
+
+- First implementation of user accounts: only Google Sign-In for now
+- Users may now favorite recipes to find them again in their user profile pages (which will soon be prettier)
+- Users may now find their submitted recipes in their profile but cant do anything with them yet
+
+### Changed
+
+- Changed ToS and Privacy with fitting, detailed legal stuff suited to foodie flip incl. cookie stuff
+- Recipe submission is now only possible when logged in
+- [API] backend now available at api.foodieflip.app
+
+### Fixed
+
+- Fixed flipping animation in Firefox (both sides were visible at once while flipping)
+
+### Deprecated
+
+- [API] submittedBy dropped for submittedByUserId for long term support
 
 ## [0.2.2] - 2026-04-06
 
