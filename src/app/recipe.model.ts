@@ -1,4 +1,4 @@
-export interface ingredientDivision {
+export interface IngredientDivision {
   title: string;
   items: string[];
 }
@@ -12,7 +12,7 @@ export interface Recipe {
   imageUrl: string;
   fullsizeUrl: string;
   imageAlt: string;
-  ingredients: ingredientDivision[];
+  ingredients: IngredientDivision[];
   instructions: string[];
   tagsPublic: string[];
   tagsInternal: string[];
@@ -29,7 +29,7 @@ export interface Recipe {
 
 export interface RecipeSubmission {
   title: string;
-  ingredients: ingredientDivision[];
+  ingredients: IngredientDivision[];
   instructions: string[];
   time: number;
   submittedBy: string;

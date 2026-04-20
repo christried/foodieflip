@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ingredientDivision } from '../../../recipe.model';
+import { IngredientDivision } from '../../../recipe.model';
 
 @Component({
   selector: 'app-ingredients',
@@ -8,7 +8,7 @@ import { ingredientDivision } from '../../../recipe.model';
   styleUrl: './ingredients.scss',
 })
 export class Ingredients {
-  public ingredientDivisions = input<ingredientDivision[] | undefined>();
+  public ingredientDivisions = input.required<IngredientDivision[]>();
 
   isOnlyDivision() {
     return this.ingredientDivisions()?.length === 1;

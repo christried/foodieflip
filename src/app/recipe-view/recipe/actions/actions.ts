@@ -92,10 +92,9 @@ export class Actions {
   }
 
   openSnackBar() {
-    (this.snackBar.open('Rezept zur Zwischenablage hinzugefügt.', 'OK'),
-      {
-        duration: 3000,
-        verticalPosition: 'top',
-      });
+    this.snackBar.open('Rezept zur Zwischenablage hinzugefügt.', 'OK', {
+      duration: 3000,
+      verticalPosition: 'top',
+    });
   }
 }

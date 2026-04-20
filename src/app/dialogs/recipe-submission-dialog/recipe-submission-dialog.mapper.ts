@@ -1,4 +1,4 @@
-import { RecipeSubmission, ingredientDivision } from '../../recipe.model';
+import { RecipeSubmission, IngredientDivision } from '../../recipe.model';
 import { PRIMARY_INGREDIENT_SECTION_TITLE } from './recipe-submission-dialog.forms';
 
 export interface IngredientSectionDraft {
@@ -17,7 +17,7 @@ export interface RecipeSubmissionDraft {
 
 export function normalizeIngredientSections(
   sections: IngredientSectionDraft[],
-): ingredientDivision[] {
+): IngredientDivision[] {
   return sections
     .map((section, index) => {
       const normalizedItems = section.items
