@@ -1,0 +1,102 @@
+<div class="submit-form-step">
+  <section class="form-section">
+    <div class="add-row">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Schritt hinzufügen</mat-label>
+        <input
+          matInput
+          [formControl]="store.instructionInputCtrl"
+          placeholder="z. B. Ofen auf 200°C vorheizen"
+          maxlength="1000"
+          (keydown.enter)="store.addInstruction($event)"
+        />
+        <mat-hint>Mindestens 2 Schritte erforderlich</mat-hint>
+      </mat-form-field>
+      <button
+        type="button"
+        matIconButton
+        aria-label="Schritt hinzufügen"
+        (click)="store.addInstruction()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <div class="item-list">
+      @if (store.instructionsArray.length === 0) {
+        <p class="removal-notice">Noch keine Anweisungen hinzugefügt.</p>
+      }
+
+      @for (
+        instructionCtrl of store.instructionsArray.controls;
+        track $index;
+        let instructionIndex = $index
+      ) {
+        <div class="list-item-row">
+          @if (store.isEditingInstruction(instructionIndex)) {
+            <mat-form-field appearance="fill" class="inline-edit-field">
+              <mat-label>Anweisung bearbeiten</mat-label>
+              <input
+                matInput
+                [value]="store.editValue()"
+                maxlength="1000"
+                (input)="store.onEditValueInput($event)"
+                (keydown.enter)="store.saveEditInstruction()"
+                (keydown.escape)="store.cancelItemEdit()"
+              />
+            </mat-form-field>
+            <div class="row-actions">
+              <button
+                type="button"
+                matIconButton
+                aria-label="Bearbeitete Anweisung speichern"
+                (click)="store.saveEditInstruction()"
+              >
+                <mat-icon>check</mat-icon>
+              </button>
+              <button
+                type="button"
+                matIconButton
+                aria-label="Bearbeitung abbrechen"
+                (click)="store.cancelItemEdit()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          } @else {
+            <p class="item-text">{{ instructionCtrl.value }}</p>
+            <div class="row-actions">
+              <button
+                type="button"
+                matIconButton
+                aria-label="Anweisung bearbeiten"
+                (click)="store.startEditInstruction(instructionIndex)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                type="button"
+                matIconButton
+                aria-label="Anweisung entfernen"
+                (click)="store.removeInstruction(instructionIndex)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (store.showInstructionsCountError()) {
+      <p class="error-message">Füge mindestens 2 Anweisungen hinzu, um fortzufahren.</p>
+    }
+  </section>
+</div>
+
+<div class="nav-buttons">
+  <button type="button" matButton="tonal" matStepperPrevious>Zurück</button>
+  <button type="button" matButton="tonal" matStepperNext [disabled]="!store.isStep3Valid()">
+    Weiter
+  </button>
+</div>

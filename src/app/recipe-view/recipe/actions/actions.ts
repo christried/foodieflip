@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ClipboardSnackBar } from './clipboard-snack-bar';
 import { AuthService } from '../../../auth.service';
 import { FavoritesService } from '../../../favorites.service';
 
@@ -93,9 +92,10 @@ export class Actions {
   }
 
   openSnackBar() {
-    this.snackBar.openFromComponent(ClipboardSnackBar, {
-      duration: 3000,
-      verticalPosition: 'top',
-    });
+    (this.snackBar.open('Rezept zur Zwischenablage hinzugefügt.', 'OK'),
+      {
+        duration: 3000,
+        verticalPosition: 'top',
+      });
   }
 }

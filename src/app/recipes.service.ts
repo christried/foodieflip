@@ -43,6 +43,7 @@ export class RecipesService {
           this.recipe.set(recipe);
           this.spinnerStatus.set('off');
           this.router.navigate(['/recipe', recipe.shortTitle]);
+          console.log(recipe);
         }, remainingDelay);
       },
       error: () => {
@@ -117,6 +118,7 @@ export class RecipesService {
         next: (recipe) => {
           this.recipe.set(recipe);
           this.spinnerStatus.set('off');
+          console.log(recipe);
         },
         error: () => {
           this.spinnerStatus.set('off');

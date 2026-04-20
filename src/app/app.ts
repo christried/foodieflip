@@ -78,9 +78,10 @@ export class App {
 
     const dialogRef = this.dialog.open(RecipeSubmissionDialog, {
       width: '95vw',
-      maxWidth: '900px',
-      maxHeight: '90vh',
-      height: 'auto',
+      height: '100dvh',
+      maxHeight: '100dvh',
+      maxWidth: '1200px',
+      panelClass: 'recipe-submission-dialog-panel',
       autoFocus: 'first-heading',
       restoreFocus: true,
       ariaLabel: 'Neues Rezept einreichen',
