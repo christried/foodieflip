@@ -1,0 +1,29 @@
+<p class="removal-notice">
+  Dein eingeloggter Benutzername wird automatisch als Einreicher verwendet:
+  <strong>{{ store.currentUser()?.username }}</strong
+  >.
+</p>
+
+@if (store.selectedFile()) {
+  <p class="selected-file-name">Bild: {{ store.selectedFile()!.name }}</p>
+}
+
+<div class="terms-row">
+  <mat-checkbox [formControl]="store.termsAcceptedCtrl">
+    Ich bestätige, dass alle eingereichten Rezepttexte und hochgeladenen Medien mein eigenes
+    geistiges Eigentum sind oder dass ich alle erforderlichen Rechte und Genehmigungen besitze, um
+    diese auf Foodie Flip zu veröffentlichen. Ich übertrage Foodie Flip daran uneingeschränkte,
+    zeitlich und räumlich unbeschränkte Nutzungsrechte gemäß den
+    <a href="/terms" target="_blank" rel="noopener noreferrer">Nutzungsbedingungen</a>.
+  </mat-checkbox>
+</div>
+
+@if (store.showTermsRequiredError()) {
+  <p class="error-message">
+    Du musst die Nutzungsbedingungen akzeptieren, um ein Rezept einzureichen.
+  </p>
+}
+
+<div class="nav-buttons">
+  <button type="button" matButton="tonal" matStepperPrevious>Zurück</button>
+</div>

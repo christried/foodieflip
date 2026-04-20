@@ -1,336 +1,54 @@
-<h2 mat-dialog-title class="dialog-title">Neues Rezept einreichen</h2>
+<div class="recipe-submission-dialog">
+  <h2 mat-dialog-title class="dialog-title">Neues Rezept einreichen</h2>
 
-<mat-dialog-content>
-  <p>
-    Unterstütze unsere Community, indem du ausführliche Anleitungen zu deinen eigenen Rezepten
-    bereitstellst. Bitte beachte, dass Foodie Flip von der Community getragen wird und auf das
-    Hochladen eigener Rezepte und Ideen angewiesen ist.
-  </p>
-  <p>
-    Bitte halte dich an unsere
-    <a href="/terms" target="_blank" rel="noopener noreferrer">Nutzungsbedingungen</a> und stelle
-    sicher, dass alles, was du einreichen und hochladen willst, dein eigenes geistiges Eigentum ist.
-    Mit deiner Einreichung überträgst du Foodie Flip die dort beschriebenen umfassenden
-    Nutzungsrechte an deinen Rezepttexten und hochgeladenen Medien.
-  </p>
+  <mat-dialog-content>
+    <p class="stepper-paragraph">
+      Unterstütze unsere Community, indem du ausführliche Anleitungen zu deinen eigenen Rezepten
+      bereitstellst. Bitte beachte, dass Foodie Flip von der Community getragen wird und auf das
+      Hochladen eigener Rezepte und Ideen angewiesen ist.
+    </p>
+    <p class="stepper-paragraph">
+      Bitte halte dich an unsere
+      <a href="/terms" target="_blank" rel="noopener noreferrer">Nutzungsbedingungen</a> und stelle
+      sicher, dass alles, was du einreichen und hochladen willst, dein eigenes geistiges Eigentum
+      ist. Mit deiner Einreichung überträgst du Foodie Flip die dort beschriebenen umfassenden
+      Nutzungsrechte an deinen Rezepttexten und hochgeladenen Medien.
+    </p>
 
-  <mat-vertical-stepper
-    [linear]="true"
-    #stepper
-    animationDuration="1000"
-    [orientation]="stepperOrientation()"
-  >
-    <!-- 1st Step: Title and Ingredients -->
-    <mat-step [stepControl]="titleIngredientsFormGroup">
-      <form [formGroup]="titleIngredientsFormGroup">
-        <ng-template matStepLabel>Titel & Zutaten</ng-template>
-        <div class="submit-form-step">
-          <section class="form-section">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Rezepttitel</mat-label>
-              <input
-                matInput
-                placeholder="z. B. Kichererbsen-Masala"
-                formControlName="titleCtrl"
-                maxlength="40"
-              />
-              @if (showTitleRequiredError()) {
-                <mat-error>Titel ist erforderlich</mat-error>
-              }
-              @if (showTitleMaxLengthError()) {
-                <mat-error>Der Titel darf nicht mehr als 40 Zeichen enthalten</mat-error>
-              }
-            </mat-form-field>
-          </section>
+    <mat-vertical-stepper
+      [linear]="true"
+      #stepper
+      animationDuration="1000"
+      [orientation]="stepperOrientation()"
+    >
+      <mat-step [stepControl]="store.recipeDataFormGroup">
+        <ng-template matStepLabel>Rezeptdaten</ng-template>
+        <recipe-submission-step-recipe-data
+          [subscriptSizingValue]="subscriptSizingValue()"
+        ></recipe-submission-step-recipe-data>
+      </mat-step>
 
-          <section class="form-section">
-            <h3 class="section-title">Zutaten</h3>
-            <div class="add-row">
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Zutat hinzufügen</mat-label>
-                <input
-                  matInput
-                  placeholder="z. B. 250g Pasta"
-                  formControlName="ingredientInputCtrl"
-                  maxlength="50"
-                  (keydown.enter)="onClickAddItem('ingredient', $event)"
-                />
-                <mat-hint>Mindestens 2 Zutaten erforderlich</mat-hint>
-              </mat-form-field>
-              <button
-                type="button"
-                matIconButton
-                aria-label="Zutat hinzufügen"
-                (click)="onClickAddItem('ingredient')"
-              >
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
+      <mat-step [stepControl]="store.ingredientsFormGroup">
+        <ng-template matStepLabel>Zutaten</ng-template>
+        <recipe-submission-step-ingredients></recipe-submission-step-ingredients>
+      </mat-step>
 
-            <div class="item-list">
-              @if (ingredientsArray.length === 0) {
-                <p class="removal-notice">Noch keine Zutaten hinzugefügt.</p>
-              }
-
-              @for (ingredientCtrl of ingredientsArray.controls; track $index) {
-                <div class="list-item-row">
-                  @if (editingItemType() === 'ingredient' && editingIndex() === $index) {
-                    <mat-form-field appearance="fill" class="inline-edit-field">
-                      <mat-label>Zutat bearbeiten</mat-label>
-                      <input
-                        matInput
-                        [value]="editValue()"
-                        maxlength="50"
-                        (input)="onEditValueInput($event)"
-                        (keydown.enter)="onClickSaveItemEdit('ingredient')"
-                        (keydown.escape)="onClickCancelItemEdit()"
-                      />
-                    </mat-form-field>
-                    <div class="row-actions">
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Bearbeitete Zutat speichern"
-                        (click)="onClickSaveItemEdit('ingredient')"
-                      >
-                        <mat-icon>check</mat-icon>
-                      </button>
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Bearbeitung abbrechen"
-                        (click)="onClickCancelItemEdit()"
-                      >
-                        <mat-icon>close</mat-icon>
-                      </button>
-                    </div>
-                  } @else {
-                    <p class="item-text">{{ ingredientCtrl.value }}</p>
-                    <div class="row-actions">
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Zutat bearbeiten"
-                        (click)="onClickEditItem($index, 'ingredient')"
-                      >
-                        <mat-icon>edit</mat-icon>
-                      </button>
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Zutat entfernen"
-                        (click)="onClickRemoveItem($index, 'ingredient')"
-                      >
-                        <mat-icon>delete</mat-icon>
-                      </button>
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-
-            @if (showIngredientsCountError()) {
-              <p class="error-message">Füge mindestens 2 Zutaten hinzu, um fortzufahren.</p>
-            }
-          </section>
-        </div>
-        <div class="nav-buttons">
-          <button type="button" matButton="tonal" matStepperNext [disabled]="!isStep1Valid()">
-            Weiter
-          </button>
-        </div>
-      </form>
-    </mat-step>
-
-    <mat-step [stepControl]="instructionsTimeFormGroup">
-      <form [formGroup]="instructionsTimeFormGroup">
+      <mat-step [stepControl]="store.instructionsFormGroup">
         <ng-template matStepLabel>Zubereitung</ng-template>
-        <div class="submit-form-step">
-          <section class="form-section">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Zubereitungszeit</mat-label>
-              <input
-                matInput
-                placeholder="z. B. 25"
-                formControlName="timeCtrl"
-                type="number"
-                min="5"
-                max="999"
-              />
-              @if (showTimeRequiredError()) {
-                <mat-error>Zubereitungszeit ist erforderlich</mat-error>
-              }
-              @if (showTimeRangeError()) {
-                <mat-error>Die Zubereitungszeit muss zwischen 5 und 999 Minuten liegen</mat-error>
-              }
-            </mat-form-field>
-          </section>
+        <recipe-submission-step-instructions></recipe-submission-step-instructions>
+      </mat-step>
 
-          <section class="form-section">
-            <h3 class="section-title">Anleitung</h3>
-            <div class="add-row">
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Schritt hinzufügen</mat-label>
-                <input
-                  matInput
-                  formControlName="instructionInputCtrl"
-                  placeholder="z. B. Ofen auf 200°C vorheizen"
-                  maxlength="1000"
-                  (keydown.enter)="onClickAddItem('instruction', $event)"
-                />
-                <mat-hint>Mindestens 2 Schritte erforderlich</mat-hint>
-              </mat-form-field>
-              <button
-                type="button"
-                matIconButton
-                aria-label="Schritt hinzufügen"
-                (click)="onClickAddItem('instruction')"
-              >
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
+      <mat-step [stepControl]="store.confirmationFormGroup">
+        <ng-template matStepLabel>Bestätigung</ng-template>
+        <recipe-submission-step-confirmation></recipe-submission-step-confirmation>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-dialog-content>
 
-            <div class="item-list">
-              @if (instructionsArray.length === 0) {
-                <p class="removal-notice">Noch keine Anweisungen hinzugefügt.</p>
-              }
-
-              @for (instructionCtrl of instructionsArray.controls; track $index) {
-                <div class="list-item-row">
-                  @if (editingItemType() === 'instruction' && editingIndex() === $index) {
-                    <mat-form-field appearance="fill" class="inline-edit-field">
-                      <mat-label>Anweisung bearbeiten</mat-label>
-                      <input
-                        matInput
-                        [value]="editValue()"
-                        maxlength="1000"
-                        (input)="onEditValueInput($event)"
-                        (keydown.enter)="onClickSaveItemEdit('instruction')"
-                        (keydown.escape)="onClickCancelItemEdit()"
-                      />
-                    </mat-form-field>
-                    <div class="row-actions">
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Bearbeitete Anweisung speichern"
-                        (click)="onClickSaveItemEdit('instruction')"
-                      >
-                        <mat-icon>check</mat-icon>
-                      </button>
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Bearbeitung abbrechen"
-                        (click)="onClickCancelItemEdit()"
-                      >
-                        <mat-icon>close</mat-icon>
-                      </button>
-                    </div>
-                  } @else {
-                    <p class="item-text">{{ instructionCtrl.value }}</p>
-                    <div class="row-actions">
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Anweisung bearbeiten"
-                        (click)="onClickEditItem($index, 'instruction')"
-                      >
-                        <mat-icon>edit</mat-icon>
-                      </button>
-                      <button
-                        type="button"
-                        matIconButton
-                        aria-label="Anweisung entfernen"
-                        (click)="onClickRemoveItem($index, 'instruction')"
-                      >
-                        <mat-icon>delete</mat-icon>
-                      </button>
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-
-            @if (showInstructionsCountError()) {
-              <p class="error-message">Füge mindestens 2 Anweisungen hinzu, um fortzufahren.</p>
-            }
-          </section>
-        </div>
-        <div class="nav-buttons">
-          <button type="button" matButton="tonal" matStepperPrevious>Zurück</button>
-          <button type="button" matButton="tonal" matStepperNext [disabled]="!isStep2Valid()">
-            Weiter
-          </button>
-        </div>
-      </form>
-    </mat-step>
-
-    <!-- 3rd Step: Image Upload -->
-    <mat-step [stepControl]="userNameImageFormGroup">
-      <form [formGroup]="userNameImageFormGroup">
-        <ng-template matStepLabel>Bild hochladen</ng-template>
-        <p class="removal-notice">
-          Dein eingeloggter Benutzername wird automatisch als Einreicher verwendet:
-          <strong>{{ currentUser()?.username }}</strong
-          >. Das Hochladen eines Rezeptbildes ist optional. Wenn du ohne Bild einreichst, kann
-          Foodie Flip ein KI-generiertes Bild als Platzhalter verwenden. Unterstützte Dateitypen:
-          JPEG / PNG / WEBP | Maximale Dateigröße: 2MB
-        </p>
-        <div class="form-inputs image-upload">
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            #fileInput
-            (change)="onFileSelected($event)"
-            class="hidden-file-input"
-          />
-          <div class="upload-block">
-            <button
-              type="button"
-              matButton="tonal"
-              (click)="fileInput.click()"
-              [disabled]="isUploading()"
-            >
-              Bild auswählen
-            </button>
-            @if (selectedFile()) {
-              <p class="selected-file-name">{{ selectedFile()!.name }}</p>
-            }
-
-            @if (errorMessageFile()) {
-              <p class="error-message">{{ errorMessageFile() }}</p>
-            }
-          </div>
-        </div>
-
-        <div class="terms-row">
-          <mat-checkbox formControlName="termsAcceptedCtrl">
-            Ich bestätige, dass alle eingereichten Rezepttexte und hochgeladenen Medien mein eigenes
-            geistiges Eigentum sind oder dass ich alle erforderlichen Rechte und Genehmigungen
-            besitze, um diese auf Foodie Flip zu veröffentlichen. Ich übertrage Foodie Flip daran
-            uneingeschränkte, zeitlich und räumlich unbeschränkte Nutzungsrechte gemäß den
-            <a href="/terms" target="_blank" rel="noopener noreferrer">Nutzungsbedingungen</a>.
-          </mat-checkbox>
-        </div>
-
-        @if (showTermsRequiredError()) {
-          <p class="error-message">
-            Du musst die Nutzungsbedingungen akzeptieren, um ein Rezept einzureichen.
-          </p>
-        }
-
-        <div class="nav-buttons">
-          <button type="button" matButton="tonal" matStepperPrevious>Back</button>
-        </div>
-      </form>
-    </mat-step>
-  </mat-vertical-stepper>
-</mat-dialog-content>
-
-<mat-dialog-actions>
-  <button matButton="filled" (click)="onClickSubmit()" [disabled]="!canSubmit()">
-    {{ isUploading() ? 'Wird hochgeladen...' : 'Einreichen' }}
-  </button>
-  <button matButton mat-dialog-close [disabled]="isUploading()">Schließen</button>
-</mat-dialog-actions>
+  <mat-dialog-actions>
+    <button matButton="filled" (click)="onClickSubmit()" [disabled]="!store.canSubmit()">
+      {{ store.isUploading() ? 'Wird hochgeladen...' : 'Einreichen' }}
+    </button>
+    <button matButton mat-dialog-close [disabled]="store.isUploading()">Schließen</button>
+  </mat-dialog-actions>
+</div>

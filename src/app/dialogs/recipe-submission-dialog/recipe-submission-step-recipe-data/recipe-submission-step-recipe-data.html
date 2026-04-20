@@ -1,0 +1,88 @@
+<div class="submit-form-step recipe-data-step">
+  <section class="form-section">
+    <div class="form-inputs">
+      <mat-form-field
+        appearance="fill"
+        class="full-width"
+        [subscriptSizing]="subscriptSizingValue()"
+      >
+        <mat-label>Rezepttitel</mat-label>
+        <input
+          matInput
+          placeholder="z. B. Kichererbsen-Masala"
+          [formControl]="store.titleCtrl"
+          maxlength="40"
+        />
+        @if (store.showTitleRequiredError()) {
+          <mat-error>Titel ist erforderlich</mat-error>
+        }
+        @if (store.showTitleMaxLengthError()) {
+          <mat-error>Der Titel darf nicht mehr als 40 Zeichen enthalten</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="fill"
+        class="full-width"
+        [subscriptSizing]="subscriptSizingValue()"
+      >
+        <mat-label>Zubereitungszeit</mat-label>
+        <input
+          matInput
+          placeholder="z. B. 25"
+          [formControl]="store.timeCtrl"
+          type="number"
+          min="5"
+          max="999"
+        />
+        @if (store.showTimeRequiredError()) {
+          <mat-error>Zubereitungszeit ist erforderlich</mat-error>
+        }
+        @if (store.showTimeRangeError()) {
+          <mat-error>Die Zubereitungszeit muss zwischen 5 und 999 Minuten liegen</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <p class="removal-notice">
+      Das Hochladen eines Rezeptbildes ist optional. Unterstützte Dateitypen: JPEG / PNG / WEBP |
+      Maximale Dateigröße: 2MB
+    </p>
+
+    <div class="form-inputs image-upload">
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        #fileInput
+        (change)="store.onFileSelected($event)"
+        class="hidden-file-input"
+      />
+      <div class="upload-block">
+        <button
+          type="button"
+          matButton="tonal"
+          (click)="fileInput.click()"
+          [disabled]="store.isUploading()"
+        >
+          Bild auswählen
+        </button>
+
+        @if (store.selectedFile()) {
+          <p class="selected-file-name">{{ store.selectedFile()!.name }}</p>
+        }
+
+        @if (store.errorMessageFile()) {
+          <p class="error-message">{{ store.errorMessageFile() }}</p>
+        }
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="nav-buttons">
+  <button type="button" matButton="tonal" matStepperNext [disabled]="!store.isStep1Valid()">
+    Weiter
+  </button>
+</div>
