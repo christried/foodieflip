@@ -1,3 +1,8 @@
+export interface IngredientDivision {
+  title: string;
+  items: string[];
+}
+
 export interface Recipe {
   id: string;
   title: string;
@@ -7,7 +12,7 @@ export interface Recipe {
   imageUrl: string;
   fullsizeUrl: string;
   imageAlt: string;
-  ingredients: string[];
+  ingredients: IngredientDivision[];
   instructions: string[];
   tagsPublic: string[];
   tagsInternal: string[];
@@ -24,7 +29,7 @@ export interface Recipe {
 
 export interface RecipeSubmission {
   title: string;
-  ingredients: string[];
+  ingredients: IngredientDivision[];
   instructions: string[];
   time: number;
   submittedBy: string;

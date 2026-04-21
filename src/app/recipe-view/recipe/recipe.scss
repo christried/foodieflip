@@ -141,7 +141,7 @@
 }
 
 .header-col-left {
-  flex: 0 0 40%;
+  flex: 0 0 44%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -196,12 +196,16 @@
 }
 
 .recipe-col-left {
-  flex: 0 0 40%;
+  flex: 0 0 44%;
+  max-width: 300px;
   gap: var(--space-16);
 }
 
 .recipe-image-container {
   position: relative;
+  width: min(100%, 300px);
+  align-self: center;
+  aspect-ratio: 4 / 3;
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--brand-turquoise-border-soft);
@@ -318,6 +322,7 @@
 
   .recipe-col-left {
     flex: 1;
+    max-width: none;
   }
 }
 

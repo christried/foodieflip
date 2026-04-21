@@ -1,0 +1,210 @@
+<div class="submit-form-step">
+  <section class="form-section">
+    <div class="ingredient-sections" cdkDropListGroup>
+      @for (sectionCtrl of store.sectionsArray.controls; track $index; let sectionIndex = $index) {
+        <div class="ingredient-division-card">
+          <div class="division-header">
+            @if (sectionIndex === 0) {
+              <h3 class="division-title">Hauptzutaten</h3>
+            } @else {
+              @if (store.isEditingSectionTitle(sectionIndex)) {
+                <div class="section-title-edit-row">
+                  <mat-form-field
+                    appearance="fill"
+                    class="inline-edit-field section-title-field"
+                    subscriptSizing="dynamic"
+                  >
+                    <mat-label>Abschnittstitel</mat-label>
+                    <input
+                      matInput
+                      [value]="store.editValue()"
+                      placeholder="z. B. Für die Soße"
+                      maxlength="40"
+                      (input)="store.onEditValueInput($event)"
+                      (keydown.enter)="store.saveEditSectionTitle()"
+                      (keydown.escape)="store.cancelItemEdit()"
+                    />
+                  </mat-form-field>
+
+                  <div class="row-actions">
+                    <button
+                      type="button"
+                      matIconButton
+                      aria-label="Abschnittstitel speichern"
+                      (click)="store.saveEditSectionTitle()"
+                    >
+                      <mat-icon>check</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      matIconButton
+                      aria-label="Abschnittstitel-Bearbeitung abbrechen"
+                      (click)="store.cancelItemEdit()"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+
+                    @if (sectionIndex > 0) {
+                      <button
+                        type="button"
+                        matIconButton
+                        aria-label="Abschnitt entfernen"
+                        (click)="store.removeIngredientSection(sectionIndex)"
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    }
+                  </div>
+                </div>
+              } @else {
+                <div class="section-title-display">
+                  <h3
+                    class="division-title"
+                    [class.section-title-missing]="store.isSectionTitleMissing(sectionIndex)"
+                  >
+                    {{ store.getSectionTitle(sectionIndex) || 'Abschnittstitel festlegen' }}
+                  </h3>
+                  <button
+                    type="button"
+                    matIconButton
+                    aria-label="Abschnittstitel bearbeiten"
+                    (click)="store.startEditSectionTitle(sectionIndex)"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
+
+                  @if (sectionIndex > 0) {
+                    <button
+                      type="button"
+                      matIconButton
+                      aria-label="Abschnitt entfernen"
+                      (click)="store.removeIngredientSection(sectionIndex)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                </div>
+              }
+            }
+          </div>
+          <div
+            class="item-list"
+            cdkDropList
+            [cdkDropListData]="sectionCtrl.controls.itemsCtrl.controls"
+            (cdkDropListDropped)="onItemDropped($event)"
+          >
+            @if (sectionCtrl.controls.itemsCtrl.length === 0) {
+              <p class="removal-notice">Noch keine Zutaten in diesem Abschnitt.</p>
+            }
+            @for (
+              ingredientCtrl of sectionCtrl.controls.itemsCtrl.controls;
+              track $index;
+              let ingredientIndex = $index
+            ) {
+              <div class="list-item-row" cdkDrag cdkDragPreviewContainer="parent">
+                @if (store.isEditingIngredient(sectionIndex, ingredientIndex)) {
+                  <mat-form-field appearance="fill" class="inline-edit-field">
+                    <mat-label>Zutat bearbeiten</mat-label>
+                    <input
+                      matInput
+                      [value]="store.editValue()"
+                      maxlength="50"
+                      (input)="store.onEditValueInput($event)"
+                      (keydown.enter)="store.saveEditIngredient()"
+                      (keydown.escape)="store.cancelItemEdit()"
+                    />
+                  </mat-form-field>
+                  <div class="row-actions">
+                    <button
+                      type="button"
+                      matIconButton
+                      aria-label="Bearbeitete Zutat speichern"
+                      (click)="store.saveEditIngredient()"
+                    >
+                      <mat-icon>check</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      matIconButton
+                      aria-label="Bearbeitung abbrechen"
+                      (click)="store.cancelItemEdit()"
+                    >
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                } @else {
+                  <p class="item-text">{{ ingredientCtrl.value }}</p>
+                  <div class="row-actions">
+                    <button
+                      type="button"
+                      class="reorder-button"
+                      matIconButton
+                      aria-label="Zutat verschieben"
+                    >
+                      <mat-icon>reorder</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      matIconButton
+                      aria-label="Zutat bearbeiten"
+                      (click)="store.startEditIngredient(sectionIndex, ingredientIndex)"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      matIconButton
+                      aria-label="Zutat entfernen"
+                      (click)="store.removeIngredient(sectionIndex, ingredientIndex)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="add-row">
+            <mat-form-field appearance="fill" class="full-width" subscriptSizing="dynamic">
+              <mat-label>Neue Zutat</mat-label>
+              <input
+                matInput
+                placeholder="z. B. 250g Pasta"
+                [formControl]="sectionCtrl.controls.ingredientInputCtrl"
+                maxlength="50"
+                (keydown.enter)="store.addIngredient(sectionIndex, $event)"
+              />
+            </mat-form-field>
+            <button
+              type="button"
+              matIconButton
+              aria-label="Zutat hinzufügen"
+              (click)="store.addIngredient(sectionIndex)"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
+      <div class="section-actions">
+        <button type="button" matButton="tonal" (click)="store.addIngredientSection()">
+          Abschnitt hinzufügen
+        </button>
+      </div>
+    </div>
+
+    <p class="section-hint">{{ store.getIngredientsHint() }}</p>
+
+    @if (store.showIngredientsCountError()) {
+      <p class="error-message">Füge mindestens 2 Zutaten hinzu, um fortzufahren.</p>
+    }
+  </section>
+</div>
+
+<div class="nav-buttons">
+  <button type="button" matButton="tonal" matStepperPrevious>Zurück</button>
+  <button type="button" matButton="tonal" matStepperNext [disabled]="!store.isStep2Valid()">
+    Weiter
+  </button>
+</div>

@@ -9,7 +9,15 @@
     >
       <mat-icon>build_circle</mat-icon>
     </button>
-    <span class="dev-badge">Alpha</span>
+    <a
+      mat-button
+      href="https://github.com/christried/foodieflip/blob/master/CHANGELOG.md"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="dev-badge"
+    >
+      Changelog
+    </a>
   </div>
 
   <a routerLink="/" (click)="onClickHero()">
@@ -19,16 +27,16 @@
   </a>
 
   <div class="header-right">
-    @if (isAuthenticated() && headerUserName()) {
-      <span class="header-user-name" aria-hidden="true">{{ headerUserName() }}</span>
-    }
-
     <button
       mat-icon-button
       [attr.aria-label]="
         isAuthenticated() ? 'Benutzermenü öffnen, angemeldet' : 'Benutzermenü öffnen, abgemeldet'
       "
       [matMenuTriggerFor]="userMenu"
+      [matBadge]="isAuthenticated() ? '✔' : null"
+      [matBadgeHidden]="!isAuthenticated()"
+      matBadgePosition="below after"
+      class="user-menu-button"
     >
       <mat-icon>account_circle</mat-icon>
     </button>

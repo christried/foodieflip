@@ -7,6 +7,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
+
 import { DevFeedbackDialog } from '../dialogs/dev-feedback-dialog/dev-feedback-dialog';
 import { DOCUMENT } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
@@ -27,6 +29,7 @@ type ThemeMode = 'light' | 'dark';
     MatDialogModule,
     MatMenuModule,
     RouterLink,
+    MatBadgeModule,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
