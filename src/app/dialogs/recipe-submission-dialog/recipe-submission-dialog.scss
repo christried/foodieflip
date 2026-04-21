@@ -141,7 +141,6 @@
     grid-template-columns: 1fr auto;
     gap: var(--space-8);
     align-items: start;
-    padding-bottom: 1rem;
   }
 
   .add-row > button {
@@ -155,11 +154,16 @@
   }
 
   .list-item-row {
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: var(--space-8);
-    border: 1px solid var(--mat-sys-outline-variant);
+    border: 1px solid var(--mat-sys-outline);
+    background: light-dark(
+      var(--mat-sys-surface-container-lowest),
+      var(--mat-sys-surface-container-low)
+    );
     border-radius: var(--radius-sm);
     padding: var(--space-8) var(--space-12);
   }
@@ -177,6 +181,10 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
+  }
+
+  .reorder-button:hover {
+    cursor: move;
   }
 
   .removal-notice {
@@ -259,6 +267,10 @@
 
     .row-actions {
       justify-content: flex-end;
+    }
+
+    .reorder-button {
+      display: none;
     }
 
     .division-header {

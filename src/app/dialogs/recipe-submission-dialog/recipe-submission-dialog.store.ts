@@ -66,9 +66,7 @@ export class RecipeSubmissionDialogStore {
   }
 
   isStep3Valid(): boolean {
-    return (
-      this.instructionsArray.length >= MIN_INSTRUCTIONS && this.instructionsFormGroup.valid
-    );
+    return this.instructionsArray.length >= MIN_INSTRUCTIONS && this.instructionsFormGroup.valid;
   }
 
   isStep4Valid(): boolean {

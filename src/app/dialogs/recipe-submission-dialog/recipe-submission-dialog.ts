@@ -65,6 +65,8 @@ export class RecipeSubmissionDialog {
     this.viewportWidth() < 768 ? 'dynamic' : 'fixed',
   );
 
+  readonly showReorderIcon = computed<boolean>(() => this.viewportWidth() >= 768);
+
   constructor() {
     if (!this.isBrowser) {
       return;

@@ -1,6 +1,6 @@
 <div class="submit-form-step">
   <section class="form-section">
-    <div class="ingredient-sections">
+    <div class="ingredient-sections" cdkDropListGroup>
       @for (sectionCtrl of store.sectionsArray.controls; track $index; let sectionIndex = $index) {
         <div class="ingredient-division-card">
           <div class="division-header">
@@ -9,7 +9,11 @@
             } @else {
               @if (store.isEditingSectionTitle(sectionIndex)) {
                 <div class="section-title-edit-row">
-                  <mat-form-field appearance="fill" class="inline-edit-field section-title-field">
+                  <mat-form-field
+                    appearance="fill"
+                    class="inline-edit-field section-title-field"
+                    subscriptSizing="dynamic"
+                  >
                     <mat-label>Abschnittstitel</mat-label>
                     <input
                       matInput
@@ -83,18 +87,21 @@
               }
             }
           </div>
-
-          <div class="item-list">
+          <div
+            class="item-list"
+            cdkDropList
+            [cdkDropListData]="sectionCtrl.controls.itemsCtrl.controls"
+            (cdkDropListDropped)="onItemDropped($event)"
+          >
             @if (sectionCtrl.controls.itemsCtrl.length === 0) {
               <p class="removal-notice">Noch keine Zutaten in diesem Abschnitt.</p>
             }
-
             @for (
               ingredientCtrl of sectionCtrl.controls.itemsCtrl.controls;
               track $index;
               let ingredientIndex = $index
             ) {
-              <div class="list-item-row">
+              <div class="list-item-row" cdkDrag cdkDragPreviewContainer="parent">
                 @if (store.isEditingIngredient(sectionIndex, ingredientIndex)) {
                   <mat-form-field appearance="fill" class="inline-edit-field">
                     <mat-label>Zutat bearbeiten</mat-label>
@@ -130,6 +137,14 @@
                   <div class="row-actions">
                     <button
                       type="button"
+                      class="reorder-button"
+                      matIconButton
+                      aria-label="Zutat verschieben"
+                    >
+                      <mat-icon>reorder</mat-icon>
+                    </button>
+                    <button
+                      type="button"
                       matIconButton
                       aria-label="Zutat bearbeiten"
                       (click)="store.startEditIngredient(sectionIndex, ingredientIndex)"
@@ -148,27 +163,27 @@
                 }
               </div>
             }
+          </div>
 
-            <div class="add-row">
-              <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Zutat hinzufügen</mat-label>
-                <input
-                  matInput
-                  placeholder="z. B. 250g Pasta"
-                  [formControl]="sectionCtrl.controls.ingredientInputCtrl"
-                  maxlength="50"
-                  (keydown.enter)="store.addIngredient(sectionIndex, $event)"
-                />
-              </mat-form-field>
-              <button
-                type="button"
-                matIconButton
-                aria-label="Zutat hinzufügen"
-                (click)="store.addIngredient(sectionIndex)"
-              >
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
+          <div class="add-row">
+            <mat-form-field appearance="fill" class="full-width" subscriptSizing="dynamic">
+              <mat-label>Neue Zutat</mat-label>
+              <input
+                matInput
+                placeholder="z. B. 250g Pasta"
+                [formControl]="sectionCtrl.controls.ingredientInputCtrl"
+                maxlength="50"
+                (keydown.enter)="store.addIngredient(sectionIndex, $event)"
+              />
+            </mat-form-field>
+            <button
+              type="button"
+              matIconButton
+              aria-label="Zutat hinzufügen"
+              (click)="store.addIngredient(sectionIndex)"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
           </div>
         </div>
       }

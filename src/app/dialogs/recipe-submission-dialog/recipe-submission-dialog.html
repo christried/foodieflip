@@ -30,7 +30,9 @@
 
       <mat-step [stepControl]="store.ingredientsFormGroup">
         <ng-template matStepLabel>Zutaten</ng-template>
-        <recipe-submission-step-ingredients></recipe-submission-step-ingredients>
+        <recipe-submission-step-ingredients
+          [showReorderIcon]="showReorderIcon()"
+        ></recipe-submission-step-ingredients>
       </mat-step>
 
       <mat-step [stepControl]="store.instructionsFormGroup">
