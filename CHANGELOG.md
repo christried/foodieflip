@@ -6,11 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+- First real Profile Page for better overview of Account Details / Own Recipes/ Favorite Recipes
+- Rework for Light Mode to not look like a\*\*
 - Introduction of other Login Methods: Discord
 - Introduce Servings per Recipe, Calories per Serving, Distinguish between ingredient and quantity per ingredient
 - Rework of recipe tags: make them matter
 - Rework of quick feedback actions on all recipes incl. report functions for false information
 - Lots of minor Stuff (feedback pls?)
+
+## [0.3.1] - 2026-04-21
+
+### Added
+
+- Recipes (and recipe submissions) now support sub-sections of ingredients (e.g. "Für die Soße"), might be neat for complex recipes
+- Recipe submission items now support Drag and Drop to re-order ingredients (instructions soon, too... :D)
+- minor styling upgrades
+
+### Changed
+
+- Major Refactor of recipe submission dialog component into too many sup-components
+- [API] Database / image store now keeps submitted recipes stored even when they are rejected
+- [API] Database now has a dev branch so no more downtime due to that hehe
+
+### Fixed
+
+- Portrait Pictures are now properly displayed without destroying the whole recipe view
+- Colored Backdrop now scales with the site rather than stopping if recipe card gets bigger
 
 ## [0.3.0] - 2026-04-16
 
