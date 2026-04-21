@@ -11,12 +11,6 @@
   max-width: var(--recipe-view-content-max-width);
   margin: 0 auto;
   flex: 1;
-
-  @media (max-width: 1023px) {
-    .body-cards {
-      width: 100%;
-    }
-  }
 }
 
 .selection-component {
@@ -57,7 +51,7 @@
 @media (max-width: 1023px) {
   .body-cards {
     flex-direction: column;
-    width: var(--recipe-view-content-width);
+    width: 100%;
     padding: var(--space-16);
     gap: var(--space-16);
   }

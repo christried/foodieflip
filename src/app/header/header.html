@@ -10,12 +10,13 @@
       <mat-icon>build_circle</mat-icon>
     </button>
     <a
+      mat-button
       href="https://github.com/christried/foodieflip/blob/master/CHANGELOG.md"
       target="_blank"
       rel="noopener noreferrer"
       class="dev-badge"
     >
-      <button mat-button>Changelog</button>
+      Changelog
     </a>
   </div>
 
@@ -33,6 +34,7 @@
       "
       [matMenuTriggerFor]="userMenu"
       [matBadge]="isAuthenticated() ? '✔' : null"
+      [matBadgeHidden]="!isAuthenticated()"
       matBadgePosition="below after"
       class="user-menu-button"
     >

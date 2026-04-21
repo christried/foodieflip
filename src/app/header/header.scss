@@ -58,13 +58,18 @@
   border-radius: var(--radius-full);
   background: light-dark(rgba(69, 196, 176, 0.08), rgba(69, 196, 176, 0.1));
 
+  font-style: var(--text-label-sm);
+  color: light-dark(var(--brand-turquoise-dark), var(--brand-mint)) !important;
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: light-dark(var(--brand-deep-blue), var(--mat-sys-primary)) !important;
+    text-decoration: underline;
+  }
+
   @media (max-width: 768px) {
     display: none;
   }
-}
-
-.dev-badge > button {
-  font: var(--text-label-sm);
 }
 
 .user-menu-button {
