@@ -1,4 +1,6 @@
 .body-cards {
+  box-sizing: border-box;
+
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -9,6 +11,12 @@
   max-width: var(--recipe-view-content-max-width);
   margin: 0 auto;
   flex: 1;
+
+  @media (max-width: 1023px) {
+    .body-cards {
+      width: 100%;
+    }
+  }
 }
 
 .selection-component {

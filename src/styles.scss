@@ -13,6 +13,11 @@
 @use './styles/typography';
 
 // --- Global resets & defaults ---
+
+:root {
+  box-sizing: border-box;
+}
+
 html {
   min-height: 100%;
 }
