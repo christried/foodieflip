@@ -5,8 +5,8 @@
   flex-wrap: wrap;
   gap: var(--space-24);
   padding: var(--space-24);
-  width: 95%;
-  max-width: 1320px;
+  width: var(--recipe-view-content-width);
+  max-width: var(--recipe-view-content-max-width);
   margin: 0 auto;
   flex: 1;
 }
@@ -42,14 +42,14 @@
 
 @media (min-width: 1440px) {
   .body-cards {
-    max-width: 1480px;
+    max-width: var(--recipe-view-content-max-width-wide);
   }
 }
 
 @media (max-width: 1023px) {
   .body-cards {
     flex-direction: column;
-    width: 95%;
+    width: var(--recipe-view-content-width);
     padding: var(--space-16);
     gap: var(--space-16);
   }
@@ -68,7 +68,7 @@
 
 @media (max-width: 768px) {
   .body-cards {
-    width: 95%;
+    width: var(--recipe-view-content-width);
     padding: var(--space-16);
     gap: var(--space-16);
   }

@@ -76,6 +76,11 @@
   // Layout
   --content-max-width: 1200px;
   --content-width: 85%;
+
+  // Recipe view layout
+  --recipe-view-content-width: 95%;
+  --recipe-view-content-max-width: 1320px;
+  --recipe-view-content-max-width-wide: 1480px;
 }
 
 // Shadows — dark mode overrides (turquoise glow)
