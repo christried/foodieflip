@@ -17,6 +17,7 @@ import {
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
 import { RecipesService } from '../../recipes.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'ai-image-dialog',
@@ -30,6 +31,7 @@ export class AiImageDialog {
   readonly data: { recipeId: string } = inject(MAT_DIALOG_DATA);
 
   private readonly recipesService = inject(RecipesService);
+  private readonly authService = inject(AuthService);
   private readonly snackBar = inject(MatSnackBar);
 
   selectedFile = signal<File | null>(null);
@@ -53,6 +55,11 @@ export class AiImageDialog {
     const file = this.selectedFile();
     if (!file) {
       this.errorMessage.set('Bitte wähle ein Bild aus, um es einzureichen.');
+      return;
+    }
+
+    if (!this.authService.isAuthenticated()) {
+      this.errorMessage.set('Bitte logge dich ein, um ein Bild einzureichen');
       return;
     }
 
